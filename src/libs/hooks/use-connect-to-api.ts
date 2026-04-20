@@ -35,15 +35,18 @@ type CustomOptionsObject = Partial<{
 }>
 
 export interface MutateOptions<TVariables = any, TData = any>
-  extends Partial<UseMutationOptions<SuccessResponseApi<TData>, ErrorResponseApi, TVariables>>,
+  extends
+    Partial<UseMutationOptions<SuccessResponseApi<TData>, ErrorResponseApi, TVariables>>,
     CustomOptionsObject {}
 
 export interface QueryOptions<TData = any>
-  extends Partial<UseQueryOptions<SuccessResponseApi<TData>, ErrorResponseApi>>,
+  extends
+    Partial<UseQueryOptions<SuccessResponseApi<TData>, ErrorResponseApi>>,
     CustomOptionsObject {}
 
 export interface InfiniteQueryOptions<TData = any>
-  extends Partial<
+  extends
+    Partial<
       UndefinedInitialDataInfiniteOptions<
         SuccessResponseApi<TData>,
         ErrorResponseApi,
@@ -60,7 +63,6 @@ export function useApiQuery<TData>(
   request: ApiRequest,
   options?: QueryOptions<TData>
 ) {
-  const t = useTranslations('translations')
   const applyRequestSetting = useSettingRequest()
 
   const fetchData = async (): Promise<SuccessResponseApi<TData>> => {
@@ -83,7 +85,7 @@ export function useApiQuery<TData>(
       return response
     } catch (error: any) {
       if (customOptionsObject.toastError) {
-        errorHandling(t, error.result)
+        errorHandling(error.result)
       }
 
       throw error
@@ -103,7 +105,6 @@ export function useApiMutation<TVariables, TData>(
   request: ApiRequest,
   options?: MutateOptions<TVariables, TData>
 ) {
-  const t = useTranslations('translations')
   const applyRequestSetting = useSettingRequest()
 
   const mutateData: MutationFunction<SuccessResponseApi<TData>, TVariables> = async (variables) => {
@@ -126,7 +127,7 @@ export function useApiMutation<TVariables, TData>(
       return response
     } catch (error: any) {
       if (customOptionsObject.toastError) {
-        errorHandling(t, error.result)
+        errorHandling(error.result)
       }
 
       throw error
@@ -145,7 +146,6 @@ export function useApiInfiniteQuery<TData>(
   request: ApiRequest,
   options?: InfiniteQueryOptions<TData>
 ) {
-  const t = useTranslations('translations')
   const applyRequestSetting = useSettingRequest()
 
   const fetchData: QueryFunction<SuccessResponseApi<TData>, QueryKey, any> = async (params) => {
@@ -168,7 +168,7 @@ export function useApiInfiniteQuery<TData>(
       return response
     } catch (error: any) {
       if (customOptionsObject.toastError) {
-        errorHandling(t, error.result)
+        errorHandling(error.result)
       }
 
       throw error

@@ -1,11 +1,8 @@
-import 'server-only'
+'use server'
 
 import { cookies } from 'next/headers'
-
 import { cache } from 'react'
-
 import { JWTPayload, SignJWT, jwtVerify } from 'jose'
-
 import { timeUnits } from '@libs/utils/date'
 import env from '@libs/utils/env'
 
@@ -42,7 +39,7 @@ export const createSession = async (userId: string) => {
   const cookie = await cookies()
   cookie.set('session', session, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     expires: expiresAt,
     sameSite: 'lax',
     path: '/',

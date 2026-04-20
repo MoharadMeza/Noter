@@ -1,11 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
-
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -15,13 +13,11 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
-
 import { LoginFormData } from '@libs/components/authentication/login/login'
 import { loginSchema } from '@libs/components/authentication/login/login.validation'
 import useAuthSlice from '@libs/store/auth.slice'
-
 import { cn } from '@libs/utils/tailwind'
-import axios from 'axios'
+import { useMutateUserLogin } from '@libs/models/user/login/mutateUserLogin'
 
 const Login = () => {
   const t = useTranslations()
@@ -29,22 +25,22 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
+  const { mutate: loginUser, isPending: isLoginUserLoading } = useMutateUserLogin({
+    onSuccess: (user: any) => {
+      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
+    },
+    onError: () => {
+      setAuthData(undefined)
+    },
+    toastError: true,
+  })
 
   const onSubmit = async (data: LoginFormData) => {
-    setAuthData({ userId: undefined, loading: true })
-
-    axios
-      .post('http://localhost:3000/user/login', data)
-      .then((user: any) => {
-        setAuthData({ userId: user.id.toString(), loading: false })
-      })
-      .catch(() => {
-        setAuthData({ userId: undefined, loading: false })
-      })
+    loginUser(data)
   }
 
   return (
@@ -79,8 +75,8 @@ const Login = () => {
           <div>
             <Button
               type='submit'
-              disabled={isSubmitting}
-              isLoading={isSubmitting}
+              disabled={isLoginUserLoading}
+              isLoading={isLoginUserLoading}
               className='w-full'
             >
               {t('LOGIN_SUBMIT_BUTTON')}

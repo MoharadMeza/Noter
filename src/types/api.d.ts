@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { User } from '@db-models'
 
 export interface SuccessResponseApi<T> {
   result: {

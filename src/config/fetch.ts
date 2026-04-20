@@ -5,7 +5,7 @@ import env from '@libs/utils/env'
 const axiosClient: AxiosInstance = axios.create({
   adapter: 'fetch',
   timeout: 120000,
-  withCredentials: false,
+  withCredentials: true,
   headers: {
     common: {
       'accept-language': env.DEFAULT_LANGUAGE,
@@ -16,7 +16,7 @@ const axiosClient: AxiosInstance = axios.create({
 
 /* ----------------------------CONFIGS---------------------------- */
 if (!axiosClient.defaults.baseURL) {
-  axiosClient.defaults.baseURL = env.API_ADDRESS
+  axiosClient.defaults.baseURL = env.API_URL
 }
 /* --------------------------INTERCEPTOR-------------------------- */
 
