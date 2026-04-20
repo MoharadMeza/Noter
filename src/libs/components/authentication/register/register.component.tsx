@@ -18,10 +18,12 @@ import { registerSchema } from '@libs/components/authentication/register/registe
 import { cn } from '@libs/utils/tailwind'
 import { useMutateUserRegister } from '@libs/models/user/register/mutateUserRegister'
 import useAuthStore from '@libs/store/auth.store'
+import useProfileStore from '@libs/store/profile.store'
 
 const Register = () => {
   const t = useTranslations()
-  const { setAuthData } = useAuthStore()
+  const { setUserLogin } = useAuthStore()
+  const { setProfileData } = useProfileStore()
   const {
     register: registerField,
     handleSubmit,
@@ -31,10 +33,11 @@ const Register = () => {
   })
   const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
     onSuccess: (user: any) => {
-      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
+      setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
+      setUserLogin()
     },
     onError: () => {
-      setAuthData(undefined)
+      setProfileData(undefined)
     },
     toastError: true,
   })

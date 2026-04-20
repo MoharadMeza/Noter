@@ -7,9 +7,11 @@ import { noteValidationSchema } from './new-note.validation'
 import { toast } from '@libs/utils/toast'
 import useAuthStore from '@libs/store/auth.store'
 import { useRouter } from 'next/navigation'
+import useProfileStore from '@libs/store/profile.store'
 
 const NewNote = () => {
-  const { data: userData, userIsLogin } = useAuthStore()
+  const { userIsLogin } = useAuthStore()
+  const { profileData } = useProfileStore()
   const router = useRouter()
   const [noteContent, setNoteContent] = useState('')
   const [title, setTitle] = useState('')
@@ -45,9 +47,11 @@ const NewNote = () => {
 
     setIsSaving(true)
     try {
-      if (!userData?.id) throw new Error('User ID not found')
+      if (!profileData?.id) {
+        throw new Error('User ID not found')
+      }
 
-      await createNote(title || 'Untitled Note', noteContent, userData.id)
+      await createNote(title || 'Untitled Note', noteContent, profileData.id)
       toast.success('نوت با موفقیت ذخیره شد')
       setNoteContent('')
       setTitle('')

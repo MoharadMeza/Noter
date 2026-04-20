@@ -8,9 +8,11 @@ import { createNote, getNoteById, getNotesByUserId } from '@server/modules/note/
 import { noteValidationSchema } from '../new-note/new-note.validation'
 import { toast } from '@libs/utils/toast'
 import { useRouter } from 'next/navigation'
+import useProfileStore from '@libs/store/profile.store'
 
 const Noter = () => {
-  const { data: userData, userIsLogin } = useAuthStore()
+  const { userIsLogin } = useAuthStore()
+  const { profileData } = useProfileStore()
   const router = useRouter()
   const [noteContent, setNoteContent] = useState('')
   const [title, setTitle] = useState('')
@@ -25,8 +27,11 @@ const Noter = () => {
 
   const loadNotes = async () => {
     try {
-      if (!userData?.id) return
-      const userNotes = await getNotesByUserId(userData.id)
+      if (!profileData?.id) {
+        return
+      }
+
+      const userNotes = await getNotesByUserId(profileData.id)
       setNotes(userNotes)
     } catch (error) {
       console.error('Failed to load notes:', error)
@@ -64,9 +69,11 @@ const Noter = () => {
 
     setIsSaving(true)
     try {
-      if (!userData?.id) throw new Error('User ID not found')
+      if (!profileData?.id) {
+        throw new Error('User ID not found')
+      }
 
-      await createNote(title || 'Untitled Note', noteContent, userData.id)
+      await createNote(title || 'Untitled Note', noteContent, profileData.id)
       toast.success('نوت با موفقیت ذخیره شد')
       await loadNotes() // Reload notes after saving
       setNoteContent('')
