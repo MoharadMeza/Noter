@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react'
 import styles from './noter.module.css'
 import { NoteContent } from '@libs/components/note/noter/noter'
-import useAuthSlice from '@libs/store/auth.slice'
+import useAuthStore from '@libs/store/auth.store'
 import { createNote, getNoteById, getNotesByUserId } from '@server/modules/note/services'
 import { noteValidationSchema } from '../new-note/new-note.validation'
 import { toast } from '@libs/utils/toast'
 import { useRouter } from 'next/navigation'
 
 const Noter = () => {
-  const { data: userData, userIsLogin } = useAuthSlice()
+  const { data: userData, userIsLogin } = useAuthStore()
   const router = useRouter()
   const [noteContent, setNoteContent] = useState('')
   const [title, setTitle] = useState('')

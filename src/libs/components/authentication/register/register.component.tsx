@@ -17,11 +17,11 @@ import { RegisterFormData } from '@libs/components/authentication/register/regis
 import { registerSchema } from '@libs/components/authentication/register/register.validation'
 import { cn } from '@libs/utils/tailwind'
 import { useMutateUserRegister } from '@libs/models/user/register/mutateUserRegister'
-import useAuthSlice from '@libs/store/auth.slice'
+import useAuthStore from '@libs/store/auth.store'
 
 const Register = () => {
   const t = useTranslations()
-  const { setAuthData } = useAuthSlice()
+  const { setAuthData } = useAuthStore()
   const {
     register: registerField,
     handleSubmit,

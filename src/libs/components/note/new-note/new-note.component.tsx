@@ -5,11 +5,11 @@ import { createNote } from '@server/modules/note/services'
 import styles from './new-note.module.css'
 import { noteValidationSchema } from './new-note.validation'
 import { toast } from '@libs/utils/toast'
-import useAuthSlice from '@libs/store/auth.slice'
+import useAuthStore from '@libs/store/auth.store'
 import { useRouter } from 'next/navigation'
 
 const NewNote = () => {
-  const { data: userData, userIsLogin } = useAuthSlice()
+  const { data: userData, userIsLogin } = useAuthStore()
   const router = useRouter()
   const [noteContent, setNoteContent] = useState('')
   const [title, setTitle] = useState('')
@@ -38,7 +38,6 @@ const NewNote = () => {
   const handleSave = async () => {
     if (!userIsLogin) {
       toast.error('لطفا ابتدا وارد حساب کاربری خود شوید')
-      router.push('/login')
       return
     }
 

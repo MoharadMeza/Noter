@@ -5,6 +5,7 @@ import { cache } from 'react'
 import { JWTPayload, SignJWT, jwtVerify } from 'jose'
 import { timeUnits } from '@libs/utils/date'
 import env from '@libs/utils/env'
+import { cookieKeys } from '@config/cookie'
 
 const secretKey = env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
@@ -37,8 +38,8 @@ export const createSession = async (userId: string) => {
 
   // 3. Store the session in cookies for optimistic auth checks
   const cookie = await cookies()
-  cookie.set('session', session, {
-    httpOnly: true,
+  cookie.set(cookieKeys.session, session, {
+    httpOnly: false,
     secure: false,
     expires: expiresAt,
     sameSite: 'lax',
@@ -47,9 +48,12 @@ export const createSession = async (userId: string) => {
 }
 
 export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get('session')?.value
-  const session = await decrypt(cookie)
+  const cookie = (await cookies()).get(cookieKeys.session)?.value
+  if (!cookie) {
+    return { isAuthorized: false, userId: null }
+  }
 
+  const session = await decrypt(cookie)
   if (!session?.userId) {
     return { isAuthorized: false, userId: null }
   }

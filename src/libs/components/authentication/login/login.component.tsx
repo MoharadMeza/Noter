@@ -15,13 +15,17 @@ import {
 import Input from '@libs/components/form/input/input.component'
 import { LoginFormData } from '@libs/components/authentication/login/login'
 import { loginSchema } from '@libs/components/authentication/login/login.validation'
-import useAuthSlice from '@libs/store/auth.slice'
+import useAuthStore from '@libs/store/auth.store'
 import { cn } from '@libs/utils/tailwind'
 import { useMutateUserLogin } from '@libs/models/user/login/mutateUserLogin'
+import useProfileStore from '@libs/store/profile.store'
+import { useRouter } from 'next/navigation'
 
 const Login = () => {
   const t = useTranslations()
-  const { setAuthData } = useAuthSlice()
+  const router = useRouter()
+  const { setUserLogin } = useAuthStore()
+  const { setProfileData } = useProfileStore()
   const {
     register,
     handleSubmit,
@@ -31,10 +35,12 @@ const Login = () => {
   })
   const { mutate: loginUser, isPending: isLoginUserLoading } = useMutateUserLogin({
     onSuccess: (user: any) => {
-      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
+      setUserLogin()
+      router.push('/dashboard')
+      setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
     },
     onError: () => {
-      setAuthData(undefined)
+      setProfileData(undefined)
     },
     toastError: true,
   })

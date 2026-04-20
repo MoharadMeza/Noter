@@ -10,7 +10,7 @@
   },
   "WillLuke.nextjs.addTypesOnSave": true,
   "WillLuke.nextjs.hasPrompted": true,
-  "cSpell.words": ["antd", "autoincrement", "Sider", "sonarjs"],
+  "cSpell.words": ["antd", "autoincrement", "Sider", "sonarjs", "vazir"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
