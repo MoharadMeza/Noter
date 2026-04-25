@@ -6,6 +6,7 @@ import { JWTPayload, SignJWT, jwtVerify } from 'jose'
 import { timeUnits } from '@libs/utils/date'
 import env from '@libs/utils/env'
 import { cookieKeys } from '@config/cookie'
+import { AppError } from '@libs/utils/error'
 
 const secretKey = env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
@@ -50,13 +51,16 @@ export const createSession = async (userId: string) => {
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get(cookieKeys.session)?.value
   if (!cookie) {
-    return { isAuthorized: false, userId: null }
+    throw new AppError('Authorization error', 'AUTH', 'HIGH', 401, { cause: ['cookie not found'] })
   }
 
   const session = await decrypt(cookie)
-  if (!session?.userId) {
-    return { isAuthorized: false, userId: null }
+  const userId = session?.userId as string
+  if (!parseInt(userId)) {
+    throw new AppError('Authorization error', 'AUTH', 'HIGH', 401, {
+      cause: ['userId not exist in the session'],
+    })
   }
 
-  return { isAuthorized: true, userId: session.userId as string }
+  return { isAuthorized: true, userId: parseInt(userId) }
 })

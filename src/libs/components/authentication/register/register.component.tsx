@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -16,7 +16,7 @@ import Input from '@libs/components/form/input/input.component'
 import { RegisterFormData } from '@libs/components/authentication/register/register'
 import { registerSchema } from '@libs/components/authentication/register/register.validation'
 import { cn } from '@libs/utils/tailwind'
-import { useMutateUserRegister } from '@libs/models/user/register/mutateUserRegister'
+import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserRegister'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
 
@@ -24,13 +24,10 @@ const Register = () => {
   const t = useTranslations()
   const { setUserLogin } = useAuthStore()
   const { setProfileData } = useProfileStore()
-  const {
-    register: registerField,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormData>({
+  const formMethods = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   })
+  const { handleSubmit } = formMethods
   const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
     onSuccess: (user: any) => {
       setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
@@ -54,64 +51,62 @@ const Register = () => {
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-          <div className='space-y-4'>
-            <Input
-              id='username'
-              type='text'
-              label={t('NAME_LABEL')}
-              placeholder={t('NAME_PLACEHOLDER')}
-              error={errors.username?.message}
-              {...registerField('username')}
-            />
+        <FormProvider {...formMethods}>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+            <div className='space-y-4'>
+              <Input
+                name='username'
+                id='username'
+                type='text'
+                label={t('NAME_LABEL')}
+                placeholder={t('NAME_PLACEHOLDER')}
+              />
 
-            <Input
-              id='email'
-              type='email'
-              label={t('EMAIL_LABEL')}
-              placeholder={t('EMAIL_PLACEHOLDER')}
-              error={errors.email?.message}
-              {...registerField('email')}
-            />
+              <Input
+                name='email'
+                id='email'
+                type='email'
+                label={t('EMAIL_LABEL')}
+                placeholder={t('EMAIL_PLACEHOLDER')}
+              />
 
-            <Input
-              id='password'
-              type='password'
-              label={t('PASSWORD_LABEL')}
-              placeholder={t('PASSWORD_PLACEHOLDER')}
-              error={errors.password?.message}
-              {...registerField('password')}
-            />
+              <Input
+                name='password'
+                id='password'
+                type='password'
+                label={t('PASSWORD_LABEL')}
+                placeholder={t('PASSWORD_PLACEHOLDER')}
+              />
 
-            <Input
-              id='confirmPassword'
-              type='password'
-              label={t('CONFIRM_PASSWORD_LABEL')}
-              placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
-              error={errors.confirmPassword?.message}
-              {...registerField('confirmPassword')}
-            />
-          </div>
+              <Input
+                name='confirmPassword'
+                id='confirmPassword'
+                type='password'
+                label={t('CONFIRM_PASSWORD_LABEL')}
+                placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
+              />
+            </div>
 
-          <div>
-            <Button
-              type='submit'
-              disabled={isRegisterUserLoading}
-              isLoading={isRegisterUserLoading}
-              loadingText={t('SUBMIT_LOADING')}
-              className='w-full'
-            >
-              {t('SUBMIT_BUTTON')}
-            </Button>
-          </div>
+            <div>
+              <Button
+                type='submit'
+                disabled={isRegisterUserLoading}
+                isLoading={isRegisterUserLoading}
+                loadingText={t('SUBMIT_LOADING')}
+                className='w-full'
+              >
+                {t('SUBMIT_BUTTON')}
+              </Button>
+            </div>
 
-          <div className='text-center text-sm text-gray-600'>
-            {t('LOGIN_LINK_TEXT')}{' '}
-            <Link href='/auth/login' className={cn('text-blue-600 hover:text-blue-500')}>
-              {t('LOGIN_LINK')}
-            </Link>
-          </div>
-        </form>
+            <div className='text-center text-sm text-gray-600'>
+              {t('LOGIN_LINK_TEXT')}{' '}
+              <Link href='/auth/login' className={cn('text-blue-600 hover:text-blue-500')}>
+                {t('LOGIN_LINK')}
+              </Link>
+            </div>
+          </form>
+        </FormProvider>
       </CardContent>
     </Card>
   )

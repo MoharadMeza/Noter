@@ -15,7 +15,7 @@ export const createNote = withServiceErrorHandler(
   },
   {
     type: 'DATABASE',
-    severity: 'HIGH',
+    severity: 'CRITICAL',
     statusCode: 500,
     code: 'NOTE_CREATION_FAILED',
     message: 'Failed to create note',

@@ -1,102 +1,60 @@
 'use client'
 
-import { useState } from 'react'
-import { createNote } from '@server/modules/note/services'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import styles from './new-note.module.css'
-import { noteValidationSchema } from './new-note.validation'
+import { NoteFormData, noteValidationSchema } from './new-note.validation'
 import { toast } from '@libs/utils/toast'
 import useAuthStore from '@libs/store/auth.store'
-import { useRouter } from 'next/navigation'
-import useProfileStore from '@libs/store/profile.store'
+import { useMutateNote } from '@libs/models/note/useMutateNote'
+import Input from '@libs/components/form/input/input.component'
+import InputNote from '@libs/components/form/input-note/input-note.component'
+import Button from '@libs/components/button/button.component'
 
 const NewNote = () => {
   const { userIsLogin } = useAuthStore()
-  const { profileData } = useProfileStore()
   const router = useRouter()
-  const [noteContent, setNoteContent] = useState('')
-  const [title, setTitle] = useState('')
-  const [errors, setErrors] = useState<{ title?: string; content?: string }>({})
-  const [isSaving, setIsSaving] = useState(false)
+  const { isPending, mutate: createNote } = useMutateNote()
+  const formMethods = useForm<NoteFormData>({
+    resolver: zodResolver(noteValidationSchema),
+    defaultValues: {
+      title: 'بدون عنوان',
+      content: undefined,
+    },
+  })
 
-  const validateForm = () => {
-    try {
-      noteValidationSchema.parse({ title, content: noteContent })
-      setErrors({})
-      return true
-    } catch (error) {
-      if (error instanceof Error) {
-        const formattedError = JSON.parse(error.message)
-        const newErrors: { title?: string; content?: string } = {}
-        formattedError.forEach((err: any) => {
-          if (err.path[0] === 'title') newErrors.title = err.message
-          if (err.path[0] === 'content') newErrors.content = err.message
-        })
-        setErrors(newErrors)
-      }
-      return false
-    }
+  const { handleSubmit, reset } = formMethods
+
+  const onNoteCreated = () => {
+    reset()
   }
 
-  const handleSave = async () => {
+  const handleSave = async (values: NoteFormData) => {
     if (!userIsLogin) {
       toast.error('لطفا ابتدا وارد حساب کاربری خود شوید')
       return
     }
 
-    if (!validateForm()) return
-
-    setIsSaving(true)
-    try {
-      if (!profileData?.id) {
-        throw new Error('User ID not found')
-      }
-
-      await createNote(title || 'Untitled Note', noteContent, profileData.id)
-      toast.success('نوت با موفقیت ذخیره شد')
-      setNoteContent('')
-      setTitle('')
-    } catch (error) {
-      console.error('Failed to save note:', error)
-      toast.error('خطا در ذخیره‌سازی نوت')
-    } finally {
-      setIsSaving(false)
-    }
+    createNote(values, { onSuccess: onNoteCreated })
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <input
-          type='text'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder='عنوان نوت'
-          className={`mb-1 w-full border-b p-2 text-xl font-semibold focus:border-blue-500 focus:outline-none ${
-            errors.title ? 'border-red-500' : ''
-          }`}
-        />
-        {errors.title && <span className={styles.errorText}>{errors.title}</span>}
-      </div>
+    <FormProvider {...formMethods}>
+      <form onSubmit={handleSubmit(handleSave)}>
+        <div className={styles.inputContainer}>
+          <Input type='text' name='title' placeholder='عنوان یادداشت' />
+        </div>
 
-      <div className={styles.inputContainer}>
-        <textarea
-          className={`${styles.textarea} ${errors.content ? 'border-red-500' : ''}`}
-          value={noteContent}
-          onChange={(e) => setNoteContent(e.target.value)}
-          placeholder='محتوای نوت خود را اینجا بنویسید...'
-          aria-label='محتوای نوت'
-        />
-        {errors.content && <span className={styles.errorText}>{errors.content}</span>}
-      </div>
+        <div className={styles.inputContainer}>
+          <InputNote name='content' />
+        </div>
 
-      <button
-        className={`${styles.button} ${isSaving ? styles.buttonLoading : ''}`}
-        onClick={handleSave}
-        disabled={isSaving}
-      >
-        {isSaving ? 'در حال ذخیره‌سازی...' : 'ذخیره نوت'}
-      </button>
-    </div>
+        <Button disabled={isPending} type='submit'>
+          {isPending ? 'در حال ذخیره‌سازی...' : 'ذخیره یادداشت'}
+        </Button>
+      </form>
+    </FormProvider>
   )
 }
 

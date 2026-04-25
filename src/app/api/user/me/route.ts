@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { UserObject } from '@app-types/api'
-import { AppError } from '@libs/utils/error'
+import { AppError, handleApiError } from '@libs/utils/error'
 import { ignoreFields } from '@libs/utils/object'
 import { verifySession } from '@server/modules/sessions/service'
 import { getUserById } from '@server/modules/user/services'
@@ -22,11 +22,7 @@ export async function GET() {
     const reducedUser = ignoreFields<UserObject>(user, ['password'])
 
     return NextResponse.json(reducedUser)
-  } catch (e) {
-    if (e instanceof AppError) {
-      throw e
-    }
-
-    return new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)
+  } catch (error) {
+    return handleApiError(error)
   }
 }

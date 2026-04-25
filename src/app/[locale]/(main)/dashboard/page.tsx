@@ -7,7 +7,7 @@ export default async function Page() {
     <>
       <Sidebar />
 
-      <Header />
+      {/* <Header /> */}
 
       <Content />
     </>

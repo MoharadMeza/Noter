@@ -1,4 +1,5 @@
 import { ErrorMetadata, ErrorSeverity, ErrorType } from '@app-types/error'
+import { NextResponse } from 'next/server'
 
 export class AppError extends Error {
   constructor(
@@ -32,4 +33,20 @@ export class AppError extends Error {
       stack: this.stack,
     }
   }
+}
+
+export function handleUnexpectedError(error: unknown): AppError {
+  if (error instanceof AppError) {
+    return error
+  }
+  return new AppError('Unhandled error', 'UNKNOWN', 'CRITICAL', 500, { error })
+}
+
+export function handleApiError(error: unknown): NextResponse {
+  const mappedError = handleUnexpectedError(error)
+  const { message, name, statusCode, type } = mappedError
+
+  console.error(mappedError)
+
+  return NextResponse.json({ message, name, statusCode, type }, { status: mappedError.statusCode })
 }

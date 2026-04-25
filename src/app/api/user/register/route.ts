@@ -1,5 +1,5 @@
 import { RegisterFormData } from '@libs/components/authentication/register/register'
-import { AppError } from '@libs/utils/error'
+import { AppError, handleApiError } from '@libs/utils/error'
 import { register } from '@server/modules/user/services'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -10,16 +10,12 @@ export async function POST(req: NextRequest) {
       const user = await register(body)
 
       if (user) {
-        return Response.json({ message: `${user.username} is registered` })
+        return NextResponse.json({ message: `${user.username} is registered` })
       }
     }
 
     throw new AppError('Login credential is invalid', 'AUTH', 'HIGH', 401)
-  } catch (e) {
-    if (e instanceof AppError) {
-      return NextResponse.error()
-    }
-
-    return new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)
+  } catch (error) {
+    return handleApiError(error)
   }
 }

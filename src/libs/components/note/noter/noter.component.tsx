@@ -9,6 +9,7 @@ import { noteValidationSchema } from '../new-note/new-note.validation'
 import { toast } from '@libs/utils/toast'
 import { useRouter } from 'next/navigation'
 import useProfileStore from '@libs/store/profile.store'
+import NewNote from '@libs/components/note/new-note/new-note.component'
 
 const Noter = () => {
   const { userIsLogin } = useAuthStore()
@@ -35,7 +36,7 @@ const Noter = () => {
       setNotes(userNotes)
     } catch (error) {
       console.error('Failed to load notes:', error)
-      toast.error('خطا در بارگذاری نوت‌ها')
+      toast.error('خطا در بارگذاری یادداشت‌ها')
     }
   }
 
@@ -74,14 +75,14 @@ const Noter = () => {
       }
 
       await createNote(title || 'Untitled Note', noteContent, profileData.id)
-      toast.success('نوت با موفقیت ذخیره شد')
+      toast.success('یادداشت با موفقیت ذخیره شد')
       await loadNotes() // Reload notes after saving
       setNoteContent('')
       setTitle('')
       setSelectedNoteId(null)
     } catch (error) {
       console.error('Failed to save note:', error)
-      toast.error('خطا در ذخیره‌سازی نوت')
+      toast.error('خطا در ذخیره‌سازی یادداشت')
     } finally {
       setIsSaving(false)
     }
@@ -97,19 +98,19 @@ const Noter = () => {
       }
     } catch (error) {
       console.error('Failed to load note:', error)
-      toast.error('خطا در بارگذاری نوت')
+      toast.error('خطا در بارگذاری یادداشت')
     }
   }
 
   const getButtonText = () => {
     if (isSaving) return 'در حال ذخیره‌سازی...'
-    return selectedNoteId ? 'به‌روزرسانی نوت' : 'ایجاد نوت جدید'
+    return selectedNoteId ? 'به‌روزرسانی یادداشت' : 'ایجاد یادداشت جدید'
   }
 
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
-        <h2 className='mb-4 text-xl font-semibold'>نوت‌های شما</h2>
+        <h2 className='mb-4 text-xl font-semibold'>یادداشت‌های شما</h2>
         <ul className={styles.noteList}>
           {notes.map((note) => (
             <button
@@ -126,37 +127,7 @@ const Noter = () => {
       </aside>
 
       <main className={styles.editor}>
-        <div className={styles.inputContainer}>
-          <input
-            type='text'
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder='عنوان نوت'
-            className={`mb-1 w-full border-b p-2 text-xl font-semibold focus:border-blue-500 focus:outline-none ${
-              errors.title ? 'border-red-500' : ''
-            }`}
-          />
-          {errors.title && <span className={styles.errorText}>{errors.title}</span>}
-        </div>
-
-        <div className={styles.inputContainer}>
-          <textarea
-            className={`${styles.textarea} ${errors.content ? 'border-red-500' : ''}`}
-            value={noteContent}
-            onChange={(e) => setNoteContent(e.target.value)}
-            placeholder='محتوای نوت خود را اینجا بنویسید...'
-            aria-label='محتوای نوت'
-          />
-          {errors.content && <span className={styles.errorText}>{errors.content}</span>}
-        </div>
-
-        <button
-          className={`${styles.button} ${isSaving ? styles.buttonLoading : ''}`}
-          onClick={handleSaveNote}
-          disabled={isSaving}
-        >
-          {getButtonText()}
-        </button>
+        <NewNote />
       </main>
     </div>
   )

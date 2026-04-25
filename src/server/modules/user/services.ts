@@ -138,11 +138,11 @@ export async function getAllUsers(): Promise<UserObject[]> {
   }
 }
 
-export async function getUserById(id: string): Promise<UserObject | null> {
+export async function getUserById(id: number): Promise<UserObject | null> {
   try {
     return await prisma.user.findUnique({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
     })
   } catch (error) {
@@ -153,7 +153,7 @@ export async function getUserById(id: string): Promise<UserObject | null> {
   }
 }
 
-export async function updateUser(id: string, data: Partial<UserObject>): Promise<UserObject> {
+export async function updateUser(id: number, data: Partial<UserObject>): Promise<UserObject> {
   try {
     // If password is being updated, hash it
     if (data.password) {
@@ -162,7 +162,7 @@ export async function updateUser(id: string, data: Partial<UserObject>): Promise
 
     return await prisma.user.update({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
       data,
     })
@@ -174,11 +174,11 @@ export async function updateUser(id: string, data: Partial<UserObject>): Promise
   }
 }
 
-export async function deleteUser(id: string): Promise<UserObject> {
+export async function deleteUser(id: number): Promise<UserObject> {
   try {
     return await prisma.user.delete({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
     })
   } catch (error) {
@@ -204,7 +204,7 @@ export async function validateUserCredentials(email: string, password: string): 
 }
 
 export async function changePassword(
-  userId: string,
+  userId: number,
   oldPassword: string,
   newPassword: string
 ): Promise<boolean> {
@@ -223,7 +223,7 @@ export async function changePassword(
 
     const hashedNewPassword = await hashPassword(newPassword)
     await prisma.user.update({
-      where: { id: parseInt(userId) },
+      where: { id: Number(userId) },
       data: { password: hashedNewPassword },
     })
 
