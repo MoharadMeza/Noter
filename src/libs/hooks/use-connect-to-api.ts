@@ -11,7 +11,7 @@ import {
   GetNextPageParamFunction,
   UndefinedInitialDataInfiniteOptions,
 } from '@tanstack/react-query'
-import { useLocale, useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 import axiosClient from '@/config/fetch'
 import { ErrorResponseApi, SuccessResponseApi } from '@app-types/api'

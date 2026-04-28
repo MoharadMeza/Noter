@@ -2,19 +2,29 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import styles from './new-note.module.css'
-import { NoteFormData, noteValidationSchema } from './new-note.validation'
-import { toast } from '@libs/utils/toast'
-import useAuthStore from '@libs/store/auth.store'
-import { useMutateNote } from '@libs/models/note/useMutateNote'
+
+import Button from '@libs/components/button/button.component'
+import ColorPicker from '@libs/components/form/color-picker/color-picker.component'
 import Input from '@libs/components/form/input/input.component'
 import InputNote from '@libs/components/form/input-note/input-note.component'
-import Button from '@libs/components/button/button.component'
+
+import {
+  NoteFormData,
+  noteValidationSchema,
+} from '@libs/components/note/new-note/new-note.validation'
+import useQueryClient from '@libs/hooks/use-query-client'
+import { apiKeys } from '@libs/models/api-keys'
+import { useMutateNote } from '@libs/models/note/useMutateNote'
+import useAuthStore from '@libs/store/auth.store'
+
+import { cn } from '@libs/utils/tailwind'
+import { toast } from '@libs/utils/toast'
+
+import styles from '@libs/components/note/new-note/new-note.module.css'
 
 const NewNote = () => {
   const { userIsLogin } = useAuthStore()
-  const router = useRouter()
+  const queryClient = useQueryClient()
   const { isPending, mutate: createNote } = useMutateNote()
   const formMethods = useForm<NoteFormData>({
     resolver: zodResolver(noteValidationSchema),
@@ -28,6 +38,7 @@ const NewNote = () => {
 
   const onNoteCreated = () => {
     reset()
+    queryClient.invalidateQueries({ queryKey: [apiKeys.NOTE.GET_LIST] })
   }
 
   const handleSave = async (values: NoteFormData) => {
@@ -42,8 +53,10 @@ const NewNote = () => {
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(handleSave)}>
-        <div className={styles.inputContainer}>
+        <div className={cn('grid grid-cols-[1fr_auto] gap-x-5', styles.inputContainer)}>
           <Input type='text' name='title' placeholder='عنوان یادداشت' />
+
+          <ColorPicker name='color' />
         </div>
 
         <div className={styles.inputContainer}>

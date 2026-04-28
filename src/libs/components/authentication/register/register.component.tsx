@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { FormProvider, useForm } from 'react-hook-form'
+
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -13,12 +15,14 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
+
 import { RegisterFormData } from '@libs/components/authentication/register/register'
 import { registerSchema } from '@libs/components/authentication/register/register.validation'
-import { cn } from '@libs/utils/tailwind'
 import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserRegister'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
+
+import { cn } from '@libs/utils/tailwind'
 
 const Register = () => {
   const t = useTranslations()

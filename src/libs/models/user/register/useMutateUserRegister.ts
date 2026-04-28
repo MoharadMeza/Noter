@@ -4,5 +4,8 @@ import { RegisterFormData } from '@libs/components/authentication/register/regis
 import { MutateOptions, useApiMutation } from '@libs/hooks/use-connect-to-api'
 
 export const useMutateUserRegister = (options?: MutateOptions) => {
-  return useApiMutation<RegisterFormData, User>({ method: 'POST', url: apiUrl.register }, options)
+  return useApiMutation<RegisterFormData, User>(
+    { method: 'POST', url: apiUrl.user.register },
+    options
+  )
 }

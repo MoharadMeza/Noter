@@ -1,11 +1,13 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
+
+import AuthInitiate from '@libs/components/authentication/init/auth-init.component'
 import { Toast } from '@libs/components/toast/toast.component'
+
 import { LayoutProps } from '@app/type'
 import { vazirFont } from '@config/font/font'
 import TanStackQueryProviders from '@config/tanstack-query'
-import AuthInitiate from '@libs/components/authentication/init/auth-init.component'
-import './globals.css'
+import '@app/globals.css'
 
 export const metadata = {
   title: 'Noter',

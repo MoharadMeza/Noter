@@ -1,7 +1,9 @@
-import { RegisterFormData } from '@libs/components/authentication/register/register'
-import { AppError, handleApiError } from '@libs/utils/error'
-import { register } from '@server/modules/user/services'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { RegisterFormData } from '@libs/components/authentication/register/register'
+import { register } from '@server/modules/user/services'
+
+import { AppError, handleApiError } from '@libs/utils/error'
 
 export async function POST(req: NextRequest) {
   try {

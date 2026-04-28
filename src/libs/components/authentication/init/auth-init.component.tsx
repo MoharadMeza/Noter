@@ -1,12 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+
 import { useEffect } from 'react'
+
 import { getCookie } from 'typescript-cookie'
-import useAuthStore from '@libs/store/auth.store'
-import useProfileStore from '@libs/store/profile.store'
+
 import { cookieKeys } from '@config/cookie'
 import { useFetchUserMe } from '@libs/models/user/me/useFetchUserMe'
+import useAuthStore from '@libs/store/auth.store'
+import useProfileStore from '@libs/store/profile.store'
 
 function AuthInitiate() {
   const router = useRouter()

@@ -1,6 +1,7 @@
 'use client'
 
 import { useToastStore } from '@/libs/stores/toast-store'
+
 import { cn } from '@libs/utils/tailwind'
 
 const toastStyles = {

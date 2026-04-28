@@ -2,7 +2,7 @@
 
 import * as jose from 'jose'
 
-import { UserObject } from '@app-types/api'
+import { UserObject } from '@app-types/user'
 import prisma from '@config/prisma'
 import { createSession } from '@server/modules/sessions/service'
 

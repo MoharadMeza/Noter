@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   SECRET_KEY: process.env.NEXT_PUBLIC_SECRET_KEY,
   DEFAULT_LANGUAGE: process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE,

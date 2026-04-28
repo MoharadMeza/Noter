@@ -1,7 +1,9 @@
-import { LoginFormData } from '@libs/components/authentication/login/login'
-import { AppError, handleApiError } from '@libs/utils/error'
-import { login } from '@server/modules/user/services'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { LoginFormData } from '@libs/components/authentication/login/login'
+import { login } from '@server/modules/user/services'
+
+import { AppError, handleApiError } from '@libs/utils/error'
 
 export async function POST(req: NextRequest) {
   try {

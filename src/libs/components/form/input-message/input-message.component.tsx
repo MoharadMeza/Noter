@@ -1,4 +1,5 @@
 import { InputMessageProps } from '@libs/components/form/input-message/input-message'
+
 import styles from '@libs/components/form/input-message/input-message.module.css'
 
 function InputMessage(props: InputMessageProps) {
@@ -9,4 +10,5 @@ function InputMessage(props: InputMessageProps) {
 
   return <span className={styles.errorText}>{errorMessage}</span>
 }
+
 export default InputMessage

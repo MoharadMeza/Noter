@@ -1,7 +1,10 @@
-import { cn } from '@libs/utils/tailwind'
-import InputMessage from '@libs/components/form/input-message/input-message.component'
-import { InputProps } from '@libs/components/form/input/input'
 import { useFormContext } from 'react-hook-form'
+
+import InputMessage from '@libs/components/form/input-message/input-message.component'
+
+import { InputProps } from '@libs/components/form/input/input'
+
+import { cn } from '@libs/utils/tailwind'
 
 const Input = (props: InputProps) => {
   const { label, name, className = '', ...rest } = props
@@ -15,13 +18,13 @@ const Input = (props: InputProps) => {
   return (
     <div className='w-full'>
       {label && (
-        <label htmlFor={props.id} className='text-foreground block text-sm font-medium'>
+        <label htmlFor={props.id} className='text-foreground mb-1 block text-sm font-medium'>
           {label}
         </label>
       )}
 
       <input
-        className={cn('input mt-1 w-full', errorMessage && 'border-red-500', className)}
+        className={cn('input w-full', errorMessage && 'border-red-500', className)}
         {...rest}
         {...register(name)}
       />

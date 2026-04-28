@@ -9,6 +9,8 @@ export const noteValidationSchema = z.object({
     .string()
     .min(1, 'محتوای یادداشت نمی‌تواند خالی باشد')
     .max(10000, 'محتوای یادداشت نمی‌تواند بیشتر از 10000 کاراکتر باشد'),
+
+  color: z.string().nonoptional(),
 })
 
 export type NoteFormData = z.infer<typeof noteValidationSchema>

@@ -1,46 +1,29 @@
-import { FlatCompat } from '@eslint/eslintrc'
 import typescriptPlugin from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
-import importPlugin from 'eslint-plugin-import'
+import importPlugin from 'eslint-plugin-import-x'
 import prettierPlugin from 'eslint-plugin-prettier'
+import prettierConfig from 'eslint-config-prettier'
 import sonarjs from 'eslint-plugin-sonarjs'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-// Determine if we're in development mode
 const isDevelopment = process.env.NODE_ENV === 'development'
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-})
-
 const eslintConfig = [
+  prettierConfig,
   {
     ignores: [
-      // Build artifacts
       'node_modules/**',
       'dist/**',
       '.next/**',
       'out/**',
       'build/**',
       '.vscode/**',
-
-      // Scripts folder
       'scripts/**',
-
-      // Temp folder
       'src/libs/components/temp/**',
-
-      // Other common ignores
       'coverage/**',
       'public/**',
       '*.config.js',
     ],
   },
-  // JavaScript files config
   {
     files: ['*.js', '*.mjs'],
     languageOptions: {
@@ -50,7 +33,6 @@ const eslintConfig = [
       },
     },
   },
-  // TypeScript files config
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -68,6 +50,7 @@ const eslintConfig = [
       sonarjs,
     },
     rules: {
+      ...typescriptPlugin.configs.recommended.rules,
       'prettier/prettier': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       'sonarjs/no-implicit-dependencies': 'warn',
@@ -84,16 +67,8 @@ const eslintConfig = [
             'type',
           ],
           pathGroups: [
-            {
-              pattern: 'next/**',
-              group: 'external',
-              position: 'before',
-            },
-            {
-              pattern: 'react',
-              group: 'external',
-              position: 'before',
-            },
+            { pattern: 'next/**', group: 'external', position: 'before' },
+            { pattern: 'react', group: 'external', position: 'before' },
             {
               pattern: '{lodash,axios,redux,express,@reduxjs/**,@apollo/**}',
               group: 'external',
@@ -104,48 +79,16 @@ const eslintConfig = [
               group: 'external',
               position: 'after',
             },
-            {
-              pattern: '**/*.{container,component}',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '**/*.{.ts,.js}',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '@libs/utils/**',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '**/*.d.ts',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '**/*.{scss,module.scss}',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '**/*.css',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '*.{css,scss,sass,less}',
-              group: 'internal',
-              position: 'after',
-            },
+            { pattern: '**/*.{container,component}', group: 'internal', position: 'before' },
+            { pattern: '@libs/utils/**', group: 'internal', position: 'after' },
+            { pattern: '**/*.d.ts', group: 'internal', position: 'after' },
+            { pattern: '**/*.{scss,module.scss}', group: 'internal', position: 'after' },
+            { pattern: '**/*.css', group: 'internal', position: 'after' },
+            { pattern: '*.{css,scss,sass,less}', group: 'internal', position: 'after' },
           ],
           pathGroupsExcludedImportTypes: ['react', 'next'],
           'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
+          alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
       'import/first': 'error',
@@ -186,10 +129,7 @@ const eslintConfig = [
       ],
     },
     settings: {
-      'import/parsers': {
-        '@typescript-eslint/parser': ['.ts', '.tsx'],
-      },
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: './tsconfig.json',
@@ -198,17 +138,11 @@ const eslintConfig = [
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
       },
+      'import-x/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
     },
   },
-  ...compat.extends(
-    'next/core-web-vitals',
-    'next/typescript',
-    'next',
-    'prettier',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended'
-  ),
 ]
 
 export default eslintConfig

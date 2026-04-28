@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
-import { UserObject } from '@app-types/api'
-import { AppError, handleApiError } from '@libs/utils/error'
-import { ignoreFields } from '@libs/utils/object'
+
+import { UserObject } from '@app-types/user'
 import { verifySession } from '@server/modules/sessions/service'
 import { getUserById } from '@server/modules/user/services'
+
+import { AppError, handleApiError } from '@libs/utils/error'
+import { ignoreFields } from '@libs/utils/object'
 
 export async function GET() {
   try {

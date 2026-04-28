@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
-import env from '@libs/utils/env'
 import { SuccessResponseApi } from '@app-types/api'
+
+import env from '@libs/utils/env'
 
 const axiosClient: AxiosInstance = axios.create({
   adapter: 'fetch',
@@ -79,15 +80,16 @@ const formatSuccessResponse = (response: AxiosResponse): SuccessResponseApi<any>
 
   const isPaginatedData =
     typeof responseData.limit === 'number' &&
-    typeof responseData.page === 'number' &&
+    typeof responseData.currentPage === 'number' &&
     typeof responseData.total === 'number' &&
+    typeof responseData.totalPages === 'number' &&
     Array.isArray(responseData.data)
 
   if (isPaginatedData) {
     data = responseData.data
-    currentPage = responseData.page
+    currentPage = responseData.currentPage
     total = responseData.total
-    totalPages = Math.ceil(responseData.total / responseData.limit)
+    totalPages = responseData.totalPages
   } else {
     data = responseData
   }

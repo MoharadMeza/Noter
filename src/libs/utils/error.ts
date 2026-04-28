@@ -1,5 +1,6 @@
-import { ErrorMetadata, ErrorSeverity, ErrorType } from '@app-types/error'
 import { NextResponse } from 'next/server'
+
+import { ErrorMetadata, ErrorSeverity, ErrorType } from '@app-types/error'
 
 export class AppError extends Error {
   constructor(

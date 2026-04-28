@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import RecentNotes from '@libs/components/note/recent-notes/recent-notes.component'
 
 function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false)
-
-  return <div></div>
+  return (
+    <aside className='h-screen overflow-y-scroll p-4'>
+      <RecentNotes />
+    </aside>
+  )
 }
 
 export default Sidebar

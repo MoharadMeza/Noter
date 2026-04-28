@@ -1,8 +1,10 @@
+import { NextRequest, NextResponse } from 'next/server'
+
 import { NoteFormData } from '@libs/components/note/new-note/new-note.validation'
-import { AppError, handleApiError } from '@libs/utils/error'
 import { createNote } from '@server/modules/note/services'
 import { verifySession } from '@server/modules/sessions/service'
-import { NextRequest, NextResponse } from 'next/server'
+
+import { AppError, handleApiError } from '@libs/utils/error'
 
 // Create note
 export async function POST(req: NextRequest) {
@@ -14,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { userId } = await verifySession()
-    const createdNote = await createNote(body.title, body.title, userId)
+    const createdNote = await createNote(body.title, body.content, userId)
 
     if (createdNote) {
       return NextResponse.json(createdNote)
