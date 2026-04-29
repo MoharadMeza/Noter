@@ -1,5 +1,4 @@
 import { ButtonProps } from '@libs/components/button/button'
-
 import { createVariant, createSize } from '@libs/utils/tailwind'
 
 const Button = (props: ButtonProps) => {

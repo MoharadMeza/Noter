@@ -1,6 +1,6 @@
 'use client'
 
-import RecentNotes from '@libs/components/note/recent-notes/recent-notes.component'
+import RecentNotes from '@components/note/recent-notes/recent-notes.component'
 
 function Sidebar() {
   return (

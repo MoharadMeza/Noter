@@ -1,5 +1,4 @@
 import { InputMessageProps } from '@libs/components/form/input-message/input-message'
-
 import styles from '@libs/components/form/input-message/input-message.module.css'
 
 function InputMessage(props: InputMessageProps) {

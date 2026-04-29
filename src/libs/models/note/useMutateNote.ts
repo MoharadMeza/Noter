@@ -1,7 +1,10 @@
-import { NoteObject } from '@app-types/note'
 import apiUrl from '@config/api-url'
-import { NoteFormData } from '@libs/components/note/new-note/new-note.validation'
+
 import { MutateOptions, useApiMutation } from '@libs/hooks/use-connect-to-api'
+
+import { NoteFormData } from '@components/note/new-note/new-note.validation'
+
+import { NoteObject } from '@app-types/note'
 
 export const useMutateNote = (options?: MutateOptions) => {
   return useApiMutation<NoteFormData, NoteObject>(

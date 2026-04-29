@@ -3,16 +3,13 @@
 
 import { useEffect, useState } from 'react'
 
+import lodashMap from 'lodash/map'
 import { useController, useFormContext } from 'react-hook-form'
 
-import lodashMap from 'lodash/map'
-
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
-
+import styles from '@libs/components/form/color-picker/color-picker.module.css'
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
-
-import styles from '@libs/components/form/color-picker/color-picker.module.css'
 
 export default function ColorPicker({ name, label }: ColorPickerProps) {
   const { control } = useFormContext()

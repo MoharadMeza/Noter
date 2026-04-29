@@ -2,12 +2,14 @@
 
 import * as jose from 'jose'
 
-import { UserObject } from '@app-types/user'
-import prisma from '@config/prisma'
 import { createSession } from '@server/modules/sessions/service'
+
+import prisma from '@config/prisma'
 
 import env from '@libs/utils/env'
 import { AppError } from '@libs/utils/error'
+
+import { UserObject } from '@app-types/user'
 
 // Utility functions
 const secretKey = new TextEncoder().encode(env.SECRET_KEY)

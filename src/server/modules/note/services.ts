@@ -1,9 +1,5 @@
 'use server'
 
-import { ApiParams } from '@app-types/api'
-import { NoteObject } from '@app-types/note'
-import prisma from '@config/prisma'
-import { Prisma } from '@db-models'
 import {
   FindManyArgs,
   generateOrderBy,
@@ -11,7 +7,14 @@ import {
   generatePaginationByParams,
 } from '@server/db-utils'
 
+import { Prisma } from '@db-models'
+
+import prisma from '@config/prisma'
+
 import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
+
+import { ApiParams } from '@app-types/api'
+import { NoteObject } from '@app-types/note'
 
 const createNoteBase = async (title: string, content: string, userId: number) => {
   return await prisma.note.create({
@@ -32,7 +35,7 @@ const getNotesByUserIdBase = async (userId: number, params: ApiParams<keyof Note
     orderBy: generateOrderBy(params.sortBy, params.sortOrder),
   }
 
-  const result = await generatePaginatedData<Prisma.NoteGetPayload<{}>, Prisma.NoteWhereInput>(
+  const result = await generatePaginatedData<Prisma.NoteGetPayload<object>, Prisma.NoteWhereInput>(
     prisma.note,
     filters,
     pagination

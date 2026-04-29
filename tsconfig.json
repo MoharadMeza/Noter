@@ -23,6 +23,7 @@
       "@libs/*": ["./src/libs/*"],
       "@app-types/*": ["./src/types/*"],
       "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/components/*"],
       "@db-models": ["./prisma/generated/client/browser"],
       "@db-client": ["./prisma/generated/client/client"],
       "@/*": ["./src/*"]

@@ -1,3 +1,5 @@
+import { useLocale } from 'next-intl'
+
 import {
   useQuery,
   useMutation,
@@ -11,12 +13,12 @@ import {
   GetNextPageParamFunction,
   UndefinedInitialDataInfiniteOptions,
 } from '@tanstack/react-query'
-import { useLocale } from 'next-intl'
-
-import axiosClient from '@/config/fetch'
-import { ErrorResponseApi, SuccessResponseApi } from '@app-types/api'
 
 import { errorHandling, successHandling } from '@libs/utils/api-message-handling'
+
+import { ErrorResponseApi, SuccessResponseApi } from '@app-types/api'
+
+import axiosClient from '@/config/fetch'
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 

@@ -1,8 +1,8 @@
 'use client'
 
-import { useToastStore } from '@/libs/stores/toast-store'
-
 import { cn } from '@libs/utils/tailwind'
+
+import { useToastStore } from '@/libs/stores/toast-store'
 
 const toastStyles = {
   success: 'bg-green-500',

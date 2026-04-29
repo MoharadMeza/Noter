@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 import { NextConfig } from 'next'
+
 import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {

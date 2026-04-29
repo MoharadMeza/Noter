@@ -3,10 +3,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
+
+import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
+import { LoginFormData } from '@libs/components/authentication/login/login'
+import { loginSchema } from '@libs/components/authentication/login/login.validation'
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -16,13 +19,9 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
-
-import { LoginFormData } from '@libs/components/authentication/login/login'
-import { loginSchema } from '@libs/components/authentication/login/login.validation'
 import { useMutateUserLogin } from '@libs/models/user/login/useMutateUserLogin'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
-
 import { cn } from '@libs/utils/tailwind'
 
 const Login = () => {

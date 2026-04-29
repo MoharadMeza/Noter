@@ -1,8 +1,8 @@
 import lodashMap from 'lodash/map'
 
-import NoteCard from '@libs/components/note/note-card/note-card.component'
-
 import { useFetchNoteList } from '@libs/models/note/list/useFetchNoteList'
+
+import NoteCard from '@components/note/note-card/note-card.component'
 
 function RecentNotes() {
   const { data: notes, isLoading } = useFetchNoteList({ enabled: true })

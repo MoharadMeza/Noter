@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { NoteFormData } from '@libs/components/note/new-note/new-note.validation'
 import { createNote } from '@server/modules/note/services'
 import { verifySession } from '@server/modules/sessions/service'
 
 import { AppError, handleApiError } from '@libs/utils/error'
+
+import { NoteFormData } from '@components/note/new-note/new-note.validation'
 
 // Create note
 export async function POST(req: NextRequest) {

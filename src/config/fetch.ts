@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
-import { SuccessResponseApi } from '@app-types/api'
-
 import env from '@libs/utils/env'
+
+import { SuccessResponseApi } from '@app-types/api'
 
 const axiosClient: AxiosInstance = axios.create({
   adapter: 'fetch',

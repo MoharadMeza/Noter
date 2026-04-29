@@ -1,6 +1,6 @@
-import { ErrorType, ErrorSeverity } from '@app-types/error'
-
 import { AppError } from '@libs/utils/error'
+
+import { ErrorType, ErrorSeverity } from '@app-types/error'
 
 type ServiceFunction<T, Args extends unknown[]> = (...args: Args) => Promise<T>
 

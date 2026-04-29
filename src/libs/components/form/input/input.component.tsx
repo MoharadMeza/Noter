@@ -1,9 +1,7 @@
 import { useFormContext } from 'react-hook-form'
 
-import InputMessage from '@libs/components/form/input-message/input-message.component'
-
 import { InputProps } from '@libs/components/form/input/input'
-
+import InputMessage from '@libs/components/form/input-message/input-message.component'
 import { cn } from '@libs/utils/tailwind'
 
 const Input = (props: InputProps) => {

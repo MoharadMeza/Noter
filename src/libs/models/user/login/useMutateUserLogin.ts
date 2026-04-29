@@ -1,5 +1,7 @@
-import apiUrl from '@config/api-url'
 import { User } from '@db-models'
+
+import apiUrl from '@config/api-url'
+
 import { LoginFormData } from '@libs/components/authentication/login/login'
 import { MutateOptions, useApiMutation } from '@libs/hooks/use-connect-to-api'
 

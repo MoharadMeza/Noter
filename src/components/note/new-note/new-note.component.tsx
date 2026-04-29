@@ -7,20 +7,16 @@ import Button from '@libs/components/button/button.component'
 import ColorPicker from '@libs/components/form/color-picker/color-picker.component'
 import Input from '@libs/components/form/input/input.component'
 import InputNote from '@libs/components/form/input-note/input-note.component'
-
-import {
-  NoteFormData,
-  noteValidationSchema,
-} from '@libs/components/note/new-note/new-note.validation'
 import useQueryClient from '@libs/hooks/use-query-client'
 import { apiKeys } from '@libs/models/api-keys'
 import { useMutateNote } from '@libs/models/note/useMutateNote'
 import useAuthStore from '@libs/store/auth.store'
-
 import { cn } from '@libs/utils/tailwind'
 import { toast } from '@libs/utils/toast'
 
-import styles from '@libs/components/note/new-note/new-note.module.css'
+import { NoteFormData, noteValidationSchema } from '@components/note/new-note/new-note.validation'
+
+import styles from '@components/note/new-note/new-note.module.css'
 
 const NewNote = () => {
   const { userIsLogin } = useAuthStore()

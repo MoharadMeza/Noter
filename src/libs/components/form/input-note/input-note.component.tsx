@@ -1,12 +1,9 @@
 import { useFormContext } from 'react-hook-form'
 
 import InputMessage from '@libs/components/form/input-message/input-message.component'
-
 import { InputNoteProps } from '@libs/components/form/input-note/input-note'
-
-import { cn } from '@libs/utils/tailwind'
-
 import styles from '@libs/components/form/input-note/input-note.module.css'
+import { cn } from '@libs/utils/tailwind'
 
 function InputNote(props: InputNoteProps) {
   const { name } = props

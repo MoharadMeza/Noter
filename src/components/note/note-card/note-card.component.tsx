@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import { NoteCardProps } from '@libs/components/note/note-card/note-card'
-
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
+
+import { NoteCardProps } from '@components/note/note-card/note-card'
 
 function NoteCard(props: NoteCardProps) {
   const { color, content, id, title } = props
