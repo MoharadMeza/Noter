@@ -16,11 +16,15 @@ import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
 import { ApiParams } from '@app-types/api'
 import { NoteObject } from '@app-types/note'
 
-const createNoteBase = async (title: string, content: string, userId: number) => {
+const createNoteBase = async (
+  body: { title: string; content: string; color: string },
+  userId: number
+) => {
   return await prisma.note.create({
     data: {
-      title,
-      content,
+      title: body.title,
+      content: body.content,
+      color: body.color,
       userId,
     },
   })
@@ -60,7 +64,13 @@ const updateNoteBase = async (id: number, title: string, content: string) => {
   })
 }
 
-const deleteNoteBase = async (id: number) => {
+const deleteNoteBase = async (id: number, userId: number) => {
+  const note = await getNoteByIdBase(id)
+
+  if (!note || note.userId !== userId) {
+    throw new Error('Note not found or unauthorized')
+  }
+
   return await prisma.note.delete({
     where: { id },
   })

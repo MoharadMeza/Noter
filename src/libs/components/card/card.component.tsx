@@ -10,9 +10,9 @@ const Card = ({ children, className, ...props }: CardProps) => {
   return (
     <div
       className={cn(
-        'bg-white',
-        'border border-gray-200',
-        'rounded-lg shadow-sm',
+        'bg-white dark:bg-slate-900',
+        'border border-gray-200 dark:border-slate-700',
+        'rounded-xl shadow-sm',
         'transition-colors duration-200',
         className
       )}
@@ -29,7 +29,7 @@ const CardHeader = ({ children, className, ...props }: CardProps) => {
       className={cn(
         'flex flex-col space-y-1.5',
         'p-6',
-        'border-border border-b border-b-gray-300',
+        'border-b border-gray-200 dark:border-slate-700',
         className
       )}
       {...props}
@@ -43,8 +43,8 @@ const CardTitle = ({ children, className, ...props }: CardProps) => {
   return (
     <h3
       className={cn(
-        'text-2xl leading-none font-medium tracking-tight',
-        'text-foreground',
+        'text-2xl leading-none font-semibold tracking-tight',
+        'text-slate-900 dark:text-slate-50',
         className
       )}
       {...props}
@@ -56,7 +56,10 @@ const CardTitle = ({ children, className, ...props }: CardProps) => {
 
 const CardDescription = ({ children, className, ...props }: CardProps) => {
   return (
-    <p className={cn('text-sm', 'text-muted-foreground font-light', className)} {...props}>
+    <p
+      className={cn('text-sm font-light', 'text-gray-500 dark:text-slate-400', className)}
+      {...props}
+    >
       {children}
     </p>
   )

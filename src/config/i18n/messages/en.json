@@ -30,5 +30,18 @@
   "LOGIN_REGISTER_LINK_TEXT": "Don't have an account?",
   "LOGIN_REGISTER_LINK": "Create account",
   "LOGIN_ERROR_INVALID_CREDENTIALS": "Invalid email or password",
-  "LOGIN_ERROR_REQUIRED": "Please enter your email and password"
+  "LOGIN_ERROR_REQUIRED": "Please enter your email and password",
+  "RECENT_NOTES_TITLE": "Recent Notes",
+  "RECENT_NOTES_EMPTY": "No notes yet",
+  "NOTE_TITLE_REQUIRED": "Title cannot be empty",
+  "NOTE_TITLE_MAX": "Title cannot exceed 100 characters",
+  "NOTE_CONTENT_REQUIRED": "Note content cannot be empty",
+  "NOTE_CONTENT_MAX": "Note content cannot exceed 10000 characters",
+  "NOTE_DEFAULT_TITLE": "Untitled",
+  "NOTE_LOGIN_REQUIRED": "Please log in to your account first",
+  "NOTE_TITLE_PLACEHOLDER": "Note title",
+  "NOTE_SAVING": "Saving...",
+  "NOTE_SAVE_BUTTON": "Save Note",
+  "NOTE_EDIT": "Edit",
+  "NOTE_DELETE": "Delete"
 }

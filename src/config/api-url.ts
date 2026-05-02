@@ -9,5 +9,6 @@ export default {
   note: {
     base: `${env.API_URL}/note`,
     list: `${env.API_URL}/note/list`,
+    byId: (id: number) => `${env.API_URL}/note/${id}`,
   },
 }

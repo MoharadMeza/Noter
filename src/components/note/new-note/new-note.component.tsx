@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -14,18 +16,22 @@ import useAuthStore from '@libs/store/auth.store'
 import { cn } from '@libs/utils/tailwind'
 import { toast } from '@libs/utils/toast'
 
-import { NoteFormData, noteValidationSchema } from '@components/note/new-note/new-note.validation'
+import {
+  NoteFormData,
+  createNoteValidationSchema,
+} from '@components/note/new-note/new-note.validation'
 
 import styles from '@components/note/new-note/new-note.module.css'
 
 const NewNote = () => {
+  const t = useTranslations()
   const { userIsLogin } = useAuthStore()
   const queryClient = useQueryClient()
   const { isPending, mutate: createNote } = useMutateNote()
   const formMethods = useForm<NoteFormData>({
-    resolver: zodResolver(noteValidationSchema),
+    resolver: zodResolver(createNoteValidationSchema(t)),
     defaultValues: {
-      title: 'بدون عنوان',
+      title: t('NOTE_DEFAULT_TITLE'),
       content: undefined,
     },
   })
@@ -39,7 +45,7 @@ const NewNote = () => {
 
   const handleSave = async (values: NoteFormData) => {
     if (!userIsLogin) {
-      toast.error('لطفا ابتدا وارد حساب کاربری خود شوید')
+      toast.error(t('NOTE_LOGIN_REQUIRED'))
       return
     }
 
@@ -48,9 +54,12 @@ const NewNote = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <form onSubmit={handleSubmit(handleSave)}>
-        <div className={cn('grid grid-cols-[1fr_auto] gap-x-5', styles.inputContainer)}>
-          <Input type='text' name='title' placeholder='عنوان یادداشت' />
+      <form
+        onSubmit={handleSubmit(handleSave)}
+        className='rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800'
+      >
+        <div className={cn('grid grid-cols-[1fr_auto] items-start gap-x-4', styles.inputContainer)}>
+          <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
 
           <ColorPicker name='color' />
         </div>
@@ -59,9 +68,32 @@ const NewNote = () => {
           <InputNote name='content' />
         </div>
 
-        <Button disabled={isPending} type='submit'>
-          {isPending ? 'در حال ذخیره‌سازی...' : 'ذخیره یادداشت'}
-        </Button>
+        <div className='flex justify-end'>
+          <Button disabled={isPending} type='submit'>
+            {isPending ? (
+              <span className='flex items-center gap-2'>
+                <svg className='h-4 w-4 animate-spin' fill='none' viewBox='0 0 24 24'>
+                  <circle
+                    className='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    strokeWidth='4'
+                  />
+                  <path
+                    className='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
+                  />
+                </svg>
+                {t('NOTE_SAVING')}
+              </span>
+            ) : (
+              t('NOTE_SAVE_BUTTON')
+            )}
+          </Button>
+        </div>
       </form>
     </FormProvider>
   )

@@ -14,15 +14,24 @@ const Input = (props: InputProps) => {
   const errorMessage = errors?.[name]?.message as string
 
   return (
-    <div className='w-full'>
+    <div className='w-full space-y-1'>
       {label && (
-        <label htmlFor={props.id} className='text-foreground mb-1 block text-sm font-medium'>
+        <label
+          htmlFor={props.id}
+          className='block text-sm font-medium text-slate-700 dark:text-slate-300'
+        >
           {label}
         </label>
       )}
 
       <input
-        className={cn('input w-full', errorMessage && 'border-red-500', className)}
+        className={cn(
+          'input w-full transition-shadow duration-150',
+          errorMessage
+            ? 'border-red-400 focus:ring-red-400 dark:border-red-500'
+            : 'focus:ring-blue-500',
+          className
+        )}
         {...rest}
         {...register(name)}
       />

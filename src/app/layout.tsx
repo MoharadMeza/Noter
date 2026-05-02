@@ -7,6 +7,7 @@ import TanStackQueryProviders from '@config/tanstack-query'
 
 import AuthInitiate from '@libs/components/authentication/init/auth-init.component'
 import { Toast } from '@libs/components/toast/toast.component'
+import { ThemeProvider } from '@libs/components/theme-toggle/theme-provider.component'
 
 import { LayoutProps } from '@app/type'
 import '@app/globals.css'
@@ -22,15 +23,17 @@ export default async function RootLayout({ children }: LayoutProps) {
   return (
     <html className={vazirFont.className} lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'}>
       <body suppressHydrationWarning>
-        <NextIntlClientProvider>
-          <TanStackQueryProviders>
-            <AuthInitiate />
+        <ThemeProvider>
+          <NextIntlClientProvider>
+            <TanStackQueryProviders>
+              <AuthInitiate />
 
-            {children}
-          </TanStackQueryProviders>
+              {children}
+            </TanStackQueryProviders>
 
-          <Toast />
-        </NextIntlClientProvider>
+            <Toast />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

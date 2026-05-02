@@ -40,8 +40,8 @@ export default function ColorPicker({ name, label }: ColorPickerProps) {
           <label key={colorName} className={styles.colorOption}>
             <input
               type='radio'
-              value={colorValue}
-              checked={field.value === colorValue}
+              value={colorName}
+              checked={field.value === colorName}
               onChange={(e) => field.onChange(e.target.value)}
               className={styles.radioInput}
             />
