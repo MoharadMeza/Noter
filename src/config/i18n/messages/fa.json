@@ -1,4 +1,5 @@
 {
+  "APP_NAME": "پنا",
   "REGISTER_TITLE": "ایجاد حساب کاربری",
   "REGISTER_DESCRIPTION": "اطلاعات خود را برای ایجاد حساب کاربری وارد کنید",
   "NAME_LABEL": "نام و نام خانوادگی",
@@ -43,5 +44,12 @@
   "NOTE_SAVING": "در حال ذخیره‌سازی...",
   "NOTE_SAVE_BUTTON": "ذخیره یادداشت",
   "NOTE_EDIT": "ویرایش",
-  "NOTE_DELETE": "حذف"
+  "NOTE_DELETE": "حذف",
+  "NOTE_NEW_PLACEHOLDER": "یادداشت جدید بنویس...",
+  "NOTE_CANCEL": "انصراف",
+  "NAV_NOTES": "یادداشت‌ها",
+  "NAV_ARCHIVE": "آرشیو",
+  "NAV_TRASH": "سطل زباله",
+  "NAV_MORE": "بیشتر",
+  "USER_MENU_LOGOUT": "خروج"
 }

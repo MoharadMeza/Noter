@@ -5,8 +5,12 @@ import { useRouter } from 'next/navigation'
 
 import { useTranslations } from 'next-intl'
 
+import Icon from '@libs/components/icon/icon.component'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
+
+import appUrl from '@config/app-url'
 
 import { LoginFormData } from '@libs/components/authentication/login/login'
 import { loginSchema } from '@libs/components/authentication/login/login.validation'
@@ -36,7 +40,7 @@ const Login = () => {
   const { mutate: loginUser, isPending: isLoginUserLoading } = useMutateUserLogin({
     onSuccess: (user: any) => {
       setUserLogin()
-      router.push('/dashboard')
+      router.push(appUrl.HOME)
       setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
     },
     onError: () => {
@@ -53,19 +57,7 @@ const Login = () => {
     <Card className='w-full max-w-md shadow-xl'>
       <CardHeader className='items-center pb-6 text-center'>
         <div className='mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900'>
-          <svg
-            className='h-7 w-7 text-white'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z'
-            />
-          </svg>
+          <Icon name='user' className='h-7 w-7 text-white' />
         </div>
         <CardTitle className='text-2xl font-bold'>{t('LOGIN_TITLE')}</CardTitle>
         <CardDescription className='mt-1'>{t('LOGIN_DESCRIPTION')}</CardDescription>
@@ -76,6 +68,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
             <div className='space-y-4'>
               <Input
+                dir='ltr'
                 name='email'
                 id='email'
                 type='email'
@@ -84,6 +77,7 @@ const Login = () => {
               />
 
               <Input
+                dir='ltr'
                 name='password'
                 id='password'
                 type='password'

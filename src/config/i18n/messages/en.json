@@ -1,4 +1,5 @@
 {
+  "APP_NAME": "Penna",
   "REGISTER_TITLE": "Create an account",
   "REGISTER_DESCRIPTION": "Enter your details to create your account",
   "NAME_LABEL": "Full Name",
@@ -43,5 +44,12 @@
   "NOTE_SAVING": "Saving...",
   "NOTE_SAVE_BUTTON": "Save Note",
   "NOTE_EDIT": "Edit",
-  "NOTE_DELETE": "Delete"
+  "NOTE_DELETE": "Delete",
+  "NOTE_NEW_PLACEHOLDER": "Take a note...",
+  "NOTE_CANCEL": "Cancel",
+  "NAV_NOTES": "Notes",
+  "NAV_ARCHIVE": "Archive",
+  "NAV_TRASH": "Trash",
+  "NAV_MORE": "More",
+  "USER_MENU_LOGOUT": "Logout"
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@libs/utils/tailwind'
+import Icon from '@libs/components/icon/icon.component'
 
 import { useToastStore } from '@/libs/stores/toast-store'
 
@@ -20,7 +21,7 @@ export const Toast = () => {
         <div
           key={toast.id}
           className={cn(
-            'min-w-[300px] rounded-lg p-4 text-white shadow-lg transition-all duration-300 ease-in-out',
+            'min-w-75 rounded-lg p-4 text-white shadow-lg transition-all duration-300 ease-in-out',
             toastStyles[toast.type]
           )}
         >
@@ -30,17 +31,7 @@ export const Toast = () => {
               onClick={() => removeToast(toast.id)}
               className='ml-4 rounded-full p-1 hover:bg-white/20'
             >
-              <svg
-                className='h-4 w-4'
-                fill='none'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path d='M6 18L18 6M6 6l12 12'></path>
-              </svg>
+              <Icon name='close' className='h-4 w-4' />
             </button>
           </div>
         </div>

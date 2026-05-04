@@ -10,7 +10,7 @@ const Card = ({ children, className, ...props }: CardProps) => {
   return (
     <div
       className={cn(
-        'bg-white dark:bg-slate-900',
+        'bg-gray-100 dark:bg-slate-900',
         'border border-gray-200 dark:border-slate-700',
         'rounded-xl shadow-sm',
         'transition-colors duration-200',

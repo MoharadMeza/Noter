@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createNote, deleteNote } from '@server/modules/note/services'
+import { createNote } from '@server/modules/note/services'
 import { verifySession } from '@server/modules/sessions/service'
 
 import { AppError, handleApiError } from '@libs/utils/error'
@@ -24,28 +24,6 @@ export async function POST(req: NextRequest) {
 
     if (createdNote) {
       return NextResponse.json(createdNote)
-    }
-
-    throw new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)
-  } catch (error) {
-    return handleApiError(error)
-  }
-}
-
-// Delete note
-export async function DELETE(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url)
-    const noteId = searchParams.get('id')
-    if (!noteId) {
-      throw new AppError('Validation error', 'VALIDATION', 'MEDIUM', 406)
-    }
-
-    const { userId } = await verifySession()
-    const deletedNote = await deleteNote(Number(noteId), userId)
-
-    if (deletedNote) {
-      return NextResponse.json(deletedNote)
     }
 
     throw new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)

@@ -1,14 +1,13 @@
 import * as z from 'zod'
 
-export type NoteFormData = {
-  title: string
-  content: string
-  color: string
-}
+import { SimpleTranslator } from '@app-types/intl'
+import { ZodInferSchema } from '@app-types/zod'
 
-export const createNoteValidationSchema = (t: (key: string) => string) =>
+export type NoteFormData = ZodInferSchema<typeof createNoteValidationSchema>
+
+export const createNoteValidationSchema = (t: SimpleTranslator) =>
   z.object({
     title: z.string().min(1, t('NOTE_TITLE_REQUIRED')).max(100, t('NOTE_TITLE_MAX')),
     content: z.string().min(1, t('NOTE_CONTENT_REQUIRED')).max(10000, t('NOTE_CONTENT_MAX')),
-    color: z.string().nonoptional(),
+    color: z.string().optional(),
   })

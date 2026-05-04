@@ -54,12 +54,14 @@ const getNoteByIdBase = async (id: number) => {
   })
 }
 
-const updateNoteBase = async (id: number, title: string, content: string) => {
+const updateNoteBase = async (
+  id: number,
+  body: { title: string; content: string; color: string }
+) => {
   return await prisma.note.update({
     where: { id },
     data: {
-      title,
-      content,
+      ...body,
     },
   })
 }

@@ -1,10 +1,13 @@
 'use client'
 
+import { useState } from 'react'
+
 import { useTranslations } from 'next-intl'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
+import Icon from '@libs/components/icon/icon.component'
 import Button from '@libs/components/button/button.component'
 import ColorPicker from '@libs/components/form/color-picker/color-picker.component'
 import Input from '@libs/components/form/input/input.component'
@@ -13,7 +16,6 @@ import useQueryClient from '@libs/hooks/use-query-client'
 import { apiKeys } from '@libs/models/api-keys'
 import { useMutateNote } from '@libs/models/note/useMutateNote'
 import useAuthStore from '@libs/store/auth.store'
-import { cn } from '@libs/utils/tailwind'
 import { toast } from '@libs/utils/toast'
 
 import {
@@ -21,25 +23,27 @@ import {
   createNoteValidationSchema,
 } from '@components/note/new-note/new-note.validation'
 
-import styles from '@components/note/new-note/new-note.module.css'
-
 const NewNote = () => {
   const t = useTranslations()
   const { userIsLogin } = useAuthStore()
   const queryClient = useQueryClient()
   const { isPending, mutate: createNote } = useMutateNote()
+  const [isExpanded, setIsExpanded] = useState(false)
+
   const formMethods = useForm<NoteFormData>({
     resolver: zodResolver(createNoteValidationSchema(t)),
-    defaultValues: {
-      title: t('NOTE_DEFAULT_TITLE'),
-      content: undefined,
-    },
+    defaultValues: { title: '', content: undefined },
   })
 
   const { handleSubmit, reset } = formMethods
 
-  const onNoteCreated = () => {
+  const collapse = () => {
+    setIsExpanded(false)
     reset()
+  }
+
+  const onNoteCreated = () => {
+    collapse()
     queryClient.invalidateQueries({ queryKey: [apiKeys.NOTE.GET_LIST] })
   }
 
@@ -48,51 +52,53 @@ const NewNote = () => {
       toast.error(t('NOTE_LOGIN_REQUIRED'))
       return
     }
-
     createNote(values, { onSuccess: onNoteCreated })
+  }
+
+  if (!isExpanded) {
+    return (
+      <button
+        type='button'
+        onClick={() => setIsExpanded(true)}
+        className='flex w-full cursor-text items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-start shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800'
+      >
+        <Icon name='pencil' className='h-5 w-5 shrink-0 text-slate-400' />
+        <span className='text-sm text-slate-400 dark:text-slate-500'>
+          {t('NOTE_NEW_PLACEHOLDER')}
+        </span>
+      </button>
+    )
   }
 
   return (
     <FormProvider {...formMethods}>
       <form
         onSubmit={handleSubmit(handleSave)}
-        className='rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800'
+        className='rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
       >
-        <div className={cn('grid grid-cols-[1fr_auto] items-start gap-x-4', styles.inputContainer)}>
-          <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
-
-          <ColorPicker name='color' />
+        <div className='mb-3'>
+          <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} autoFocus />
         </div>
 
-        <div className={styles.inputContainer}>
+        <div className='mb-4'>
           <InputNote name='content' />
         </div>
 
-        <div className='flex justify-end'>
-          <Button disabled={isPending} type='submit'>
-            {isPending ? (
-              <span className='flex items-center gap-2'>
-                <svg className='h-4 w-4 animate-spin' fill='none' viewBox='0 0 24 24'>
-                  <circle
-                    className='opacity-25'
-                    cx='12'
-                    cy='12'
-                    r='10'
-                    stroke='currentColor'
-                    strokeWidth='4'
-                  />
-                  <path
-                    className='opacity-75'
-                    fill='currentColor'
-                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
-                  />
-                </svg>
-                {t('NOTE_SAVING')}
-              </span>
-            ) : (
-              t('NOTE_SAVE_BUTTON')
-            )}
-          </Button>
+        <div className='flex items-center justify-between'>
+          <ColorPicker name='color' />
+
+          <div className='flex items-center gap-2'>
+            <button
+              type='button'
+              onClick={collapse}
+              className='rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:bg-gray-100 dark:text-slate-400 dark:hover:bg-slate-700'
+            >
+              {t('NOTE_CANCEL')}
+            </button>
+            <Button disabled={isPending} type='submit' size='sm'>
+              {isPending ? t('NOTE_SAVING') : t('NOTE_SAVE_BUTTON')}
+            </Button>
+          </div>
         </div>
       </form>
     </FormProvider>

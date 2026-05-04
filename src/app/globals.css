@@ -12,15 +12,18 @@
 @layer base {
   html {
     font-size: 16px;
+    font-family: var(--font-vazirmatn), system-ui, sans-serif;
   }
 
   body {
     @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   [lang='fa'] {
-    font-family: 'Nazanin', system-ui, sans-serif;
+    font-family: var(--font-vazirmatn), system-ui, sans-serif;
   }
 
   * {

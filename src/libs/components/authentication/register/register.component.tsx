@@ -4,6 +4,8 @@ import Link from 'next/link'
 
 import { useTranslations } from 'next-intl'
 
+import Icon from '@libs/components/icon/icon.component'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -50,19 +52,7 @@ const Register = () => {
     <Card className='w-full max-w-md shadow-xl'>
       <CardHeader className='items-center pb-6 text-center'>
         <div className='mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900'>
-          <svg
-            className='h-7 w-7 text-white'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z'
-            />
-          </svg>
+          <Icon name='user-plus' className='h-7 w-7 text-white' />
         </div>
         <CardTitle className='text-2xl font-bold'>{t('REGISTER_TITLE')}</CardTitle>
         <CardDescription className='mt-1'>{t('REGISTER_DESCRIPTION')}</CardDescription>
@@ -73,6 +63,7 @@ const Register = () => {
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
             <div className='space-y-4'>
               <Input
+                dir='ltr'
                 name='username'
                 id='username'
                 type='text'
@@ -81,6 +72,7 @@ const Register = () => {
               />
 
               <Input
+                dir='ltr'
                 name='email'
                 id='email'
                 type='email'
@@ -89,6 +81,7 @@ const Register = () => {
               />
 
               <Input
+                dir='ltr'
                 name='password'
                 id='password'
                 type='password'
@@ -97,6 +90,7 @@ const Register = () => {
               />
 
               <Input
+                dir='ltr'
                 name='confirmPassword'
                 id='confirmPassword'
                 type='password'

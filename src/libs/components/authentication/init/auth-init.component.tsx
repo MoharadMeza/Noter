@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { getCookie } from 'typescript-cookie'
 
+import appUrl from '@config/app-url'
 import { cookieKeys } from '@config/cookie'
 
 import { useFetchUserMe } from '@libs/models/user/me/useFetchUserMe'
@@ -14,6 +15,7 @@ import useProfileStore from '@libs/store/profile.store'
 
 function AuthInitiate() {
   const router = useRouter()
+  const pathname = usePathname()
   const { setUserLogin, setUserLogout } = useAuthStore()
   const { setProfileData } = useProfileStore()
   const {
@@ -32,7 +34,10 @@ function AuthInitiate() {
     if (meData?.result.data && isUserMeLoaded) {
       setProfileData(meData.result.data)
 
-      router.push('/dashboard')
+      const isOnAuthPage = pathname.startsWith('/auth')
+      if (isOnAuthPage) {
+        router.push(appUrl.HOME)
+      }
     } else if (!isLoading && hasUserMeError) {
       handleUserLogout()
     }

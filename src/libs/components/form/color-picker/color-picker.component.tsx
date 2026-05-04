@@ -8,6 +8,7 @@ import { useController, useFormContext } from 'react-hook-form'
 
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
 import styles from '@libs/components/form/color-picker/color-picker.module.css'
+import Show from '@libs/components/show/show.component'
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
 
@@ -33,9 +34,16 @@ export default function ColorPicker({ name, label }: ColorPickerProps) {
 
   return (
     <div className={styles.container}>
-      {label ? <label className={styles.label}>{label}</label> : null}
+      <Show when={!!label}>
+        <label className={styles.label}>{label}</label>
+      </Show>
 
-      <div className={cn(styles.colorGrid, bounce && styles.bounce)}>
+      <div
+        className={cn(
+          'grid h-full min-h-8 auto-cols-max grid-flow-col gap-2',
+          bounce && styles.bounce
+        )}
+      >
         {lodashMap(bgColorsMap, (colorValue, colorName) => (
           <label key={colorName} className={styles.colorOption}>
             <input
@@ -46,7 +54,7 @@ export default function ColorPicker({ name, label }: ColorPickerProps) {
               className={styles.radioInput}
             />
 
-            <span className={cn(styles.colorCircle, colorValue)} />
+            <span className={cn('rounded-full', styles.colorCircle, colorValue)} />
           </label>
         ))}
       </div>

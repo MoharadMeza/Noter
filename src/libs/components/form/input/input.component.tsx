@@ -2,6 +2,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { InputProps } from '@libs/components/form/input/input'
 import InputMessage from '@libs/components/form/input-message/input-message.component'
+import Show from '@libs/components/show/show.component'
 import { cn } from '@libs/utils/tailwind'
 
 const Input = (props: InputProps) => {
@@ -15,14 +16,14 @@ const Input = (props: InputProps) => {
 
   return (
     <div className='w-full space-y-1'>
-      {label && (
+      <Show when={!!label}>
         <label
           htmlFor={props.id}
           className='block text-sm font-medium text-slate-700 dark:text-slate-300'
         >
           {label}
         </label>
-      )}
+      </Show>
 
       <input
         className={cn(

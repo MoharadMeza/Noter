@@ -6,24 +6,29 @@ import { vazirFont } from '@config/font/font'
 import TanStackQueryProviders from '@config/tanstack-query'
 
 import AuthInitiate from '@libs/components/authentication/init/auth-init.component'
-import { Toast } from '@libs/components/toast/toast.component'
+import { SplashScreen } from '@libs/components/splash/splash-screen.component'
 import { ThemeProvider } from '@libs/components/theme-toggle/theme-provider.component'
+import { Toast } from '@libs/components/toast/toast.component'
 
 import { LayoutProps } from '@app/type'
 import '@app/globals.css'
 
 export const metadata = {
-  title: 'Noter',
-  description: 'Note every thing',
+  title: {
+    default: 'Penna',
+    template: '%s | Penna',
+  },
+  description: 'Your personal space to capture and organize thoughts.',
 }
 
 export default async function RootLayout({ children }: LayoutProps) {
   const locale = await getLocale()
 
   return (
-    <html className={vazirFont.className} lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'}>
-      <body suppressHydrationWarning>
+    <html className={vazirFont.variable} lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'}>
+      <body>
         <ThemeProvider>
+          <SplashScreen />
           <NextIntlClientProvider>
             <TanStackQueryProviders>
               <AuthInitiate />

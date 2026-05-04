@@ -1,3 +1,4 @@
 export default {
-  AUTH: `${process.env.API_URL}/auth`,
+  AUTH_LOGIN: `/auth/login`,
+  HOME: `/home`,
 }

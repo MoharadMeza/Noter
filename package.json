@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --port 3030 --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --no-warn-ignored . --fix",
@@ -14,6 +14,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource-variable/vazirmatn": "^5.2.8",
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",

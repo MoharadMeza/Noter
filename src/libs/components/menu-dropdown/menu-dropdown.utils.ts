@@ -16,7 +16,7 @@ export function getMenuPosition(
 }
 
 export function registerClickOutside(
-  containerRef: RefObject<HTMLDivElement | null>,
+  containerRef: RefObject<HTMLUListElement | null>,
   onOutside: () => void
 ): () => void {
   const handler = (e: MouseEvent) => {

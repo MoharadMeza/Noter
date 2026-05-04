@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import lodashMap from 'lodash/map'
+
 import { DropdownProps } from '@libs/components/dropdown/dropdown'
+import Icon from '@libs/components/icon/icon.component'
+import Show from '@libs/components/show/show.component'
 import { cn } from '@libs/utils/tailwind'
 
 const Dropdown = ({
@@ -54,17 +58,13 @@ const Dropdown = ({
         <span className={cn(!selectedItem && 'text-gray-400')}>
           {selectedItem ? selectedItem.label : placeholder}
         </span>
-        <svg
+        <Icon
+          name='chevron-down'
           className={cn('h-4 w-4 text-gray-500 transition-transform', isOpen && 'rotate-180')}
-          fill='none'
-          stroke='currentColor'
-          viewBox='0 0 24 24'
-        >
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-        </svg>
+        />
       </button>
 
-      {isOpen && (
+      <Show when={isOpen}>
         <ul
           role='listbox'
           className={cn(
@@ -73,7 +73,7 @@ const Dropdown = ({
             'max-h-60 overflow-auto py-1'
           )}
         >
-          {items.map((item) => (
+          {lodashMap(items, (item) => (
             <li
               key={item.value}
               role='option'
@@ -86,12 +86,14 @@ const Dropdown = ({
                 item.disabled && 'cursor-not-allowed opacity-40'
               )}
             >
-              {item.icon && <span>{item.icon}</span>}
+              <Show when={!!item.icon}>
+                <span>{item.icon}</span>
+              </Show>
               {item.label}
             </li>
           ))}
         </ul>
-      )}
+      </Show>
     </div>
   )
 }

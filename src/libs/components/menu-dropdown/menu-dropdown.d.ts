@@ -13,5 +13,7 @@ export type MenuDropdownItemOrDivider = MenuDropdownItem | 'divider'
 export interface MenuDropdownProps extends HTMLAttributes<HTMLDivElement> {
   items: MenuDropdownItemOrDivider[]
   trigger?: ReactNode
+  triggerClassName?: string
   align?: 'start' | 'end'
+  headerSlot?: ReactNode
 }

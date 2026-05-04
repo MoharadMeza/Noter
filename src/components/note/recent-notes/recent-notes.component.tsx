@@ -1,17 +1,33 @@
 'use client'
 
+import { useState } from 'react'
+
 import lodashMap from 'lodash/map'
 
 import { useTranslations } from 'next-intl'
+
+import { cn } from '@libs/utils/tailwind'
+
+import Icon from '@libs/components/icon/icon.component'
 
 import { useFetchNoteList } from '@libs/models/note/list/useFetchNoteList'
 
 import NoteCard from '@components/note/note-card/note-card.component'
 
-const SkeletonCard = () => (
-  <div className='animate-pulse rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800'>
-    <div className='mb-3 h-4 w-2/3 rounded bg-gray-200 dark:bg-slate-700' />
-    <div className='space-y-2'>
+const SkeletonCard = ({ list }: { list?: boolean }) => (
+  <div
+    className={cn(
+      'animate-pulse rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800',
+      list && 'flex items-center gap-4'
+    )}
+  >
+    <div
+      className={cn(
+        'mb-3 h-4 w-2/3 rounded bg-gray-200 dark:bg-slate-700',
+        list && 'mb-0 w-1/4 shrink-0'
+      )}
+    />
+    <div className={cn('space-y-2', list && 'flex-1')}>
       <div className='h-3 rounded bg-gray-100 dark:bg-slate-700' />
       <div className='h-3 w-4/5 rounded bg-gray-100 dark:bg-slate-700' />
     </div>
@@ -20,35 +36,28 @@ const SkeletonCard = () => (
 
 function RecentNotes() {
   const t = useTranslations()
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const { data: notes, isLoading } = useFetchNoteList({ enabled: true })
+
+  const total = notes?.result.total ?? 0
 
   const renderContent = () => {
     if (isLoading) {
-      return Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+      return Array.from({ length: 4 }).map((_, i) => (
+        <SkeletonCard key={i} list={viewMode === 'list'} />
+      ))
     }
 
-    if (!notes?.result.total) {
+    if (!total) {
       return (
-        <div className='col-span-full flex flex-col items-center justify-center py-16 text-slate-400 dark:text-slate-500'>
-          <svg
-            className='mb-3 h-12 w-12 opacity-40'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth={1.5}
-            viewBox='0 0 24 24'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z'
-            />
-          </svg>
+        <div className='col-span-full flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500'>
+          <Icon name='notes' className='mb-3 h-14 w-14 opacity-30' />
           <p className='text-sm'>{t('RECENT_NOTES_EMPTY')}</p>
         </div>
       )
     }
 
-    return lodashMap(notes.result.data, (note) => (
+    return lodashMap(notes!.result.data, (note) => (
       <NoteCard
         key={note.id}
         id={note.id}
@@ -61,11 +70,52 @@ function RecentNotes() {
 
   return (
     <div>
-      <h2 className='mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100'>
-        {t('RECENT_NOTES_TITLE')}
-      </h2>
+      {/* toolbar */}
+      <div className='mb-3 flex items-center justify-between'>
+        <span className='text-xs text-slate-400 dark:text-slate-500'>
+          {!isLoading && total > 0 ? `${total} ${t('RECENT_NOTES_TITLE')}` : null}
+        </span>
 
-      <div className='grid grid-cols-1 gap-3'>{renderContent()}</div>
+        <div className='flex items-center gap-0.5 rounded-lg border border-gray-200 p-0.5 dark:border-slate-700'>
+          <button
+            type='button'
+            onClick={() => setViewMode('grid')}
+            title='Grid view'
+            className={cn(
+              'rounded-md p-1.5 transition-colors',
+              viewMode === 'grid'
+                ? 'bg-gray-100 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+            )}
+          >
+            <Icon name='grid' className='h-4 w-4' />
+          </button>
+
+          <button
+            type='button'
+            onClick={() => setViewMode('list')}
+            title='List view'
+            className={cn(
+              'rounded-md p-1.5 transition-colors',
+              viewMode === 'list'
+                ? 'bg-gray-100 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+            )}
+          >
+            <Icon name='list' className='h-4 w-4' />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          viewMode === 'grid'
+            ? 'grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'
+            : 'flex flex-col gap-2'
+        )}
+      >
+        {renderContent()}
+      </div>
     </div>
   )
 }

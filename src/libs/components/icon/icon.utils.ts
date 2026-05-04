@@ -1,0 +1,35 @@
+import {
+  ArchiveBoxIcon,
+  ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
+  ChevronDownIcon,
+  DocumentTextIcon,
+  EllipsisVerticalIcon,
+  MoonIcon,
+  PencilIcon,
+  Squares2X2Icon,
+  SunIcon,
+  TrashIcon,
+  UserIcon,
+  UserPlusIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
+
+export const icons = {
+  notes: DocumentTextIcon,
+  archive: ArchiveBoxIcon,
+  trash: TrashIcon,
+  pencil: PencilIcon,
+  grid: Squares2X2Icon,
+  list: Bars3Icon,
+  close: XMarkIcon,
+  ellipsis: EllipsisVerticalIcon,
+  logout: ArrowLeftStartOnRectangleIcon,
+  user: UserIcon,
+  'user-plus': UserPlusIcon,
+  moon: MoonIcon,
+  sun: SunIcon,
+  'exclamation-circle': ExclamationCircleIcon,
+  'chevron-down': ChevronDownIcon,
+}
