@@ -42,7 +42,7 @@ const Login = () => {
       router.push(appUrl.HOME)
 
       if (data) {
-        setProfileData({ id: data.id, email: data.email, name: data.username })
+        setProfileData({ id: data.id, email: data.email, username: data.username })
       }
     },
     onError: () => {

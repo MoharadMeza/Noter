@@ -33,8 +33,10 @@ const Register = () => {
   })
   const { handleSubmit } = formMethods
   const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
-    onSuccess: (user: any) => {
-      setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
+    onSuccess: ({ result: { data } }) => {
+      if (data) {
+        setProfileData({ id: data.id, email: data.email, username: data.username })
+      }
       setUserLogin()
     },
     onError: () => {

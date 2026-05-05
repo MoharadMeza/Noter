@@ -5,5 +5,5 @@ export type UserObject = User
 export interface UserProfileData {
   id: number
   email: string
-  name: string
+  username: string
 }

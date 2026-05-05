@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       const user = await register(body)
 
       if (user) {
-        return NextResponse.json({ message: `${user.username} is registered` })
+        return NextResponse.json(user, { status: 201 })
       }
     }
 

@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     )
 
     if (createdNote) {
-      return NextResponse.json(createdNote)
+      return NextResponse.json(createdNote, { status: 201 })
     }
 
     throw new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)

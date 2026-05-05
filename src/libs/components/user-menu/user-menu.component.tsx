@@ -26,8 +26,8 @@ function UserMenu() {
     router.push('/auth/login')
   }
 
-  const initials = profileData?.name
-    ? profileData.name
+  const initials = profileData?.username
+    ? profileData.username
         .split(' ')
         .map((w) => w[0])
         .slice(0, 2)
@@ -44,7 +44,7 @@ function UserMenu() {
   const header = (
     <div className='border-b border-gray-100 px-3 py-2.5 dark:border-slate-700'>
       <p className='truncate text-sm font-semibold text-slate-800 dark:text-slate-100'>
-        {profileData?.name}
+        {profileData?.username}
       </p>
       <p className='mt-0.5 truncate text-xs text-gray-500 dark:text-slate-400'>
         {profileData?.email}
