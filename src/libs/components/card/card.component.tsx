@@ -1,12 +1,10 @@
-import { HTMLAttributes } from 'react'
+'use client'
 
+import { CardProps } from '@libs/components/card/card'
 import { cn } from '@libs/utils/tailwind'
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode
-}
-
-const Card = ({ children, className, ...props }: CardProps) => {
+const Card = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
     <div
       className={cn(
@@ -16,14 +14,15 @@ const Card = ({ children, className, ...props }: CardProps) => {
         'transition-colors duration-200',
         className
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </div>
   )
 }
 
-const CardHeader = ({ children, className, ...props }: CardProps) => {
+const CardHeader = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
     <div
       className={cn(
@@ -32,14 +31,15 @@ const CardHeader = ({ children, className, ...props }: CardProps) => {
         'border-b border-gray-200 dark:border-slate-700',
         className
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </div>
   )
 }
 
-const CardTitle = ({ children, className, ...props }: CardProps) => {
+const CardTitle = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
     <h3
       className={cn(
@@ -47,33 +47,36 @@ const CardTitle = ({ children, className, ...props }: CardProps) => {
         'text-slate-900 dark:text-slate-50',
         className
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </h3>
   )
 }
 
-const CardDescription = ({ children, className, ...props }: CardProps) => {
+const CardDescription = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
     <p
       className={cn('text-sm font-light', 'text-gray-500 dark:text-slate-400', className)}
-      {...props}
+      {...rest}
     >
       {children}
     </p>
   )
 }
 
-const CardContent = ({ children, className, ...props }: CardProps) => {
+const CardContent = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
-    <div className={cn('p-6', 'text-foreground', className)} {...props}>
+    <div className={cn('p-6', 'text-foreground', className)} {...rest}>
       {children}
     </div>
   )
 }
 
-const CardFooter = ({ children, className, ...props }: CardProps) => {
+const CardFooter = (props: CardProps) => {
+  const { children, className, ...rest } = props
   return (
     <div
       className={cn(
@@ -83,7 +86,7 @@ const CardFooter = ({ children, className, ...props }: CardProps) => {
         'text-muted-foreground',
         className
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </div>

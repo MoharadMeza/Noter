@@ -3,6 +3,7 @@ import Icon from '@libs/components/icon/icon.component'
 
 function InputMessage(props: InputMessageProps) {
   const { errorMessage } = props
+
   if (!errorMessage) {
     return null
   }
