@@ -35,13 +35,18 @@ export function EditNoteModal(props: EditNoteModalProps) {
     updateNote(values, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [apiKeys.NOTE.GET_LIST] })
-        onClose()
+        closeHandler()
       },
     })
   }
 
+  const closeHandler = () => {
+    formMethods.reset()
+    onClose()
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('NOTE_EDIT')} locked>
+    <Modal isOpen={isOpen} onClose={closeHandler} title={t('NOTE_EDIT')} locked>
       <FormWrapper methods={formMethods} onSubmit={handleSave} className='space-y-4'>
         <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
 
@@ -51,7 +56,7 @@ export function EditNoteModal(props: EditNoteModalProps) {
           <ColorPicker name='color' />
 
           <div className='flex items-center gap-2'>
-            <Button type='button' variant='ghost' onClick={onClose}>
+            <Button type='button' variant='ghost' onClick={closeHandler}>
               {t('NOTE_CANCEL')}
             </Button>
             <Button type='submit' isLoading={isPending} loadingText={t('NOTE_SAVING')}>

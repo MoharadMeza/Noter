@@ -53,16 +53,18 @@ function NoteCard(props: NoteCardProps) {
         </div>
       </div>
 
-      <EditNoteModal
-        isOpen={isEditing}
-        onClose={onCloseEditModal}
-        noteId={id}
-        defaultValues={{
-          title: title ?? undefined,
-          content: content ?? '',
-          color: color ?? undefined,
-        }}
-      />
+      <Show when={isEditing}>
+        <EditNoteModal
+          isOpen={isEditing}
+          onClose={onCloseEditModal}
+          noteId={id}
+          defaultValues={{
+            title: title ?? undefined,
+            content: content ?? '',
+            color: color ?? undefined,
+          }}
+        />
+      </Show>
     </>
   )
 }

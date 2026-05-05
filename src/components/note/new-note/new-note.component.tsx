@@ -107,7 +107,7 @@ const NewNote = () => {
                 {t('NOTE_CANCEL')}
               </Button>
 
-              <Button type='submit' size='sm' isLoading={isPending} loadingText={t('NOTE_SAVING')}>
+              <Button type='submit' size='sm' isLoading={isPending}>
                 {t('NOTE_SAVE_BUTTON')}
               </Button>
             </div>

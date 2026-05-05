@@ -26,7 +26,9 @@ const MenuDropdown = (props: MenuDropdownProps) => {
 
   const updatePosition = () => setMenuStyle(getMenuPosition(triggerRef, align))
 
-  useEffect(() => registerClickOutside(menuRef, () => setIsOpen(false)), [])
+  useEffect(() => {
+    registerClickOutside(menuRef, () => setTimeout(() => setIsOpen(false), 100))
+  }, [])
 
   useEffect(() => {
     if (!isOpen) {
@@ -38,10 +40,12 @@ const MenuDropdown = (props: MenuDropdownProps) => {
 
   const handleOpen = (e: React.MouseEvent) => {
     e.preventDefault()
+
     if (isOpen) {
       setIsOpen(false)
       return
     }
+
     updatePosition()
     setIsOpen(true)
   }
