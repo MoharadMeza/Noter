@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react'
 
-import lodashMap from 'lodash/map'
+import { map } from 'lodash-es'
 import { useController, useFormContext } from 'react-hook-form'
 
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
@@ -44,7 +44,7 @@ export default function ColorPicker({ name, label }: ColorPickerProps) {
           bounce && styles.bounce
         )}
       >
-        {lodashMap(bgColorsMap, (colorValue, colorName) => (
+        {map(bgColorsMap, (colorValue, colorName) => (
           <label key={colorName} className={styles.colorOption}>
             <input
               type='radio'

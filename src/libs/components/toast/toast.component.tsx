@@ -1,7 +1,9 @@
 'use client'
 
-import { cn } from '@libs/utils/tailwind'
+import { map } from 'lodash-es'
+
 import Icon from '@libs/components/icon/icon.component'
+import { cn } from '@libs/utils/tailwind'
 
 import { useToastStore } from '@/libs/stores/toast-store'
 
@@ -16,8 +18,8 @@ export const Toast = () => {
   const { toasts, removeToast } = useToastStore()
 
   return (
-    <div className='fixed right-4 bottom-4 z-50 flex flex-col gap-2'>
-      {toasts.map((toast) => (
+    <div className='fixed right-4 bottom-4 z-9999 flex flex-col gap-2'>
+      {map(toasts, (toast) => (
         <div
           key={toast.id}
           className={cn(

@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation'
 
 import { useTranslations } from 'next-intl'
 
+import { map } from 'lodash-es'
+
 import Icon from '@libs/components/icon/icon.component'
 import { navItems } from '@libs/config/nav-items'
 import { cn } from '@libs/utils/tailwind'
@@ -15,7 +17,7 @@ function Sidebar() {
 
   return (
     <nav className='py-3'>
-      {navItems.map(({ key, href, icon }) => {
+      {map(navItems, ({ key, href, icon }) => {
         const isActive = pathname.endsWith(href)
         return (
           <Link

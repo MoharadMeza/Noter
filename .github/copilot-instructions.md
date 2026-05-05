@@ -94,12 +94,12 @@ Never use `&&` or ternary for show/hide toggling.
 
 ## Arrays and Objects
 
-Use `lodash` for working with arrays and objects. Import individual functions to keep bundle size small:
+Use `lodash-es` for working with arrays and objects. It is fully tree-shakeable (ESM-native), so only the functions you import end up in the bundle:
 
 ```ts
-import lodashMap from 'lodash/map'
-import lodashFilter from 'lodash/filter'
-import lodashGet from 'lodash/get'
+import { map as lodashMap } from 'lodash-es'
+import { filter as lodashFilter } from 'lodash-es'
+import { get as lodashGet } from 'lodash-es'
 ```
 
 ## Type Files (`.d.ts`)

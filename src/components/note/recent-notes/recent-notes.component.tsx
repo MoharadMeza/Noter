@@ -2,15 +2,13 @@
 
 import { useState } from 'react'
 
-import lodashMap from 'lodash/map'
-
 import { useTranslations } from 'next-intl'
 
-import { cn } from '@libs/utils/tailwind'
+import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
-
 import { useFetchNoteList } from '@libs/models/note/list/useFetchNoteList'
+import { cn } from '@libs/utils/tailwind'
 
 import NoteCard from '@components/note/note-card/note-card.component'
 
@@ -57,7 +55,7 @@ function RecentNotes() {
       )
     }
 
-    return lodashMap(notes!.result.data, (note) => (
+    return map(notes!.result.data, (note) => (
       <NoteCard
         key={note.id}
         id={note.id}

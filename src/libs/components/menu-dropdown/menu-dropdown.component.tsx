@@ -2,10 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-import lodashMap from 'lodash/map'
+import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
-
 import { MenuDropdownProps } from '@libs/components/menu-dropdown/menu-dropdown'
 import {
   getMenuPosition,
@@ -81,7 +80,7 @@ const MenuDropdown = (props: MenuDropdownProps) => {
           >
             {headerSlot}
 
-            {lodashMap(items, (item, index) => {
+            {map(items, (item, index) => {
               if (item === 'divider') {
                 return (
                   <li

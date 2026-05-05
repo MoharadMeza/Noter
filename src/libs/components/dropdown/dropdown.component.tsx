@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-import lodashMap from 'lodash/map'
+import { map } from 'lodash-es'
 
 import { DropdownProps } from '@libs/components/dropdown/dropdown'
 import Icon from '@libs/components/icon/icon.component'
@@ -73,7 +73,7 @@ const Dropdown = ({
             'max-h-60 overflow-auto py-1'
           )}
         >
-          {lodashMap(items, (item) => (
+          {map(items, (item) => (
             <li
               key={item.value}
               role='option'

@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 
 import { useTranslations } from 'next-intl'
 
-import lodashMap from 'lodash/map'
+import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
 import Show from '@libs/components/show/show.component'
@@ -32,7 +32,7 @@ function BottomNav() {
       </Show>
 
       <nav className='fixed inset-x-0 bottom-0 z-50 flex border-t border-gray-200 bg-white lg:hidden dark:border-slate-700 dark:bg-slate-900'>
-        {lodashMap(visibleItems, ({ key, href, icon }) => {
+        {map(visibleItems, ({ key, href, icon }) => {
           const isActive = pathname.endsWith(href)
 
           return (
@@ -54,7 +54,7 @@ function BottomNav() {
           <div className='relative flex flex-1 flex-col items-center'>
             <Show when={isMoreOpen}>
               <div className='absolute bottom-full mb-2 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900'>
-                {lodashMap(overflowItems, ({ key, href, icon }) => {
+                {map(overflowItems, ({ key, href, icon }) => {
                   const isActive = pathname.endsWith(href)
 
                   return (

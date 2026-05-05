@@ -4,8 +4,6 @@ import Link from 'next/link'
 
 import { useTranslations } from 'next-intl'
 
-import Icon from '@libs/components/icon/icon.component'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -20,6 +18,7 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
+import Icon from '@libs/components/icon/icon.component'
 import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserRegister'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'

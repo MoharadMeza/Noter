@@ -77,7 +77,7 @@ const eslintConfig = [
             { pattern: 'next-intl/**', group: 'external', position: 'before' },
             {
               pattern:
-                '{axios,axios/**,lodash,lodash/**,@tanstack/**,zustand,zustand/**,zod,zod/**,react-hook-form,@hookform/**,jose,clsx,tailwind-merge,typescript-cookie,server-only}',
+                '{axios,axios/**,lodash-es,lodash-es/**,@tanstack/**,zustand,zustand/**,zod,zod/**,react-hook-form,@hookform/**,jose,clsx,tailwind-merge,typescript-cookie,server-only}',
               group: 'external',
               position: 'after',
             },
@@ -133,11 +133,19 @@ const eslintConfig = [
               name: '../',
               message: "Use absolute imports instead: import { x } from '@/path/to/file'",
             },
+            {
+              name: 'lodash',
+              message: "Use 'lodash-es' instead: import { map } from 'lodash-es'",
+            },
           ],
           patterns: [
             {
               group: ['.*'],
               message: "Use absolute imports instead: import { x } from '@/path/to/file'",
+            },
+            {
+              group: ['lodash/*'],
+              message: "Use 'lodash-es' instead: import { map } from 'lodash-es'",
             },
           ],
         },
