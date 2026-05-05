@@ -14,17 +14,18 @@ import Show from '@libs/components/show/show.component'
 import useClickOutside from '@libs/hooks/use-click-outside'
 import { useAppForm } from '@libs/hooks/use-form'
 import useQueryClient from '@libs/hooks/use-query-client'
-import { cn } from '@libs/utils/tailwind'
 import { apiKeys } from '@libs/models/api-keys'
 import { useMutateNote } from '@libs/models/note/useMutateNote'
 import useAuthStore from '@libs/store/auth.store'
+import { cn } from '@libs/utils/tailwind'
 import { toast } from '@libs/utils/toast'
 
-import styles from '@components/note/new-note/new-note.module.css'
 import {
   NoteFormData,
   createNoteValidationSchema,
 } from '@components/note/new-note/new-note.validation'
+
+import styles from '@components/note/new-note/new-note.module.css'
 
 const NewNote = () => {
   const t = useTranslations()
@@ -84,6 +85,7 @@ const NewNote = () => {
         <FormWrapper
           methods={formMethods}
           onSubmit={handleSave}
+          saveByCtrlKey
           className={cn(
             styles.noteCardEnter,
             'rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
@@ -101,15 +103,12 @@ const NewNote = () => {
             <ColorPicker name='color' />
 
             <div className='flex items-center gap-2'>
-              <button
-                type='button'
-                onClick={collapse}
-                className='rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:bg-gray-100 dark:text-slate-400 dark:hover:bg-slate-700'
-              >
+              <Button type='button' variant='ghost' size='sm' onClick={collapse}>
                 {t('NOTE_CANCEL')}
-              </button>
-              <Button disabled={isPending} type='submit' size='sm'>
-                {isPending ? t('NOTE_SAVING') : t('NOTE_SAVE_BUTTON')}
+              </Button>
+
+              <Button type='submit' size='sm' isLoading={isPending} loadingText={t('NOTE_SAVING')}>
+                {t('NOTE_SAVE_BUTTON')}
               </Button>
             </div>
           </div>

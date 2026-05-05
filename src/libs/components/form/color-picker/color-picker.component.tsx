@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react'
 import { map } from 'lodash-es'
 
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
-import { useAppFormContext } from '@libs/hooks/use-form-context'
-import { useAppFormController } from '@libs/hooks/use-form-controller'
 import styles from '@libs/components/form/color-picker/color-picker.module.css'
 import Show from '@libs/components/show/show.component'
+import { useAppFormContext } from '@libs/hooks/use-form-context'
+import { useAppFormController } from '@libs/hooks/use-form-controller'
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
 

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   try {
     const body: NoteFormData = await req.json()
 
-    if (!body.title || !body.content) {
+    if (!body.content) {
       throw new AppError('Validation error', 'VALIDATION', 'MEDIUM', 406)
     }
 

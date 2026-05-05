@@ -39,12 +39,14 @@ function NoteCard(props: NoteCardProps) {
             />
           </Show>
 
-          <div className='flex items-start justify-between gap-2'>
-            <h1 className='grow truncate text-sm leading-6 font-semibold'>{title}</h1>
-          </div>
+          <Show when={!!title}>
+            <p className='mb-1 truncate text-xs font-medium text-slate-400 dark:text-slate-500'>
+              {title}
+            </p>
+          </Show>
 
           <Show when={!!content}>
-            <p className='mt-2 line-clamp-3 text-xs leading-5 text-slate-500 dark:text-slate-400'>
+            <p className='line-clamp-4 grow text-sm leading-5 text-slate-800 dark:text-slate-100'>
               {content}
             </p>
           </Show>

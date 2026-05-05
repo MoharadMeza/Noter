@@ -47,17 +47,17 @@ export function EditNoteModal(props: EditNoteModalProps) {
 
         <InputNote name='content' />
 
-        <div className='flex items-center justify-between gap-4 pt-1'>
+        <div className='flex items-center justify-between gap-4 pt-2'>
           <ColorPicker name='color' />
 
-          <Button
-            type='submit'
-            disabled={isPending}
-            isLoading={isPending}
-            loadingText={t('NOTE_SAVING')}
-          >
-            {t('NOTE_SAVE_BUTTON')}
-          </Button>
+          <div className='flex items-center gap-2'>
+            <Button type='button' variant='ghost' onClick={onClose}>
+              {t('NOTE_CANCEL')}
+            </Button>
+            <Button type='submit' isLoading={isPending} loadingText={t('NOTE_SAVING')}>
+              {t('NOTE_SAVE_BUTTON')}
+            </Button>
+          </div>
         </div>
       </FormWrapper>
     </Modal>

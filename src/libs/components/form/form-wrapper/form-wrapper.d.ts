@@ -9,4 +9,5 @@ export interface FormWrapperProps<T extends FieldValues = FieldValues> extends O
   methods: UseFormReturn<T>
   onSubmit: (data: T) => void | Promise<void>
   children: ReactNode
+  saveByCtrlKey?: boolean
 }

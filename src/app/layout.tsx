@@ -9,6 +9,7 @@ import AuthInitiate from '@libs/components/authentication/init/auth-init.compone
 import { SplashScreen } from '@libs/components/splash/splash-screen.component'
 import { ThemeProvider } from '@libs/components/theme-toggle/theme-provider.component'
 import { Toast } from '@libs/components/toast/toast.component'
+import '@libs/validations/zod-extensions'
 
 import { LayoutProps } from '@app/type'
 import '@app/globals.css'
