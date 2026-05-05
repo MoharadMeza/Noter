@@ -25,7 +25,7 @@ export function EditNoteModal(props: EditNoteModalProps) {
   const t = useTranslations()
 
   const queryClient = useQueryClient()
-  const { mutate: updateNote, isPending } = useMutateNoteById(noteId, 'PUT')
+  const { mutate: updateNote, isPending } = useMutateNoteById(noteId, 'PATCH')
 
   const formMethods = useForm<NoteFormData>({
     resolver: zodResolver(createNoteValidationSchema(t)),
@@ -44,7 +44,7 @@ export function EditNoteModal(props: EditNoteModalProps) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('NOTE_EDIT')}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('NOTE_EDIT')} locked>
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(handleSave)} className='space-y-4'>
           <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
@@ -54,7 +54,12 @@ export function EditNoteModal(props: EditNoteModalProps) {
           <div className='flex items-center justify-between gap-4 pt-1'>
             <ColorPicker name='color' />
 
-            <Button type='submit' disabled={isPending} loadingText={t('NOTE_SAVING')}>
+            <Button
+              type='submit'
+              disabled={isPending}
+              isLoading={isPending}
+              loadingText={t('NOTE_SAVING')}
+            >
               {t('NOTE_SAVE_BUTTON')}
             </Button>
           </div>

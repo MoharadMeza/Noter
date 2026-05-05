@@ -7,4 +7,5 @@ export interface ModalProps {
   children: ReactNode
   footer?: ReactNode
   size?: 'sm' | 'md' | 'lg'
+  locked?: boolean
 }

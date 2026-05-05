@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 import Icon from '@libs/components/icon/icon.component'
 import { ModalProps } from '@libs/components/modal/modal'
+import styles from '@libs/components/modal/modal.module.css'
 import Portal from '@libs/components/portal/portal.component'
 import Show from '@libs/components/show/show.component'
 import { cn } from '@libs/utils/tailwind'
@@ -15,9 +16,12 @@ const sizeMap = {
 }
 
 export function Modal(props: ModalProps) {
-  const { isOpen, onClose, title, children, footer, size = 'md' } = props
+  const { isOpen, onClose, title, children, footer, size = 'md', locked = false } = props
   const [visible, setVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [shaking, setShaking] = useState(false)
+
+  const shake = () => setShaking(true)
 
   useEffect(() => {
     if (isOpen) {
@@ -46,7 +50,13 @@ export function Modal(props: ModalProps) {
     }
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        if (locked) {
+          shake()
+        } else {
+          onClose()
+        }
+      }
     }
 
     document.addEventListener('keydown', onKeyDown)
@@ -54,7 +64,7 @@ export function Modal(props: ModalProps) {
     return () => {
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, locked])
 
   useEffect(() => {
     if (isOpen) {
@@ -81,7 +91,7 @@ export function Modal(props: ModalProps) {
           'fixed inset-0 z-50 flex items-end justify-center transition-opacity duration-250 sm:items-center sm:p-4',
           visible ? 'opacity-100' : 'opacity-0'
         )}
-        onClick={onClose}
+        onClick={locked ? shake : onClose}
       >
         <div className='absolute inset-0 bg-black/50 backdrop-blur-sm' />
 
@@ -95,9 +105,11 @@ export function Modal(props: ModalProps) {
             visible
               ? 'translate-y-0 opacity-100 sm:scale-100'
               : 'translate-y-full opacity-0 sm:translate-y-4 sm:scale-95',
-            sizeMap[size]
+            sizeMap[size],
+            shaking && styles.shake
           )}
           onClick={(e) => e.stopPropagation()}
+          onAnimationEnd={() => setShaking(false)}
         >
           {/* Drag handle (mobile only) */}
           <div className='mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-300 sm:hidden dark:bg-slate-600' />

@@ -29,13 +29,13 @@ export async function DELETE(req: NextRequest, context: RouteContext<'/api/note/
   }
 }
 
-// Delete note
+// Update note
 export async function PATCH(req: NextRequest, context: RouteContext<'/api/note/[id]'>) {
   try {
     const { id: noteId } = await context.params
     const body: NoteFormData = await req.json()
 
-    if (!body.title || !body.content) {
+    if (!body.content) {
       throw new AppError('Validation error', 'VALIDATION', 'MEDIUM', 406)
     }
 
@@ -43,8 +43,9 @@ export async function PATCH(req: NextRequest, context: RouteContext<'/api/note/[
       throw new AppError('Validation error', 'VALIDATION', 'MEDIUM', 406)
     }
 
-    const { userId } = await verifySession()
-    const updatedNote = await updateNote(userId, {
+    verifySession()
+
+    const updatedNote = await updateNote(Number(noteId), {
       title: body.title,
       content: body.content,
       color: body.color,

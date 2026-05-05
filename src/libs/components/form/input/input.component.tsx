@@ -27,7 +27,7 @@ const Input = (props: InputProps) => {
 
       <input
         className={cn(
-          'input w-full transition-shadow duration-150',
+          'flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm transition-shadow duration-150 placeholder:text-gray-500 focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50 dark:placeholder:text-slate-400',
           errorMessage
             ? 'border-red-400 focus:ring-red-400 dark:border-red-500'
             : 'focus:ring-blue-500',

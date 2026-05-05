@@ -9,6 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 import Button from '@libs/components/button/button.component'
 import ColorPicker from '@libs/components/form/color-picker/color-picker.component'
+import { cn } from '@libs/utils/tailwind'
 import Input from '@libs/components/form/input/input.component'
 import InputNote from '@libs/components/form/input-note/input-note.component'
 import Icon from '@libs/components/icon/icon.component'
@@ -20,6 +21,7 @@ import { useMutateNote } from '@libs/models/note/useMutateNote'
 import useAuthStore from '@libs/store/auth.store'
 import { toast } from '@libs/utils/toast'
 
+import styles from '@components/note/new-note/new-note.module.css'
 import {
   NoteFormData,
   createNoteValidationSchema,
@@ -66,7 +68,10 @@ const NewNote = () => {
         <button
           type='button'
           onClick={() => setIsExpanded(true)}
-          className='note-card-enter flex w-full cursor-text items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-start shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800'
+          className={cn(
+            styles.noteCardEnter,
+            'flex w-full cursor-text items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-start shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800'
+          )}
         >
           <Icon name='pencil' className='h-5 w-5 shrink-0 text-slate-400' />
 
@@ -80,7 +85,10 @@ const NewNote = () => {
         <FormProvider {...formMethods}>
           <form
             onSubmit={handleSubmit(handleSave)}
-            className='note-card-enter rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
+            className={cn(
+              styles.noteCardEnter,
+              'rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
+            )}
           >
             <div className='mb-3'>
               <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />

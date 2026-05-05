@@ -16,15 +16,9 @@ function NoteCard(props: NoteCardProps) {
 
   const isEditing = searchParams.get('edit') === String(id)
 
-  // const { mutate: deleteNote, isPending } = useMutateNoteById(id, 'DELETE')
-
-  // const deleteHandler = () => {
-  //   const onSuccess = () => {
-  //     queryClient.invalidateQueries({ queryKey: [apiKeys.NOTE.GET_LIST] })
-  //   }
-
-  //   deleteNote(undefined, { onSuccess })
-  // }
+  const onCloseEditModal = () => {
+    router.back()
+  }
 
   return (
     <>
@@ -59,9 +53,13 @@ function NoteCard(props: NoteCardProps) {
 
       <EditNoteModal
         isOpen={isEditing}
-        onClose={() => router.back()}
+        onClose={onCloseEditModal}
         noteId={id}
-        defaultValues={{ title, content: content ?? '', color }}
+        defaultValues={{
+          title: title ?? undefined,
+          content: content ?? '',
+          color: color ?? undefined,
+        }}
       />
     </>
   )

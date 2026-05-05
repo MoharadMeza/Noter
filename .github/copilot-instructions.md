@@ -16,8 +16,9 @@ Imports must be separated into groups with a blank line between each group:
 1. React core (`react`)
 2. Next.js packages (`next/...`, `next-intl`)
 3. Third-party libraries (`@hookform/...`, `zod`, etc.)
-4. Internal `@libs/` path alias
-5. Internal `@components/` path alias
+4. Internal `@server/`, `@config/`, `@app-types/`, `@db-models`, `@db-client` aliases
+5. Internal `@libs/` path alias
+6. Internal `@components/` path alias
 
 Example:
 
@@ -65,11 +66,20 @@ const MyComponent = (props: MyComponentProps) => {
 
 ## Path Aliases
 
-| Alias          | Maps to           |
-| -------------- | ----------------- |
-| `@libs/`       | `src/libs/`       |
-| `@components/` | `src/components/` |
-| `@server/`     | `src/server/`     |
+All aliases are defined in `tsconfig.json`. Always prefer these over relative paths:
+
+| Alias           | Maps to                           |
+| --------------- | --------------------------------- |
+| `@libs/*`       | `src/libs/*`                      |
+| `@components/*` | `src/components/*`                |
+| `@server/*`     | `src/server/*`                    |
+| `@config/*`     | `src/config/*`                    |
+| `@app-types/*`  | `src/types/*`                     |
+| `@app/*`        | `src/app/*`                       |
+| `@assets/*`     | `src/assets/*`                    |
+| `@db-models`    | `prisma/generated/client/browser` |
+| `@db-client`    | `prisma/generated/client/client`  |
+| `@/*`           | `src/*`                           |
 
 ## Conditional Rendering
 
@@ -114,3 +124,7 @@ import { get as lodashGet } from 'lodash-es'
   import { ButtonHTMLAttributes } from 'react'
   export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { ... }
   ```
+
+## File Paths
+
+Always use workspace-relative paths when referencing files (e.g. `src/libs/utils/tailwind.ts`). Never use absolute paths (e.g. `c:\Users\...`). When invoking tools that accept a file path, use the relative path from the workspace root.
