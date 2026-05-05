@@ -4,18 +4,17 @@ import { useRef, useState } from 'react'
 
 import { useTranslations } from 'next-intl'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormProvider, useForm } from 'react-hook-form'
-
 import Button from '@libs/components/button/button.component'
 import ColorPicker from '@libs/components/form/color-picker/color-picker.component'
-import { cn } from '@libs/utils/tailwind'
+import FormWrapper from '@libs/components/form/form-wrapper/form-wrapper.component'
 import Input from '@libs/components/form/input/input.component'
 import InputNote from '@libs/components/form/input-note/input-note.component'
 import Icon from '@libs/components/icon/icon.component'
 import Show from '@libs/components/show/show.component'
 import useClickOutside from '@libs/hooks/use-click-outside'
+import { useAppForm } from '@libs/hooks/use-form'
 import useQueryClient from '@libs/hooks/use-query-client'
+import { cn } from '@libs/utils/tailwind'
 import { apiKeys } from '@libs/models/api-keys'
 import { useMutateNote } from '@libs/models/note/useMutateNote'
 import useAuthStore from '@libs/store/auth.store'
@@ -35,12 +34,12 @@ const NewNote = () => {
   const [isExpanded, setIsExpanded] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const formMethods = useForm<NoteFormData>({
-    resolver: zodResolver(createNoteValidationSchema(t)),
+  const formMethods = useAppForm<NoteFormData>({
+    schema: createNoteValidationSchema(t),
     defaultValues: { title: '', content: undefined },
   })
 
-  const { handleSubmit, reset } = formMethods
+  const { reset } = formMethods
 
   const collapse = () => {
     setIsExpanded(false)
@@ -82,40 +81,39 @@ const NewNote = () => {
       </Show>
 
       <Show when={isExpanded} mode='unmount'>
-        <FormProvider {...formMethods}>
-          <form
-            onSubmit={handleSubmit(handleSave)}
-            className={cn(
-              styles.noteCardEnter,
-              'rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
-            )}
-          >
-            <div className='mb-3'>
-              <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
-            </div>
+        <FormWrapper
+          methods={formMethods}
+          onSubmit={handleSave}
+          className={cn(
+            styles.noteCardEnter,
+            'rounded-xl border border-blue-300 bg-white p-4 shadow-md dark:border-blue-700 dark:bg-slate-800'
+          )}
+        >
+          <div className='mb-3'>
+            <Input type='text' name='title' placeholder={t('NOTE_TITLE_PLACEHOLDER')} />
+          </div>
 
-            <div className='mb-4'>
-              <InputNote name='content' autoFocus />
-            </div>
+          <div className='mb-4'>
+            <InputNote name='content' autoFocus />
+          </div>
 
-            <div className='flex items-center justify-between'>
-              <ColorPicker name='color' />
+          <div className='flex items-center justify-between'>
+            <ColorPicker name='color' />
 
-              <div className='flex items-center gap-2'>
-                <button
-                  type='button'
-                  onClick={collapse}
-                  className='rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:bg-gray-100 dark:text-slate-400 dark:hover:bg-slate-700'
-                >
-                  {t('NOTE_CANCEL')}
-                </button>
-                <Button disabled={isPending} type='submit' size='sm'>
-                  {isPending ? t('NOTE_SAVING') : t('NOTE_SAVE_BUTTON')}
-                </Button>
-              </div>
+            <div className='flex items-center gap-2'>
+              <button
+                type='button'
+                onClick={collapse}
+                className='rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:bg-gray-100 dark:text-slate-400 dark:hover:bg-slate-700'
+              >
+                {t('NOTE_CANCEL')}
+              </button>
+              <Button disabled={isPending} type='submit' size='sm'>
+                {isPending ? t('NOTE_SAVING') : t('NOTE_SAVE_BUTTON')}
+              </Button>
             </div>
-          </form>
-        </FormProvider>
+          </div>
+        </FormWrapper>
       </Show>
     </div>
   )

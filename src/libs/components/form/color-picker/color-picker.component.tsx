@@ -4,21 +4,22 @@
 import { useEffect, useState } from 'react'
 
 import { map } from 'lodash-es'
-import { useController, useFormContext } from 'react-hook-form'
 
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
+import { useAppFormContext } from '@libs/hooks/use-form-context'
+import { useAppFormController } from '@libs/hooks/use-form-controller'
 import styles from '@libs/components/form/color-picker/color-picker.module.css'
 import Show from '@libs/components/show/show.component'
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
 
 export default function ColorPicker({ name, label }: ColorPickerProps) {
-  const { control } = useFormContext()
+  const { control } = useAppFormContext()
   const [bounce, setBounce] = useState(false)
   const {
     field,
     fieldState: { error },
-  } = useController({
+  } = useAppFormController({
     name,
     control,
   })

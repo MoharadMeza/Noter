@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form'
+import { useAppFormContext } from '@libs/hooks/use-form-context'
 
 import { InputProps } from '@libs/components/form/input/input'
 import InputMessage from '@libs/components/form/input-message/input-message.component'
@@ -10,7 +10,7 @@ const Input = (props: InputProps) => {
   const {
     formState: { errors },
     register,
-  } = useFormContext()
+  } = useAppFormContext()
 
   const errorMessage = errors?.[name]?.message as string
 

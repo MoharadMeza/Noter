@@ -4,9 +4,6 @@ import Link from 'next/link'
 
 import { useTranslations } from 'next-intl'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormProvider, useForm } from 'react-hook-form'
-
 import { RegisterFormData } from '@libs/components/authentication/register/register'
 import { registerSchema } from '@libs/components/authentication/register/register.validation'
 import Button from '@libs/components/button/button.component'
@@ -17,8 +14,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@libs/components/card/card.component'
+import FormWrapper from '@libs/components/form/form-wrapper/form-wrapper.component'
 import Input from '@libs/components/form/input/input.component'
 import Icon from '@libs/components/icon/icon.component'
+import { useAppForm } from '@libs/hooks/use-form'
 import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserRegister'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
@@ -28,10 +27,9 @@ const Register = () => {
   const t = useTranslations()
   const { setUserLogin } = useAuthStore()
   const { setProfileData } = useProfileStore()
-  const formMethods = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+  const formMethods = useAppForm<RegisterFormData>({
+    schema: registerSchema,
   })
-  const { handleSubmit } = formMethods
   const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
     onSuccess: ({ result: { data } }) => {
       if (data) {
@@ -60,71 +58,69 @@ const Register = () => {
       </CardHeader>
 
       <CardContent className='pt-2'>
-        <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-            <div className='space-y-4'>
-              <Input
-                dir='ltr'
-                name='username'
-                id='username'
-                type='text'
-                label={t('NAME_LABEL')}
-                placeholder={t('NAME_PLACEHOLDER')}
-              />
+        <FormWrapper methods={formMethods} onSubmit={onSubmit} className='space-y-5'>
+          <div className='space-y-4'>
+            <Input
+              dir='ltr'
+              name='username'
+              id='username'
+              type='text'
+              label={t('NAME_LABEL')}
+              placeholder={t('NAME_PLACEHOLDER')}
+            />
 
-              <Input
-                dir='ltr'
-                name='email'
-                id='email'
-                type='email'
-                label={t('EMAIL_LABEL')}
-                placeholder={t('EMAIL_PLACEHOLDER')}
-              />
+            <Input
+              dir='ltr'
+              name='email'
+              id='email'
+              type='email'
+              label={t('EMAIL_LABEL')}
+              placeholder={t('EMAIL_PLACEHOLDER')}
+            />
 
-              <Input
-                dir='ltr'
-                name='password'
-                id='password'
-                type='password'
-                label={t('PASSWORD_LABEL')}
-                placeholder={t('PASSWORD_PLACEHOLDER')}
-              />
+            <Input
+              dir='ltr'
+              name='password'
+              id='password'
+              type='password'
+              label={t('PASSWORD_LABEL')}
+              placeholder={t('PASSWORD_PLACEHOLDER')}
+            />
 
-              <Input
-                dir='ltr'
-                name='confirmPassword'
-                id='confirmPassword'
-                type='password'
-                label={t('CONFIRM_PASSWORD_LABEL')}
-                placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
-              />
-            </div>
+            <Input
+              dir='ltr'
+              name='confirmPassword'
+              id='confirmPassword'
+              type='password'
+              label={t('CONFIRM_PASSWORD_LABEL')}
+              placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
+            />
+          </div>
 
-            <Button
-              type='submit'
-              disabled={isRegisterUserLoading}
-              isLoading={isRegisterUserLoading}
-              loadingText={t('SUBMIT_LOADING')}
-              className='w-full'
+          <Button
+            type='submit'
+            disabled={isRegisterUserLoading}
+            isLoading={isRegisterUserLoading}
+            loadingText={t('SUBMIT_LOADING')}
+            className='w-full'
+          >
+            {t('SUBMIT_BUTTON')}
+          </Button>
+
+          <p className='text-center text-sm text-gray-500 dark:text-slate-400'>
+            {t('LOGIN_LINK_TEXT')}{' '}
+            <Link
+              href='/auth/login'
+              className={cn(
+                'font-medium text-blue-600 hover:text-blue-500',
+                'dark:text-blue-400 dark:hover:text-blue-300',
+                'transition-colors duration-150'
+              )}
             >
-              {t('SUBMIT_BUTTON')}
-            </Button>
-
-            <p className='text-center text-sm text-gray-500 dark:text-slate-400'>
-              {t('LOGIN_LINK_TEXT')}{' '}
-              <Link
-                href='/auth/login'
-                className={cn(
-                  'font-medium text-blue-600 hover:text-blue-500',
-                  'dark:text-blue-400 dark:hover:text-blue-300',
-                  'transition-colors duration-150'
-                )}
-              >
-                {t('LOGIN_LINK')}
-              </Link>
-            </p>
-          </form>
-        </FormProvider>
+              {t('LOGIN_LINK')}
+            </Link>
+          </p>
+        </FormWrapper>
       </CardContent>
     </Card>
   )

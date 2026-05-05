@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form'
+import { useAppFormContext } from '@libs/hooks/use-form-context'
 
 import InputMessage from '@libs/components/form/input-message/input-message.component'
 import { InputNoteProps } from '@libs/components/form/input-note/input-note'
@@ -10,7 +10,7 @@ function InputNote(props: InputNoteProps) {
   const {
     formState: { errors },
     register,
-  } = useFormContext()
+  } = useAppFormContext()
 
   return (
     <div className={styles.inputContainer}>
