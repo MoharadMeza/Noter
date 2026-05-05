@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       const user = await login(body)
 
       if (user) {
-        return NextResponse.json({ message: `${user.username} is logged in` })
+        return NextResponse.json(user)
       }
     }
 

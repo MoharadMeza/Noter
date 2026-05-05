@@ -13,13 +13,12 @@ import prisma from '@config/prisma'
 
 import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
 
+import { NoteFormData } from '@components/note/new-note/new-note.validation'
+
 import { ApiParams } from '@app-types/api'
 import { NoteObject } from '@app-types/note'
 
-const createNoteBase = async (
-  body: { title: string; content: string; color: string },
-  userId: number
-) => {
+const createNoteBase = async (body: NoteFormData, userId: number) => {
   return await prisma.note.create({
     data: {
       title: body.title,
@@ -54,10 +53,7 @@ const getNoteByIdBase = async (id: number) => {
   })
 }
 
-const updateNoteBase = async (
-  id: number,
-  body: { title: string; content: string; color: string }
-) => {
+const updateNoteBase = async (id: number, body: NoteFormData) => {
   return await prisma.note.update({
     where: { id },
     data: {

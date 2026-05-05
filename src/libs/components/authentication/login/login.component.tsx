@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation'
 
 import { useTranslations } from 'next-intl'
 
-import Icon from '@libs/components/icon/icon.component'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -23,6 +21,7 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
+import Icon from '@libs/components/icon/icon.component'
 import { useMutateUserLogin } from '@libs/models/user/login/useMutateUserLogin'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
@@ -38,10 +37,13 @@ const Login = () => {
   })
   const { handleSubmit } = formMethods
   const { mutate: loginUser, isPending: isLoginUserLoading } = useMutateUserLogin({
-    onSuccess: (user: any) => {
+    onSuccess: ({ result: { data } }) => {
       setUserLogin()
       router.push(appUrl.HOME)
-      setProfileData({ id: user.id.toString(), email: user.email, name: user.name })
+
+      if (data) {
+        setProfileData({ id: data.id, email: data.email, name: data.username })
+      }
     },
     onError: () => {
       setProfileData(undefined)
@@ -59,7 +61,9 @@ const Login = () => {
         <div className='mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900'>
           <Icon name='user' className='h-7 w-7 text-white' />
         </div>
+
         <CardTitle className='text-2xl font-bold'>{t('LOGIN_TITLE')}</CardTitle>
+
         <CardDescription className='mt-1'>{t('LOGIN_DESCRIPTION')}</CardDescription>
       </CardHeader>
 

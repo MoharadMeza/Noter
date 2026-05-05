@@ -62,7 +62,22 @@
   }
 }
 
+@keyframes note-card-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 @layer utilities {
+  .note-card-enter {
+    animation: note-card-enter 0.2s ease-out forwards;
+  }
+
   .btn {
     @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
   }

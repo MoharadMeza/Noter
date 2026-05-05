@@ -6,10 +6,9 @@ import { useTranslations } from 'next-intl'
 
 import { removeCookie } from 'typescript-cookie'
 
-import Icon from '@libs/components/icon/icon.component'
-
 import { cookieKeys } from '@config/cookie'
 
+import Icon from '@libs/components/icon/icon.component'
 import MenuDropdown from '@libs/components/menu-dropdown/menu-dropdown.component'
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'

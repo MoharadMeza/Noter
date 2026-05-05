@@ -12,6 +12,8 @@ export async function GET() {
   try {
     const { userId } = await verifySession()
 
+    console.log(userId)
+
     if (!userId) {
       throw new AppError('Authentication failed', 'AUTH', 'HIGH', 401)
     }
