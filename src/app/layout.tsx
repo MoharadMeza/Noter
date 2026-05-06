@@ -11,16 +11,11 @@ import { ThemeProvider } from '@libs/components/theme-toggle/theme-provider.comp
 import { Toast } from '@libs/components/toast/toast.component'
 import '@libs/validations/zod-extensions'
 
+import { generateMainMetadata as generateMetadata } from '@app/seo'
 import { LayoutProps } from '@app/type'
 import '@app/globals.css'
 
-export const metadata = {
-  title: {
-    default: 'Penna',
-    template: '%s | Penna',
-  },
-  description: 'Your personal space to capture and organize thoughts.',
-}
+export { generateMetadata }
 
 export default async function RootLayout({ children }: LayoutProps) {
   const locale = await getLocale()
@@ -29,8 +24,8 @@ export default async function RootLayout({ children }: LayoutProps) {
     <html className={vazirFont.variable} lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'}>
       <body>
         <ThemeProvider>
-          <SplashScreen />
           <NextIntlClientProvider>
+            <SplashScreen />
             <TanStackQueryProviders>
               <AuthInitiate />
 

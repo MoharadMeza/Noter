@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from 'react'
 
+import { useTranslations } from 'next-intl'
+
 import styles from '@libs/components/splash/splash-screen.module.css'
 import { useSetTimeout } from '@libs/hooks/use-set-timeout'
 import useAuthStore from '@libs/store/auth.store'
 import { cn } from '@libs/utils/tailwind'
 
 export function SplashScreen() {
+  const t = useTranslations()
+
   const { loadingData } = useAuthStore()
   const [visible, setVisible] = useState(true)
   const [showSplash, setShowSplash] = useState(true)
@@ -52,7 +56,7 @@ export function SplashScreen() {
         <rect x='11' y='22' width='6.5' height='1.75' rx='0.875' fill='#1D4ED8' />
       </svg>
 
-      <span className='text-xl font-bold tracking-tight text-white'>Penna</span>
+      <span className='text-xl font-bold tracking-tight text-white'>{t('APP_NAME')}</span>
 
       {/* Loading dots */}
       <div className='mt-2 flex gap-1.5'>
