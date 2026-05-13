@@ -125,6 +125,62 @@ import { get as lodashGet } from 'lodash-es'
   export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { ... }
   ```
 
+## Handler Functions
+
+Never write inline logic directly inside `map` callbacks or event handlers in JSX. Always extract to a named `handle*` function:
+
+```tsx
+// ❌ bad
+{
+  items.map((item) => (
+    <button
+      onClick={() => {
+        setValue(item.id)
+        setOpen(false)
+      }}
+    >
+      {item.label}
+    </button>
+  ))
+}
+
+// ✅ good
+const handleItemSelect = (id: string) => {
+  setValue(id)
+  setOpen(false)
+}
+
+{
+  items.map((item) => <button onClick={() => handleItemSelect(item.id)}>{item.label}</button>)
+}
+```
+
+## Render Functions
+
+Avoid writing JSX directly in the return body when rendering lists or complex sections. Instead, extract to a named `render*` function, use intermediate variables, and return at the end:
+
+```tsx
+// ❌ bad
+return (
+  <div>
+    {map(entries(items), ([key, val]) => (
+      <button key={key}>{val}</button>
+    ))}
+  </div>
+)
+
+// ✅ good
+const renderItems = () => {
+  const itemEntries = entries(items)
+
+  const buttons = map(itemEntries, ([key, val]) => <button key={key}>{val}</button>)
+
+  return buttons
+}
+
+return <div>{renderItems()}</div>
+```
+
 ## File Paths
 
 Always use workspace-relative paths when referencing files (e.g. `src/libs/utils/tailwind.ts`). Never use absolute paths (e.g. `c:\Users\...`). When invoking tools that accept a file path, use the relative path from the workspace root.

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const { userId } = await verifySession()
     const createdNote = await createNote(
-      { title: body.title, content: body.content, color: body.color },
+      { title: body.title, content: body.content, color: body.color, labelIds: body.labelIds },
       userId
     )
 

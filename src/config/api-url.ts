@@ -11,4 +11,8 @@ export default {
     list: `${env.API_URL}/note/list`,
     byId: (id: number) => `${env.API_URL}/note/${id}`,
   },
+  label: {
+    base: `${env.API_URL}/label`,
+    byId: (id: number) => `${env.API_URL}/label/${id}`,
+  },
 }

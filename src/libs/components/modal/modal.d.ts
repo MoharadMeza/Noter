@@ -8,4 +8,5 @@ export interface ModalProps {
   footer?: ReactNode
   size?: 'sm' | 'md' | 'lg'
   locked?: boolean
+  panelClassName?: string
 }

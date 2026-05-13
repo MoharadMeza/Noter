@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 
+import { useSearchParams } from 'next/navigation'
+
 import { useTranslations } from 'next-intl'
 
 import { map } from 'lodash-es'
@@ -35,7 +37,14 @@ const SkeletonCard = ({ list }: { list?: boolean }) => (
 function RecentNotes() {
   const t = useTranslations()
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
-  const { data: notes, isLoading } = useFetchNoteList({ enabled: true })
+  const searchParams = useSearchParams()
+  const activeLabelId = searchParams.get('labelId') ? Number(searchParams.get('labelId')) : null
+  const {
+    data: notes,
+    isLoading,
+    isFetching,
+  } = useFetchNoteList({ labelId: activeLabelId }, { enabled: true })
+  const isSwitching = isFetching && !isLoading
 
   const total = notes?.result.total ?? 0
 
@@ -62,6 +71,7 @@ function RecentNotes() {
         title={note.title}
         color={note.color}
         content={note.content}
+        labels={note.labels}
       />
     ))
   }
@@ -107,6 +117,8 @@ function RecentNotes() {
 
       <div
         className={cn(
+          'transition-opacity duration-200',
+          isSwitching && 'opacity-40',
           viewMode === 'grid'
             ? 'grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'
             : 'flex flex-col gap-2'

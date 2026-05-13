@@ -43,7 +43,7 @@
   "NOTE_LOGIN_REQUIRED": "لطفا ابتدا وارد حساب کاربری خود شوید",
   "NOTE_TITLE_PLACEHOLDER": "عنوان یادداشت",
   "NOTE_SAVING": "در حال ذخیره‌سازی...",
-  "NOTE_SAVE_BUTTON": "ذخیره یادداشت",
+  "NOTE_SAVE_BUTTON": "ذخیره",
   "NOTE_EDIT": "ویرایش",
   "NOTE_DELETE": "حذف",
   "NOTE_NEW_PLACEHOLDER": "یادداشت جدید بنویس...",
@@ -52,5 +52,16 @@
   "NAV_ARCHIVE": "آرشیو",
   "NAV_TRASH": "سطل زباله",
   "NAV_MORE": "بیشتر",
-  "USER_MENU_LOGOUT": "خروج"
+  "USER_MENU_LOGOUT": "خروج",
+  "LABEL_TITLE": "برچسب‌ها",
+  "LABEL_ADD_PLACEHOLDER": "نام برچسب جدید...",
+  "LABEL_ADD_BUTTON": "افزودن",
+  "LABEL_EMPTY": "هنوز برچسبی ندارید",
+  "LABEL_DELETE_CONFIRM": "حذف برچسب؟",
+  "LABEL_NAME_REQUIRED": "نام برچسب الزامی است",
+  "LABEL_NAME_MAX": "نام برچسب نمی‌تواند بیشتر از 50 کاراکتر باشد",
+  "LABEL_CREATE_FAILED": "خطا در ایجاد برچسب",
+  "LABEL_DELETE_FAILED": "خطا در حذف برچسب",
+  "LABEL_IN_USE": "این برچسب در یک یا چند نوت استفاده شده و قابل حذف نیست",
+  "NOTE_LABELS_PLACEHOLDER": "انتخاب برچسب..."
 }

@@ -73,3 +73,23 @@
 .noteCardEnter {
   animation: note-card-enter 0.2s ease-out forwards;
 }
+
+.slideUp {
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1024px) {
+  .slideUp {
+    animation: none;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}

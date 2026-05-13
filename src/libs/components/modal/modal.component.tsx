@@ -16,7 +16,16 @@ const sizeMap = {
 }
 
 export function Modal(props: ModalProps) {
-  const { isOpen, onClose, title, children, footer, size = 'md', locked = false } = props
+  const {
+    isOpen,
+    onClose,
+    title,
+    children,
+    footer,
+    size = 'md',
+    locked = false,
+    panelClassName,
+  } = props
   const [visible, setVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [shaking, setShaking] = useState(false)
@@ -106,7 +115,8 @@ export function Modal(props: ModalProps) {
               ? 'translate-y-0 opacity-100 sm:scale-100'
               : 'translate-y-full opacity-0 sm:translate-y-4 sm:scale-95',
             sizeMap[size],
-            shaking && styles.shake
+            shaking && styles.shake,
+            panelClassName
           )}
           onClick={(e) => e.stopPropagation()}
           onAnimationEnd={() => setShaking(false)}

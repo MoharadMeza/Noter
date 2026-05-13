@@ -18,7 +18,16 @@ import { cn } from '@libs/utils/tailwind'
 const DefaultTrigger = () => <Icon name='ellipsis' className='h-4 w-4' />
 
 const MenuDropdown = (props: MenuDropdownProps) => {
-  const { items, trigger, triggerClassName, align = 'end', className, headerSlot, ...rest } = props
+  const {
+    items,
+    trigger,
+    triggerClassName,
+    align = 'end',
+    className,
+    headerSlot,
+    onClose,
+    ...rest
+  } = props
   const [isOpen, setIsOpen] = useState(false)
   const [menuStyle, setMenuStyle] = useState<React.CSSProperties>({})
   const menuRef = useRef<HTMLUListElement>(null)
@@ -48,6 +57,11 @@ const MenuDropdown = (props: MenuDropdownProps) => {
 
     updatePosition()
     setIsOpen(true)
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+    onClose?.()
   }
 
   return (
@@ -82,7 +96,7 @@ const MenuDropdown = (props: MenuDropdownProps) => {
               'py-1'
             )}
           >
-            {headerSlot}
+            {typeof headerSlot === 'function' ? headerSlot(handleClose) : headerSlot}
 
             {map(items, (item, index) => {
               if (item === 'divider') {
@@ -103,7 +117,7 @@ const MenuDropdown = (props: MenuDropdownProps) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       item.onClick()
-                      setIsOpen(false)
+                      handleClose()
                     }}
                     className={cn(
                       'flex w-full items-center gap-2 px-3 py-2 text-sm',

@@ -43,13 +43,18 @@ export async function PATCH(req: NextRequest, context: RouteContext<'/api/note/[
       throw new AppError('Validation error', 'VALIDATION', 'MEDIUM', 406)
     }
 
-    verifySession()
+    const { userId } = await verifySession()
 
-    const updatedNote = await updateNote(Number(noteId), {
-      title: body.title,
-      content: body.content,
-      color: body.color,
-    })
+    const updatedNote = await updateNote(
+      Number(noteId),
+      {
+        title: body.title,
+        content: body.content,
+        color: body.color,
+        labelIds: body.labelIds,
+      },
+      userId
+    )
 
     if (updatedNote) {
       return NextResponse.json(updatedNote)

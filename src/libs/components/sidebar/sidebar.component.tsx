@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl'
 import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
+import LabelManager from '@libs/components/label-manager/label-manager.component'
 import { navItems } from '@libs/config/nav-items'
 import { cn } from '@libs/utils/tailwind'
 
@@ -35,6 +36,8 @@ function Sidebar() {
           </Link>
         )
       })}
+
+      <LabelManager />
     </nav>
   )
 }

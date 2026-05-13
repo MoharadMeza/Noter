@@ -2,6 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
+import { map } from 'lodash-es'
+
+import Icon from '@libs/components/icon/icon.component'
 import Show from '@libs/components/show/show.component'
 import { bgColorsMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
@@ -10,7 +13,7 @@ import { EditNoteModal } from '@components/note/edit-note/edit-note-modal.compon
 import { NoteCardProps } from '@components/note/note-card/note-card'
 
 function NoteCard(props: NoteCardProps) {
-  const { color, content, id, title, selected } = props
+  const { color, content, id, title, selected, labels } = props
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -18,6 +21,22 @@ function NoteCard(props: NoteCardProps) {
 
   const onCloseEditModal = () => {
     router.back()
+  }
+
+  const renderLabels = () => {
+    if (!labels || labels.length === 0) return null
+
+    const badges = map(labels, (label) => (
+      <span
+        key={label.id}
+        className='flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
+      >
+        <Icon name='tag' className='h-3 w-3 shrink-0' />
+        {label.name}
+      </span>
+    ))
+
+    return <div className='mt-2 flex flex-wrap gap-1'>{badges}</div>
   }
 
   return (
@@ -50,10 +69,12 @@ function NoteCard(props: NoteCardProps) {
               {content}
             </p>
           </Show>
+
+          {renderLabels()}
         </div>
       </div>
 
-      <Show when={isEditing}>
+      <Show when={isEditing} mode='unmount'>
         <EditNoteModal
           isOpen={isEditing}
           onClose={onCloseEditModal}
@@ -62,6 +83,7 @@ function NoteCard(props: NoteCardProps) {
             title: title ?? undefined,
             content: content ?? '',
             color: color ?? undefined,
+            labelIds: labels?.map((l) => l.id) ?? [],
           }}
         />
       </Show>

@@ -13,7 +13,7 @@ export interface FindManyArgs<T = any> {
   where?: T
   orderBy?: Record<string, SortOrder> | Record<string, SortOrder>[]
   select?: Record<string, boolean>
-  include?: Record<string, boolean>
+  include?: Record<string, boolean | object>
 }
 
 export interface PrismaModel<T, W> {
@@ -75,4 +75,5 @@ export const getQueryParams = (searchParams: URLSearchParams): ApiParams => ({
   limit: Number(searchParams.get('limit')) || 10,
   sortBy: searchParams.get('sortBy') || undefined,
   sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc',
+  labelId: searchParams.get('labelId') ? Number(searchParams.get('labelId')) : undefined,
 })

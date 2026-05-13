@@ -35,6 +35,7 @@ export default async function RootLayout({ children }: LayoutProps) {
             <Toast />
           </NextIntlClientProvider>
         </ThemeProvider>
+        <div id='portal-root' />
       </body>
     </html>
   )

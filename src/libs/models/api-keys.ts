@@ -5,4 +5,7 @@ export const apiKeys = {
   NOTE: {
     GET_LIST: 'NOTE_GET_LIST',
   },
+  LABEL: {
+    GET_LIST: 'LABEL_GET_LIST',
+  },
 }

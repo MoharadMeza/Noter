@@ -15,7 +15,7 @@ export default async function Layout(props: LayoutProps) {
           <Sidebar />
         </aside>
 
-        <main className='flex-1 overflow-y-auto pb-16 lg:pb-0'>
+        <main className='flex-1 overflow-y-auto pb-16 lg:flex lg:flex-col lg:overflow-hidden lg:pb-0'>
           <Content>{props.children}</Content>
         </main>
       </div>

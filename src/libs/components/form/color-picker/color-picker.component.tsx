@@ -1,64 +1,118 @@
-// components/ColorPicker/ColorPicker.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { map } from 'lodash-es'
+import { entries, map } from 'lodash-es'
 
 import { ColorPickerProps } from '@libs/components/form/color-picker/color-picker'
 import styles from '@libs/components/form/color-picker/color-picker.module.css'
+import Icon from '@libs/components/icon/icon.component'
+import MenuDropdown from '@libs/components/menu-dropdown/menu-dropdown.component'
 import Show from '@libs/components/show/show.component'
 import { useAppFormContext } from '@libs/hooks/use-form-context'
 import { useAppFormController } from '@libs/hooks/use-form-controller'
-import { bgColorsMap } from '@libs/utils/common'
+import { useSetTimeout } from '@libs/hooks/use-set-timeout'
+import { colorPickerMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
 
-export default function ColorPicker({ name, label }: ColorPickerProps) {
+const selectedRing = 'scale-110'
+const unselectedOpacity = 'opacity-40 hover:opacity-90'
+
+export default function ColorPicker(props: ColorPickerProps) {
+  const { name, label } = props
   const { control } = useAppFormContext()
-  const [bounce, setBounce] = useState(false)
+  const { execute: executeBounce } = useSetTimeout(500)
   const {
     field,
     fieldState: { error },
-  } = useAppFormController({
-    name,
-    control,
-  })
+  } = useAppFormController({ name, control })
 
   useEffect(() => {
     if (error) {
-      setBounce(true)
-      const timer = setTimeout(() => setBounce(false), 500)
-
-      return () => clearTimeout(timer)
+      executeBounce(() => {})
     }
   }, [error])
 
+  const allColorEntries = entries(colorPickerMap)
+
+  const handleColorSelect = (colorName: string) => {
+    field.onChange(field.value === colorName ? undefined : colorName)
+  }
+
+  const renderDropdownTrigger = () => (
+    <div
+      className={cn(
+        'flex h-6 w-6 items-center justify-center rounded-full transition-all',
+        field.value
+          ? cn(colorPickerMap[field.value as keyof typeof colorPickerMap], selectedRing)
+          : 'bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500'
+      )}
+    >
+      <Show when={!field.value} mode='unmount'>
+        <Icon name='swatch' className='h-3.5 w-3.5 text-slate-500 dark:text-slate-300' />
+      </Show>
+    </div>
+  )
+
+  const renderDropdownColors = (close: () => void) => {
+    const colorButtons = map(allColorEntries, ([colorName, colorValue]) => {
+      return (
+        <button
+          key={colorName}
+          type='button'
+          onClick={() => {
+            handleColorSelect(colorName)
+            close()
+          }}
+          className={cn(
+            'h-6 w-6 rounded-full transition-all hover:scale-110',
+            colorValue,
+            field.value === colorName ? selectedRing : unselectedOpacity
+          )}
+          aria-label={colorName}
+        />
+      )
+    })
+
+    const clearButton = (
+      <button
+        key='clear'
+        type='button'
+        onClick={() => {
+          field.onChange(null)
+          close()
+        }}
+        className={cn(
+          'relative flex h-6 w-6 items-center justify-center rounded-full border border-slate-300 bg-white transition-all hover:scale-110 dark:border-slate-600 dark:bg-slate-800',
+          !field.value && selectedRing
+        )}
+        aria-label='بدون رنگ'
+      >
+        <Icon name='no-symbol' className='h-4 w-4 text-slate-400 dark:text-slate-500' />
+      </button>
+    )
+
+    return (
+      <div className='flex flex-wrap gap-1.5 p-1'>
+        {clearButton}
+        {colorButtons}
+      </div>
+    )
+  }
+
   return (
-    <div className={styles.container}>
+    <div className={cn('flex items-center gap-1.5', error && styles.bounce)}>
       <Show when={!!label}>
         <label className={styles.label}>{label}</label>
       </Show>
 
-      <div
-        className={cn(
-          'grid h-full min-h-8 auto-cols-max grid-flow-col gap-2',
-          bounce && styles.bounce
-        )}
-      >
-        {map(bgColorsMap, (colorValue, colorName) => (
-          <label key={colorName} className={styles.colorOption}>
-            <input
-              type='radio'
-              value={colorName}
-              checked={field.value === colorName}
-              onChange={(e) => field.onChange(e.target.value)}
-              className={styles.radioInput}
-            />
-
-            <span className={cn('rounded-full', styles.colorCircle, colorValue)} />
-          </label>
-        ))}
-      </div>
+      <MenuDropdown
+        items={[]}
+        align='start'
+        trigger={renderDropdownTrigger()}
+        triggerClassName='p-0 rounded-full hover:bg-transparent dark:hover:bg-transparent'
+        headerSlot={renderDropdownColors}
+      />
     </div>
   )
 }

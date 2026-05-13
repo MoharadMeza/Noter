@@ -15,5 +15,6 @@ export interface MenuDropdownProps extends HTMLAttributes<HTMLDivElement> {
   trigger?: ReactNode
   triggerClassName?: string
   align?: 'start' | 'end'
-  headerSlot?: ReactNode
+  headerSlot?: ReactNode | ((close: () => void) => ReactNode)
+  onClose?: () => void
 }

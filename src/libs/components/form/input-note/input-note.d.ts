@@ -1,5 +1,5 @@
-import { InputHTMLAttributes } from 'react'
+import { TextareaHTMLAttributes } from 'react'
 
-export interface InputNoteProps extends InputHTMLAttributes<HTMLTextAreaElement> {
+export interface InputNoteProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string
 }

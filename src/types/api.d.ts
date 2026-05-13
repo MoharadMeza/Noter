@@ -31,4 +31,5 @@ export interface ApiParams<T extends string = any> {
   limit: number
   sortOrder: SortOrder
   sortBy: T
+  labelId?: number
 }
