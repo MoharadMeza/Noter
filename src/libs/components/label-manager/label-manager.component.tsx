@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl'
 import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
+import { LabelManagerProps } from '@libs/components/label-manager/label-manager'
 import Show from '@libs/components/show/show.component'
 import useQueryClient from '@libs/hooks/use-query-client'
 import { apiKeys } from '@libs/models/api-keys'
@@ -18,7 +19,8 @@ import { useMutateLabelById } from '@libs/models/label/useMutateLabelById'
 import { cn } from '@libs/utils/tailwind'
 import { toast } from '@libs/utils/toast'
 
-function LabelItem({ id, name }: { id: number; name: string }) {
+function LabelItem(props: LabelManagerProps) {
+  const { id, name } = props
   const t = useTranslations()
   const router = useRouter()
   const searchParams = useSearchParams()

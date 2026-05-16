@@ -47,7 +47,7 @@ const NewNote = () => {
   const { reset, watch } = formMethods
 
   const selectedColor = watch('color') as NoteColor | undefined
-  const noteBg = selectedColor ? bgColorsMap[selectedColor] : ''
+  const noteBg = selectedColor ? bgColorsMap[selectedColor] : 'bg-white dark:bg-slate-800'
 
   const collapse = () => {
     setIsExpanded(false)

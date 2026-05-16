@@ -9,30 +9,11 @@ import { useTranslations } from 'next-intl'
 import { map } from 'lodash-es'
 
 import Icon from '@libs/components/icon/icon.component'
+import { SkeletonCard } from '@libs/components/skeleton/skeleton.component'
 import { useFetchNoteList } from '@libs/models/note/list/useFetchNoteList'
 import { cn } from '@libs/utils/tailwind'
 
 import NoteCard from '@components/note/note-card/note-card.component'
-
-const SkeletonCard = ({ list }: { list?: boolean }) => (
-  <div
-    className={cn(
-      'animate-pulse rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800',
-      list && 'flex items-center gap-4'
-    )}
-  >
-    <div
-      className={cn(
-        'mb-3 h-4 w-2/3 rounded bg-gray-200 dark:bg-slate-700',
-        list && 'mb-0 w-1/4 shrink-0'
-      )}
-    />
-    <div className={cn('space-y-2', list && 'flex-1')}>
-      <div className='h-3 rounded bg-gray-100 dark:bg-slate-700' />
-      <div className='h-3 w-4/5 rounded bg-gray-100 dark:bg-slate-700' />
-    </div>
-  </div>
-)
 
 function RecentNotes() {
   const t = useTranslations()

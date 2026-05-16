@@ -1,1 +1,4 @@
-export interface LabelManagerProps {}
+export interface LabelManagerProps {
+  id: number
+  name: string
+}

@@ -11,6 +11,7 @@ import MenuDropdown from '@libs/components/menu-dropdown/menu-dropdown.component
 import Show from '@libs/components/show/show.component'
 import { useAppFormContext } from '@libs/hooks/use-form-context'
 import { useAppFormController } from '@libs/hooks/use-form-controller'
+import useIsDesktop from '@libs/hooks/use-is-desktop'
 import { useSetTimeout } from '@libs/hooks/use-set-timeout'
 import { colorPickerMap } from '@libs/utils/common'
 import { cn } from '@libs/utils/tailwind'
@@ -21,6 +22,7 @@ const unselectedOpacity = 'opacity-40 hover:opacity-90'
 export default function ColorPicker(props: ColorPickerProps) {
   const { name, label } = props
   const { control } = useAppFormContext()
+  const isDesktop = useIsDesktop()
   const { execute: executeBounce } = useSetTimeout(500)
   const {
     field,
@@ -36,20 +38,20 @@ export default function ColorPicker(props: ColorPickerProps) {
   const allColorEntries = entries(colorPickerMap)
 
   const handleColorSelect = (colorName: string) => {
-    field.onChange(field.value === colorName ? undefined : colorName)
+    field.onChange(field.value === colorName ? null : colorName)
   }
 
   const renderDropdownTrigger = () => (
     <div
       className={cn(
-        'flex h-6 w-6 items-center justify-center rounded-full transition-all',
+        'flex h-8 w-8 items-center justify-center rounded-full transition-all',
         field.value
           ? cn(colorPickerMap[field.value as keyof typeof colorPickerMap], selectedRing)
           : 'bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500'
       )}
     >
       <Show when={!field.value} mode='unmount'>
-        <Icon name='swatch' className='h-3.5 w-3.5 text-slate-500 dark:text-slate-300' />
+        <Icon name='paint-brush' className='h-4 w-4 text-slate-500 dark:text-slate-300' />
       </Show>
     </div>
   )
@@ -108,7 +110,8 @@ export default function ColorPicker(props: ColorPickerProps) {
 
       <MenuDropdown
         items={[]}
-        align='start'
+        align='end'
+        direction={isDesktop ? 'down' : 'up'}
         trigger={renderDropdownTrigger()}
         triggerClassName='p-0 rounded-full hover:bg-transparent dark:hover:bg-transparent'
         headerSlot={renderDropdownColors}

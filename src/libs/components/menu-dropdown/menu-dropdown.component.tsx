@@ -26,6 +26,7 @@ const MenuDropdown = (props: MenuDropdownProps) => {
     className,
     headerSlot,
     onClose,
+    direction = 'down',
     ...rest
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -33,7 +34,7 @@ const MenuDropdown = (props: MenuDropdownProps) => {
   const menuRef = useRef<HTMLUListElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
-  const updatePosition = () => setMenuStyle(getMenuPosition(triggerRef, align))
+  const updatePosition = () => setMenuStyle(getMenuPosition(triggerRef, align, direction))
 
   useEffect(() => {
     registerClickOutside(menuRef, () => setTimeout(() => setIsOpen(false), 100))

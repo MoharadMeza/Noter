@@ -1,16 +1,20 @@
 import { CSSProperties, RefObject } from 'react'
 
 export type MenuAlign = 'start' | 'end'
+export type MenuDirection = 'down' | 'up'
 
 export function getMenuPosition(
   triggerRef: RefObject<HTMLButtonElement | null>,
-  align: MenuAlign
+  align: MenuAlign,
+  direction: MenuDirection = 'down'
 ): CSSProperties {
   if (!triggerRef.current) return {}
   const rect = triggerRef.current.getBoundingClientRect()
   return {
     position: 'fixed',
-    top: rect.bottom + 4,
+    ...(direction === 'up'
+      ? { bottom: window.innerHeight - rect.top + 4 }
+      : { top: rect.bottom + 4 }),
     ...(align === 'end' ? { right: window.innerWidth - rect.right } : { left: rect.left }),
   }
 }

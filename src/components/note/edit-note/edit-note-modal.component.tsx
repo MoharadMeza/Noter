@@ -54,8 +54,6 @@ export function EditNoteModal(props: EditNoteModalProps) {
   useEffect(() => {
     if (!isOpen) return
 
-    history.pushState({ editNote: true }, '')
-
     const handlePopState = () => {
       if (formMethods.formState.isDirty) {
         handleSave(formMethods.getValues())
@@ -92,7 +90,6 @@ export function EditNoteModal(props: EditNoteModalProps) {
         className={cn(
           styles.slideUp,
           'fixed inset-0 z-60 flex flex-col bg-white dark:bg-slate-950',
-          'lg:hidden',
           noteBg
         )}
       >
@@ -127,7 +124,7 @@ export function EditNoteModal(props: EditNoteModalProps) {
   )
 
   const renderDesktopModal = () => (
-    <Modal isOpen={isOpen} onClose={closeHandler} locked panelClassName={noteBg}>
+    <Modal isOpen={isOpen} onClose={closeHandler} panelClassName={noteBg}>
       <FormWrapper methods={formMethods} onSubmit={handleSave}>
         <Input
           type='text'
