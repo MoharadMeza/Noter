@@ -2,12 +2,14 @@
 
 import * as jose from 'jose'
 
-import { UserObject } from '@app-types/api'
-import prisma from '@config/prisma'
 import { createSession } from '@server/modules/sessions/service'
+
+import prisma from '@config/prisma'
 
 import env from '@libs/utils/env'
 import { AppError } from '@libs/utils/error'
+
+import { UserObject } from '@app-types/user'
 
 // Utility functions
 const secretKey = new TextEncoder().encode(env.SECRET_KEY)
@@ -47,7 +49,7 @@ export async function login(props: { email: string; password: string }): Promise
     // Find user
     const user = await findUserByEmail(email)
     if (!user) {
-      throw new AppError('Invalid email or password', 'AUTH', 'MEDIUM', 401, {
+      throw new AppError('User is not exist', 'AUTH', 'MEDIUM', 401, {
         code: 'INVALID_CREDENTIALS',
       })
     }
@@ -85,6 +87,7 @@ export async function register(props: {
   try {
     // Check if user exists
     const existingUser = await findUserByEmail(email)
+
     if (existingUser) {
       throw new AppError('Email already exists', 'CONFLICT', 'MEDIUM', 409, { code: 'USER_EXISTS' })
     }
@@ -109,6 +112,7 @@ export async function register(props: {
     if (error instanceof AppError) {
       throw error
     }
+
     throw new AppError('Registration failed', 'SERVER', 'HIGH', 500, {
       code: 'REGISTRATION_FAILED',
       originalError: error,
@@ -136,11 +140,11 @@ export async function getAllUsers(): Promise<UserObject[]> {
   }
 }
 
-export async function getUserById(id: string): Promise<UserObject | null> {
+export async function getUserById(id: number): Promise<UserObject | null> {
   try {
     return await prisma.user.findUnique({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
     })
   } catch (error) {
@@ -151,7 +155,7 @@ export async function getUserById(id: string): Promise<UserObject | null> {
   }
 }
 
-export async function updateUser(id: string, data: Partial<UserObject>): Promise<UserObject> {
+export async function updateUser(id: number, data: Partial<UserObject>): Promise<UserObject> {
   try {
     // If password is being updated, hash it
     if (data.password) {
@@ -160,7 +164,7 @@ export async function updateUser(id: string, data: Partial<UserObject>): Promise
 
     return await prisma.user.update({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
       data,
     })
@@ -172,11 +176,11 @@ export async function updateUser(id: string, data: Partial<UserObject>): Promise
   }
 }
 
-export async function deleteUser(id: string): Promise<UserObject> {
+export async function deleteUser(id: number): Promise<UserObject> {
   try {
     return await prisma.user.delete({
       where: {
-        id: parseInt(id),
+        id: Number(id),
       },
     })
   } catch (error) {
@@ -202,7 +206,7 @@ export async function validateUserCredentials(email: string, password: string): 
 }
 
 export async function changePassword(
-  userId: string,
+  userId: number,
   oldPassword: string,
   newPassword: string
 ): Promise<boolean> {
@@ -221,7 +225,7 @@ export async function changePassword(
 
     const hashedNewPassword = await hashPassword(newPassword)
     await prisma.user.update({
-      where: { id: parseInt(userId) },
+      where: { id: Number(userId) },
       data: { password: hashedNewPassword },
     })
 

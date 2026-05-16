@@ -1,13 +1,16 @@
-import 'server-only'
-
-import { cookies } from 'next/headers'
+'use server'
 
 import { cache } from 'react'
 
+import { cookies } from 'next/headers'
+
 import { JWTPayload, SignJWT, jwtVerify } from 'jose'
+
+import { cookieKeys } from '@config/cookie'
 
 import { timeUnits } from '@libs/utils/date'
 import env from '@libs/utils/env'
+import { AppError } from '@libs/utils/error'
 
 const secretKey = env.SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
@@ -40,9 +43,9 @@ export const createSession = async (userId: string) => {
 
   // 3. Store the session in cookies for optimistic auth checks
   const cookie = await cookies()
-  cookie.set('session', session, {
-    httpOnly: true,
-    secure: true,
+  cookie.set(cookieKeys.session, session, {
+    httpOnly: false,
+    secure: false,
     expires: expiresAt,
     sameSite: 'lax',
     path: '/',
@@ -50,12 +53,18 @@ export const createSession = async (userId: string) => {
 }
 
 export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get('session')?.value
-  const session = await decrypt(cookie)
-
-  if (!session?.userId) {
-    return { isAuthorized: false, userId: null }
+  const cookie = (await cookies()).get(cookieKeys.session)?.value
+  if (!cookie) {
+    throw new AppError('Authorization error', 'AUTH', 'HIGH', 401, { cause: ['cookie not found'] })
   }
 
-  return { isAuthorized: true, userId: session.userId as string }
+  const session = await decrypt(cookie)
+  const userId = session?.userId as string
+  if (!parseInt(userId)) {
+    throw new AppError('Authorization error', 'AUTH', 'HIGH', 401, {
+      cause: ['userId not exist in the session'],
+    })
+  }
+
+  return { isAuthorized: true, userId: parseInt(userId) }
 })

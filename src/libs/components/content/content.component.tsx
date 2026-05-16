@@ -1,11 +1,9 @@
-import Noter from '@libs/components/note/noter/noter.component'
+'use client'
 
-function Content() {
-  return (
-    <div className=''>
-      <Noter />
-    </div>
-  )
+import { ContentProps } from '@libs/components/content/content'
+
+function Content(props: ContentProps) {
+  return <div className='p-4 sm:p-6'>{props.children}</div>
 }
 
 export default Content

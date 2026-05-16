@@ -10,7 +10,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -23,10 +23,21 @@
       "@libs/*": ["./src/libs/*"],
       "@app-types/*": ["./src/types/*"],
       "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@db-models": ["./prisma/generated/client/browser"],
+      "@db-client": ["./prisma/generated/client/client"],
       "@/*": ["./src/*"]
     },
     "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "*.mjs"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "*.mjs",
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

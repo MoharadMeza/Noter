@@ -1,7 +1,13 @@
-import { PrismaClient } from '../../prisma/generated/client/default'
+import 'dotenv/config'
+import { PrismaPg } from '@prisma/adapter-pg'
+
+import { PrismaClient } from '@db-client'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+  })
+  return new PrismaClient({ adapter })
 }
 
 declare const globalThis: {

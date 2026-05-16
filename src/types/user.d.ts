@@ -1,4 +1,9 @@
-export interface UserLoginData {
-  userId: string | undefined
-  loading: boolean
+import { User } from '@db-models'
+
+export type UserObject = User
+
+export interface UserProfileData {
+  id: number
+  email: string
+  username: string
 }

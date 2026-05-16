@@ -1,108 +1,148 @@
-import { PrismaClient } from '@prisma/client'
+'use server'
+
+import {
+  FindManyArgs,
+  generateOrderBy,
+  generatePaginatedData,
+  generatePaginationByParams,
+} from '@server/db-utils'
+
+import { Prisma } from '@db-models'
+
+import prisma from '@config/prisma'
 
 import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
 
-const prisma = new PrismaClient()
+import { NoteFormData } from '@components/note/new-note/new-note.validation'
 
-export const createNote = withServiceErrorHandler(
-  async (title: string, content: string, userId: number) => {
-    return await prisma.note.create({
-      data: {
-        title,
-        content,
-        userId,
-      },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'HIGH',
-    statusCode: 500,
-    code: 'NOTE_CREATION_FAILED',
-    message: 'Failed to create note',
-  }
-)
+import { ApiParams } from '@app-types/api'
+import { NoteObject } from '@app-types/note'
 
-export const getNoteById = withServiceErrorHandler(
-  async (id: number) => {
-    return await prisma.note.findUnique({
-      where: { id },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'MEDIUM',
-    statusCode: 500,
-    code: 'NOTE_FETCH_FAILED',
-    message: 'Failed to fetch note',
-  }
-)
+const createNoteBase = async (body: NoteFormData, userId: number) => {
+  return await prisma.note.create({
+    data: {
+      title: body.title,
+      content: body.content,
+      color: body.color,
+      userId,
+    },
+  })
+}
 
-export const updateNote = withServiceErrorHandler(
-  async (id: number, title: string, content: string) => {
-    return await prisma.note.update({
-      where: { id },
-      data: {
-        title,
-        content,
-      },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'HIGH',
-    statusCode: 500,
-    code: 'NOTE_UPDATE_FAILED',
-    message: 'Failed to update note',
+const getNotesByUserIdBase = async (userId: number, params: ApiParams<keyof NoteObject>) => {
+  const pagination = generatePaginationByParams(params.page, params.limit)
+  const filters: FindManyArgs = {
+    skip: pagination.skip,
+    take: pagination.take,
+    where: { userId },
+    orderBy: generateOrderBy(params.sortBy, params.sortOrder),
   }
-)
 
-export const deleteNote = withServiceErrorHandler(
-  async (id: number) => {
-    return await prisma.note.delete({
-      where: { id },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'HIGH',
-    statusCode: 500,
-    code: 'NOTE_DELETE_FAILED',
-    message: 'Failed to delete note',
-  }
-)
+  const result = await generatePaginatedData<Prisma.NoteGetPayload<object>, Prisma.NoteWhereInput>(
+    prisma.note,
+    filters,
+    pagination
+  )
 
-export const getMyNote = withServiceErrorHandler(
-  async (id: number, userId: number) => {
-    return await prisma.note.findFirst({
-      where: {
-        id,
-        userId,
-      },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'MEDIUM',
-    statusCode: 500,
-    code: 'NOTE_FETCH_FAILED',
-    message: 'Failed to fetch note',
-  }
-)
+  return result
+}
 
-export const getMyNotes = withServiceErrorHandler(
-  async (userId: number) => {
-    return await prisma.note.findMany({
-      where: {
-        userId,
-      },
-    })
-  },
-  {
-    type: 'DATABASE',
-    severity: 'MEDIUM',
-    statusCode: 500,
-    code: 'NOTES_FETCH_FAILED',
-    message: 'Failed to fetch notes',
+const getNoteByIdBase = async (id: number) => {
+  return await prisma.note.findUnique({
+    where: { id, isDeleted: false },
+  })
+}
+
+const updateNoteBase = async (id: number, body: NoteFormData) => {
+  return await prisma.note.update({
+    where: { id },
+    data: {
+      ...body,
+    },
+  })
+}
+
+const deleteNoteBase = async (id: number, userId: number) => {
+  const note = await getNoteByIdBase(id)
+
+  if (!note || note.userId !== userId) {
+    throw new Error('Note not found or unauthorized')
   }
-)
+
+  return await prisma.note.delete({
+    where: { id },
+  })
+}
+
+const getMyNoteBase = async (id: number, userId: number) => {
+  return await prisma.note.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  })
+}
+
+const getMyNotesBase = async (userId: number) => {
+  return await prisma.note.findMany({
+    where: {
+      userId,
+    },
+  })
+}
+
+export const createNote = withServiceErrorHandler(createNoteBase, {
+  type: 'DATABASE',
+  severity: 'CRITICAL',
+  statusCode: 500,
+  code: 'NOTE_CREATION_FAILED',
+  message: 'Failed to create note',
+})
+
+export const getNotesByUserId = withServiceErrorHandler(getNotesByUserIdBase, {
+  type: 'DATABASE',
+  severity: 'MEDIUM',
+  statusCode: 500,
+  code: 'NOTES_FETCH_FAILED',
+  message: 'Failed to fetch user notes',
+})
+
+export const getNoteById = withServiceErrorHandler(getNoteByIdBase, {
+  type: 'DATABASE',
+  severity: 'MEDIUM',
+  statusCode: 500,
+  code: 'NOTE_FETCH_FAILED',
+  message: 'Failed to fetch note',
+})
+
+export const updateNote = withServiceErrorHandler(updateNoteBase, {
+  type: 'DATABASE',
+  severity: 'HIGH',
+  statusCode: 500,
+  code: 'NOTE_UPDATE_FAILED',
+  message: 'Failed to update note',
+})
+
+export const deleteNote = withServiceErrorHandler(deleteNoteBase, {
+  type: 'DATABASE',
+  severity: 'HIGH',
+  statusCode: 500,
+  code: 'NOTE_DELETE_FAILED',
+  message: 'Failed to delete note',
+})
+
+export const getMyNote = withServiceErrorHandler(getMyNoteBase, {
+  type: 'DATABASE',
+  severity: 'MEDIUM',
+  statusCode: 500,
+  code: 'NOTE_FETCH_FAILED',
+  message: 'Failed to fetch note',
+})
+
+export const getMyNotes = withServiceErrorHandler(getMyNotesBase, {
+  type: 'DATABASE',
+  severity: 'MEDIUM',
+  statusCode: 500,
+  code: 'NOTES_FETCH_FAILED',
+  message: 'Failed to fetch notes',
+})

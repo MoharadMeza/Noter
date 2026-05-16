@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
-import { useForm } from 'react-hook-form'
 
+import { RegisterFormData } from '@libs/components/authentication/register/register'
+import { registerSchema } from '@libs/components/authentication/register/register.validation'
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -14,94 +14,113 @@ import {
   CardHeader,
   CardTitle,
 } from '@libs/components/card/card.component'
+import FormWrapper from '@libs/components/form/form-wrapper/form-wrapper.component'
 import Input from '@libs/components/form/input/input.component'
-
-import { RegisterFormData } from '@libs/components/authentication/register/register'
-import { registerSchema } from '@libs/components/authentication/register/register.validation'
-import { register } from '@server/modules/user/services'
-
+import Icon from '@libs/components/icon/icon.component'
+import { useAppForm } from '@libs/hooks/use-form'
+import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserRegister'
+import useAuthStore from '@libs/store/auth.store'
+import useProfileStore from '@libs/store/profile.store'
 import { cn } from '@libs/utils/tailwind'
 
 const Register = () => {
   const t = useTranslations()
-  const {
-    register: registerField,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+  const { setUserLogin } = useAuthStore()
+  const { setProfileData } = useProfileStore()
+  const formMethods = useAppForm<RegisterFormData>({
+    schema: registerSchema,
+  })
+  const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
+    onSuccess: ({ result: { data } }) => {
+      if (data) {
+        setProfileData({ id: data.id, email: data.email, username: data.username })
+      }
+      setUserLogin()
+    },
+    onError: () => {
+      setProfileData(undefined)
+    },
+    toastError: true,
   })
 
   const onSubmit = async (data: RegisterFormData) => {
-    register(data)
+    registerUser(data)
   }
 
   return (
-    <Card className='w-full max-w-md'>
-      <CardHeader>
-        <CardTitle>{t('REGISTER_TITLE')}</CardTitle>
-        <CardDescription>{t('REGISTER_DESCRIPTION')}</CardDescription>
+    <Card className='w-full max-w-md shadow-xl'>
+      <CardHeader className='items-center pb-6 text-center'>
+        <div className='mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900'>
+          <Icon name='user-plus' className='h-7 w-7 text-white' />
+        </div>
+        <CardTitle className='text-2xl font-bold'>{t('REGISTER_TITLE')}</CardTitle>
+        <CardDescription className='mt-1'>{t('REGISTER_DESCRIPTION')}</CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+      <CardContent className='pt-2'>
+        <FormWrapper methods={formMethods} onSubmit={onSubmit} className='space-y-5'>
           <div className='space-y-4'>
             <Input
+              dir='ltr'
+              name='username'
               id='username'
               type='text'
               label={t('NAME_LABEL')}
               placeholder={t('NAME_PLACEHOLDER')}
-              error={errors.username?.message}
-              {...registerField('username')}
             />
 
             <Input
+              dir='ltr'
+              name='email'
               id='email'
               type='email'
               label={t('EMAIL_LABEL')}
               placeholder={t('EMAIL_PLACEHOLDER')}
-              error={errors.email?.message}
-              {...registerField('email')}
             />
 
             <Input
+              dir='ltr'
+              name='password'
               id='password'
               type='password'
               label={t('PASSWORD_LABEL')}
               placeholder={t('PASSWORD_PLACEHOLDER')}
-              error={errors.password?.message}
-              {...registerField('password')}
             />
 
             <Input
+              dir='ltr'
+              name='confirmPassword'
               id='confirmPassword'
               type='password'
               label={t('CONFIRM_PASSWORD_LABEL')}
               placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
-              error={errors.confirmPassword?.message}
-              {...registerField('confirmPassword')}
             />
           </div>
 
-          <div>
-            <Button
-              type='submit'
-              disabled={isSubmitting}
-              isLoading={isSubmitting}
-              loadingText={t('SUBMIT_LOADING')}
-              className='w-full'
-            >
-              {t('SUBMIT_BUTTON')}
-            </Button>
-          </div>
+          <Button
+            type='submit'
+            disabled={isRegisterUserLoading}
+            isLoading={isRegisterUserLoading}
+            loadingText={t('SUBMIT_LOADING')}
+            className='w-full'
+          >
+            {t('SUBMIT_BUTTON')}
+          </Button>
 
-          <div className='text-center text-sm text-gray-600'>
+          <p className='text-center text-sm text-gray-500 dark:text-slate-400'>
             {t('LOGIN_LINK_TEXT')}{' '}
-            <Link href='/auth/login' className={cn('text-blue-600 hover:text-blue-500')}>
+            <Link
+              href='/auth/login'
+              className={cn(
+                'font-medium text-blue-600 hover:text-blue-500',
+                'dark:text-blue-400 dark:hover:text-blue-300',
+                'transition-colors duration-150'
+              )}
+            >
               {t('LOGIN_LINK')}
             </Link>
-          </div>
-        </form>
+          </p>
+        </FormWrapper>
       </CardContent>
     </Card>
   )

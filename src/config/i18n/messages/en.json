@@ -1,4 +1,6 @@
 {
+  "APP_NAME": "یادمه",
+  "APP_DESCRIPTION": "Your personal space to capture and organize thoughts.",
   "REGISTER_TITLE": "Create an account",
   "REGISTER_DESCRIPTION": "Enter your details to create your account",
   "NAME_LABEL": "Full Name",
@@ -30,5 +32,25 @@
   "LOGIN_REGISTER_LINK_TEXT": "Don't have an account?",
   "LOGIN_REGISTER_LINK": "Create account",
   "LOGIN_ERROR_INVALID_CREDENTIALS": "Invalid email or password",
-  "LOGIN_ERROR_REQUIRED": "Please enter your email and password"
+  "LOGIN_ERROR_REQUIRED": "Please enter your email and password",
+  "RECENT_NOTES_TITLE": "Recent Notes",
+  "RECENT_NOTES_EMPTY": "No notes yet",
+  "NOTE_TITLE_REQUIRED": "Title cannot be empty",
+  "NOTE_TITLE_MAX": "Title cannot exceed 100 characters",
+  "NOTE_CONTENT_REQUIRED": "Note content cannot be empty",
+  "NOTE_CONTENT_MAX": "Note content cannot exceed 10000 characters",
+  "NOTE_DEFAULT_TITLE": "Untitled",
+  "NOTE_LOGIN_REQUIRED": "Please log in to your account first",
+  "NOTE_TITLE_PLACEHOLDER": "Note title",
+  "NOTE_SAVING": "Saving...",
+  "NOTE_SAVE_BUTTON": "Save Note",
+  "NOTE_EDIT": "Edit",
+  "NOTE_DELETE": "Delete",
+  "NOTE_NEW_PLACEHOLDER": "Take a note...",
+  "NOTE_CANCEL": "Cancel",
+  "NAV_NOTES": "Notes",
+  "NAV_ARCHIVE": "Archive",
+  "NAV_TRASH": "Trash",
+  "NAV_MORE": "More",
+  "USER_MENU_LOGOUT": "Logout"
 }

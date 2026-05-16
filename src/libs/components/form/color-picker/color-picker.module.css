@@ -1,0 +1,69 @@
+/* .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+} */
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.colorOption {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 1;
+  height: 100%;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.colorCircle {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  transition: all 0.1s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.colorCircle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.radioInput:checked + .colorCircle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.radioInput:checked + .colorCircle {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.bounce {
+  animation: bounceX 0.5s ease;
+}
+
+@keyframes bounceX {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}

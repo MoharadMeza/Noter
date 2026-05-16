@@ -1,4 +1,6 @@
 {
+  "APP_NAME": "یادمه",
+  "APP_DESCRIPTION": "فضای شخصی شما برای ثبت و سازماندهی افکار.",
   "REGISTER_TITLE": "ایجاد حساب کاربری",
   "REGISTER_DESCRIPTION": "اطلاعات خود را برای ایجاد حساب کاربری وارد کنید",
   "NAME_LABEL": "نام و نام خانوادگی",
@@ -30,5 +32,25 @@
   "LOGIN_REGISTER_LINK_TEXT": "حساب کاربری ندارید؟",
   "LOGIN_REGISTER_LINK": "ایجاد حساب کاربری",
   "LOGIN_ERROR_INVALID_CREDENTIALS": "ایمیل یا رمز عبور نامعتبر است",
-  "LOGIN_ERROR_REQUIRED": "لطفا ایمیل و رمز عبور خود را وارد کنید"
+  "LOGIN_ERROR_REQUIRED": "لطفا ایمیل و رمز عبور خود را وارد کنید",
+  "RECENT_NOTES_TITLE": "یادداشت‌های اخیر",
+  "RECENT_NOTES_EMPTY": "هنوز یادداشتی ندارید",
+  "NOTE_TITLE_REQUIRED": "عنوان نمی‌تواند خالی باشد",
+  "NOTE_TITLE_MAX": "عنوان نمی‌تواند بیشتر از 100 کاراکتر باشد",
+  "NOTE_CONTENT_REQUIRED": "محتوای یادداشت نمی‌تواند خالی باشد",
+  "NOTE_CONTENT_MAX": "محتوای یادداشت نمی‌تواند بیشتر از 10000 کاراکتر باشد",
+  "NOTE_DEFAULT_TITLE": "بدون عنوان",
+  "NOTE_LOGIN_REQUIRED": "لطفا ابتدا وارد حساب کاربری خود شوید",
+  "NOTE_TITLE_PLACEHOLDER": "عنوان یادداشت",
+  "NOTE_SAVING": "در حال ذخیره‌سازی...",
+  "NOTE_SAVE_BUTTON": "ذخیره یادداشت",
+  "NOTE_EDIT": "ویرایش",
+  "NOTE_DELETE": "حذف",
+  "NOTE_NEW_PLACEHOLDER": "یادداشت جدید بنویس...",
+  "NOTE_CANCEL": "انصراف",
+  "NAV_NOTES": "یادداشت‌ها",
+  "NAV_ARCHIVE": "آرشیو",
+  "NAV_TRASH": "سطل زباله",
+  "NAV_MORE": "بیشتر",
+  "USER_MENU_LOGOUT": "خروج"
 }
