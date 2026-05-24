@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-anonymous-default-export
+import env from '@libs/utils/env'
+
 export default {
-  login: `${process.env.API_URL}/user/login`,
-  register: `${process.env.API_URL}/user/register`,
+  login: `${env.API_URL}/user/login`,
+  register: `${env.API_URL}/user/register`,
 }

@@ -47,7 +47,7 @@ export async function login(props: { email: string; password: string }): Promise
     // Find user
     const user = await findUserByEmail(email)
     if (!user) {
-      throw new AppError('Invalid email or password', 'AUTH', 'MEDIUM', 401, {
+      throw new AppError('User is not exist', 'AUTH', 'MEDIUM', 401, {
         code: 'INVALID_CREDENTIALS',
       })
     }
@@ -85,6 +85,7 @@ export async function register(props: {
   try {
     // Check if user exists
     const existingUser = await findUserByEmail(email)
+
     if (existingUser) {
       throw new AppError('Email already exists', 'CONFLICT', 'MEDIUM', 409, { code: 'USER_EXISTS' })
     }
@@ -109,6 +110,7 @@ export async function register(props: {
     if (error instanceof AppError) {
       throw error
     }
+
     throw new AppError('Registration failed', 'SERVER', 'HIGH', 500, {
       code: 'REGISTRATION_FAILED',
       originalError: error,

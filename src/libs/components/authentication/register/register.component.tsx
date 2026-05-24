@@ -1,11 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
-
 import Button from '@libs/components/button/button.component'
 import {
   Card,
@@ -15,25 +13,34 @@ import {
   CardTitle,
 } from '@libs/components/card/card.component'
 import Input from '@libs/components/form/input/input.component'
-
 import { RegisterFormData } from '@libs/components/authentication/register/register'
 import { registerSchema } from '@libs/components/authentication/register/register.validation'
-import { register } from '@server/modules/user/services'
-
 import { cn } from '@libs/utils/tailwind'
+import { useMutateUserRegister } from '@libs/models/user/register/mutateUserRegister'
+import useAuthSlice from '@libs/store/auth.slice'
 
 const Register = () => {
   const t = useTranslations()
+  const { setAuthData } = useAuthSlice()
   const {
     register: registerField,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   })
+  const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
+    onSuccess: (user: any) => {
+      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
+    },
+    onError: () => {
+      setAuthData(undefined)
+    },
+    toastError: true,
+  })
 
   const onSubmit = async (data: RegisterFormData) => {
-    register(data)
+    registerUser(data)
   }
 
   return (
@@ -86,8 +93,8 @@ const Register = () => {
           <div>
             <Button
               type='submit'
-              disabled={isSubmitting}
-              isLoading={isSubmitting}
+              disabled={isRegisterUserLoading}
+              isLoading={isRegisterUserLoading}
               loadingText={t('SUBMIT_LOADING')}
               className='w-full'
             >

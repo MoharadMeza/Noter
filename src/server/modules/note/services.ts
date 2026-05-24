@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client'
+'use server'
 
+import prisma from '@config/prisma'
 import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
-
-const prisma = new PrismaClient()
 
 export const createNote = withServiceErrorHandler(
   async (title: string, content: string, userId: number) => {
@@ -20,6 +19,22 @@ export const createNote = withServiceErrorHandler(
     statusCode: 500,
     code: 'NOTE_CREATION_FAILED',
     message: 'Failed to create note',
+  }
+)
+
+export const getNotesByUserId = withServiceErrorHandler(
+  async (userId: number) => {
+    return await prisma.note.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+    })
+  },
+  {
+    type: 'DATABASE',
+    severity: 'MEDIUM',
+    statusCode: 500,
+    code: 'NOTES_FETCH_FAILED',
+    message: 'Failed to fetch user notes',
   }
 )
 
