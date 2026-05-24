@@ -1,68 +1,81 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'Nazanin';
-  src: url('/fonts/Nazanin.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #020817;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #f8fafc;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #020817;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #020817;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #2563eb;
+  --color-card: #ffffff;
+  --color-card-foreground: #020817;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #020817;
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
 }
 
 @layer base {
+  html {
+    font-size: 16px;
+    font-family: var(--font-vazirmatn), system-ui, sans-serif;
+  }
+
   body {
-    @apply bg-white text-gray-900 antialiased;
+    @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   [lang='fa'] {
-    font-family: 'Nazanin', system-ui, sans-serif;
-  }
-}
-
-@layer utilities {
-  .btn {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
+    font-family: var(--font-vazirmatn), system-ui, sans-serif;
   }
 
-  .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-500;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 transparent;
   }
 
-  .btn-secondary {
-    @apply bg-gray-100 text-gray-900 hover:bg-gray-200;
+  .dark * {
+    scrollbar-color: #475569 transparent;
   }
 
-  .btn-destructive {
-    @apply bg-red-500 text-white hover:bg-red-600;
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
 
-  .btn-outline {
-    @apply border border-gray-300 hover:bg-gray-100;
+  *::-webkit-scrollbar-track {
+    background: transparent;
   }
 
-  .input {
-    @apply flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+  *::-webkit-scrollbar-thumb {
+    background-color: #94a3b8;
+    border-radius: 9999px;
   }
 
-  .card {
-    @apply rounded-lg border border-gray-200 bg-white shadow-sm;
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
   }
 
-  .card-header {
-    @apply flex flex-col space-y-1.5 p-6;
+  .dark *::-webkit-scrollbar-thumb {
+    background-color: #475569;
   }
 
-  .card-title {
-    @apply text-2xl leading-none font-semibold tracking-tight;
-  }
-
-  .card-description {
-    @apply text-sm text-gray-500;
-  }
-
-  .card-content {
-    @apply p-6 pt-0;
-  }
-
-  .card-footer {
-    @apply flex items-center p-6 pt-0;
+  .dark *::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
   }
 }

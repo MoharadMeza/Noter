@@ -1,7 +1,9 @@
-import { LoginFormData } from '@libs/components/authentication/login/login'
-import { AppError } from '@libs/utils/error'
-import { login } from '@server/modules/user/services'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { login } from '@server/modules/user/services'
+
+import { LoginFormData } from '@libs/components/authentication/login/login'
+import { AppError, handleApiError } from '@libs/utils/error'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,16 +12,12 @@ export async function POST(req: NextRequest) {
       const user = await login(body)
 
       if (user) {
-        return Response.json({ message: `${user.username} is logged in` })
+        return NextResponse.json(user)
       }
     }
 
     throw new AppError('Login credential is invalid', 'AUTH', 'HIGH', 401)
-  } catch (e) {
-    if (e instanceof AppError) {
-      return NextResponse.json(e.toJSON(), { status: e.statusCode })
-    }
-
-    return new AppError('Internal server error', 'UNKNOWN', 'CRITICAL', 500)
+  } catch (error) {
+    return handleApiError(error)
   }
 }

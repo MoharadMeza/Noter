@@ -1,6 +1,8 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
 import env from '@libs/utils/env'
+
+import { SuccessResponseApi } from '@app-types/api'
 
 const axiosClient: AxiosInstance = axios.create({
   adapter: 'fetch',
@@ -39,13 +41,10 @@ axiosClient.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
 
+    const formattedResponse = formatSuccessResponse(response)
+
     /* ------------- return customize data ------------- */
-    return {
-      result: response.data,
-      http: {
-        status: response.status,
-      },
-    } as any
+    return formattedResponse as any
   },
   async function (error: AxiosError) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
@@ -60,19 +59,6 @@ axiosClient.interceptors.response.use(
       status = error.response.status
     }
 
-    const originalRequest: any = { ...error.config }
-
-    // if (status === 401 && [2, 7].includes(data?.additionalStatus) && !originalRequest?.retryThis) {
-    //   originalRequest.retryThis = true
-    //   const access_token = await refreshAccessToken()
-
-    //   if (access_token) {
-    //     originalRequest.headers['authorization'] = 'Bearer ' + access_token
-
-    //     return axiosClient(originalRequest)
-    //   }
-    // }
-
     return Promise.reject({
       http: {
         status,
@@ -83,3 +69,43 @@ axiosClient.interceptors.response.use(
 )
 
 export default axiosClient
+
+const formatSuccessResponse = (response: AxiosResponse): SuccessResponseApi<any> => {
+  const responseData = response.data
+
+  let data: SuccessResponseApi<any>['result']['data'] = undefined
+  let currentPage: SuccessResponseApi<any>['result']['currentPage'] = undefined
+  let totalPages: SuccessResponseApi<any>['result']['totalPages'] = undefined
+  let total: SuccessResponseApi<any>['result']['total'] = undefined
+
+  const isPaginatedData =
+    typeof responseData.limit === 'number' &&
+    typeof responseData.currentPage === 'number' &&
+    typeof responseData.total === 'number' &&
+    typeof responseData.totalPages === 'number' &&
+    Array.isArray(responseData.data)
+
+  if (isPaginatedData) {
+    data = responseData.data
+    currentPage = responseData.currentPage
+    total = responseData.total
+    totalPages = responseData.totalPages
+  } else {
+    data = responseData
+  }
+
+  const formattedResponse: SuccessResponseApi<any> = {
+    http: {
+      status: response.status,
+    },
+    result: {
+      data,
+      currentPage,
+      total,
+      totalPages,
+      success: true,
+    },
+  }
+
+  return formattedResponse
+}

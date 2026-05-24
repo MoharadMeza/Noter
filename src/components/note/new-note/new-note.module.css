@@ -1,0 +1,95 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.inputContainer {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.buttonLoading {
+  position: relative;
+  color: transparent;
+}
+
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-right-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes note-card-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.noteCardEnter {
+  animation: note-card-enter 0.2s ease-out forwards;
+}
+
+.slideUp {
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1024px) {
+  .slideUp {
+    animation: none;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}

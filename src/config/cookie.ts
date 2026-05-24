@@ -13,6 +13,5 @@ export const getConfigCookie: any = (
 }
 
 export const cookieKeys = {
-  token: '_m_t',
-  refreshToken: '_m_r_t',
+  session: 'session',
 }

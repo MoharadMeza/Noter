@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --port 3030 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --no-warn-ignored .",
+    "lint": "eslint --no-warn-ignored . --fix",
     "setup-config": "node scripts/setup-project-config.js",
     "commit": "node scripts/ai-commit.js",
     "generate-component": "node scripts/generate-component.js",
@@ -14,6 +14,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource-variable/vazirmatn": "^5.2.8",
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
@@ -22,6 +24,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "jose": "6.2.2",
+    "lodash-es": "^4.18.1",
     "next": "16.2.4",
     "next-intl": "4.9.1",
     "react": "19.2.4",
@@ -36,6 +39,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4.2.2",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -44,7 +48,8 @@
     "eslint": "^10.2.1",
     "eslint-config-next": "16.2.4",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-sonarjs": "^3.0.7",
     "postcss": "^8.5.10",

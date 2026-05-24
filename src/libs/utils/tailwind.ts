@@ -43,7 +43,7 @@ export function createSize<T extends string>(base: string, sizes: Record<T, stri
 export function createBooleanVariant<T extends string>(base: string, variants: Record<T, string>) {
   return (props: Record<T, boolean>, className?: string) => {
     const activeVariants = Object.entries(props)
-      .filter(([_, value]) => value)
+      .filter(([, value]) => value)
       .map(([key]) => variants[key as T])
     return cn(base, ...activeVariants, className)
   }

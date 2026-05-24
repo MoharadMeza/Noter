@@ -1,4 +1,4 @@
-import { User } from '@db-models'
+export type SortOrder = 'asc' | 'desc'
 
 export interface SuccessResponseApi<T> {
   result: {
@@ -26,4 +26,10 @@ export interface ErrorObject {
   errors: Record<string, string>[]
 }
 
-export interface UserObject extends User {}
+export interface ApiParams<T extends string = any> {
+  page: number
+  limit: number
+  sortOrder: SortOrder
+  sortBy: T
+  labelId?: number
+}
