@@ -48,15 +48,6 @@ const Login = () => {
     },
     toastError: true,
   })
-  const { mutate: loginUser, isPending: isLoginUserLoading } = useMutateUserLogin({
-    onSuccess: (user: any) => {
-      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
-    },
-    onError: () => {
-      setAuthData(undefined)
-    },
-    toastError: true,
-  })
 
   const onSubmit = async (data: LoginFormData) => {
     loginUser(data)
