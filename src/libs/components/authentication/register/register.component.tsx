@@ -22,8 +22,6 @@ import { useMutateUserRegister } from '@libs/models/user/register/useMutateUserR
 import useAuthStore from '@libs/store/auth.store'
 import useProfileStore from '@libs/store/profile.store'
 import { cn } from '@libs/utils/tailwind'
-import { useMutateUserRegister } from '@libs/models/user/register/mutateUserRegister'
-import useAuthSlice from '@libs/store/auth.slice'
 
 const Register = () => {
   const t = useTranslations()
@@ -41,15 +39,6 @@ const Register = () => {
     },
     onError: () => {
       setProfileData(undefined)
-    },
-    toastError: true,
-  })
-  const { mutate: registerUser, isPending: isRegisterUserLoading } = useMutateUserRegister({
-    onSuccess: (user: any) => {
-      setAuthData({ id: user.id.toString(), email: user.email, name: user.name })
-    },
-    onError: () => {
-      setAuthData(undefined)
     },
     toastError: true,
   })

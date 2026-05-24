@@ -12,7 +12,6 @@ import { Prisma } from '@db-models'
 
 import prisma from '@config/prisma'
 
-import prisma from '@config/prisma'
 import { withServiceErrorHandler } from '@libs/utils/service-error-handler'
 
 import { NoteFormData } from '@components/note/new-note/new-note.validation'
