@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,16 +22,36 @@
       }
     ],
     "paths": {
-      "@server/*": ["./src/server/*"],
-      "@config/*": ["./src/config/*"],
-      "@libs/*": ["./src/libs/*"],
-      "@app-types/*": ["./src/types/*"],
-      "@app/*": ["./src/app/*"],
-      "@components/*": ["./src/components/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@db-models": ["./prisma/generated/client/browser"],
-      "@db-client": ["./prisma/generated/client/client"],
-      "@/*": ["./src/*"]
+      "@server/*": [
+        "./src/server/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@libs/*": [
+        "./src/libs/*"
+      ],
+      "@app-types/*": [
+        "./src/types/*"
+      ],
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@db-models": [
+        "./prisma/generated/client/browser"
+      ],
+      "@db-client": [
+        "./prisma/generated/client/client"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
     },
     "target": "ES2017"
   },
@@ -39,5 +63,7 @@
     "*.mjs",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
