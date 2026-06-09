@@ -27,6 +27,8 @@ const MenuDropdown = (props: MenuDropdownProps) => {
     headerSlot,
     onClose,
     direction = 'down',
+    menuId,
+    portalContainerRef,
     ...rest
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -84,9 +86,10 @@ const MenuDropdown = (props: MenuDropdownProps) => {
         {trigger ?? <DefaultTrigger />}
       </button>
 
-      <Portal>
+      <Portal containerRef={portalContainerRef}>
         <Show when={isOpen}>
           <ul
+            id={menuId}
             role='menu'
             style={menuStyle}
             ref={menuRef}

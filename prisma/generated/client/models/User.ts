@@ -1235,7 +1235,7 @@ export interface Prisma__UserClient<
    * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
    * @returns A Promise for the completion of the callback.
    */
-  finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>
+  finally(onfinally?: VoidFunction | undefined | null): runtime.Types.Utils.JsPromise<T>
 }
 
 /**

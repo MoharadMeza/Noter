@@ -6,7 +6,8 @@ import { createPortal } from 'react-dom'
 
 import { PortalProps } from '@libs/components/portal/portal'
 
-const Portal = ({ children }: PortalProps) => {
+const Portal = (props: PortalProps) => {
+  const { children, containerRef } = props
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -17,6 +18,10 @@ const Portal = ({ children }: PortalProps) => {
 
   const portalRoot = document.getElementById('portal-root')
   if (!portalRoot) return null
+
+  if (containerRef) {
+    return createPortal(<div ref={containerRef}>{children}</div>, portalRoot)
+  }
 
   return createPortal(children, portalRoot)
 }

@@ -15,7 +15,7 @@ export function useSetTimeout(delay = 0) {
   }, [])
 
   const execute = useCallback(
-    (callback: () => void) => {
+    (callback: VoidFunction) => {
       // Clear any existing timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)

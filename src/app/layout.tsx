@@ -33,9 +33,10 @@ export default async function RootLayout({ children }: LayoutProps) {
             </TanStackQueryProviders>
 
             <Toast />
+
+            <div id='portal-root' />
           </NextIntlClientProvider>
         </ThemeProvider>
-        <div id='portal-root' />
       </body>
     </html>
   )

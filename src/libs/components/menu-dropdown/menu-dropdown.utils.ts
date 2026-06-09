@@ -21,8 +21,8 @@ export function getMenuPosition(
 
 export function registerClickOutside(
   containerRef: RefObject<HTMLUListElement | null>,
-  onOutside: () => void
-): () => void {
+  onOutside: VoidFunction
+): VoidFunction {
   const handler = (e: MouseEvent) => {
     if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
       onOutside()
@@ -32,7 +32,7 @@ export function registerClickOutside(
   return () => document.removeEventListener('mousedown', handler)
 }
 
-export function registerPositionListeners(onUpdate: () => void): () => void {
+export function registerPositionListeners(onUpdate: VoidFunction): VoidFunction {
   window.addEventListener('scroll', onUpdate, true)
   window.addEventListener('resize', onUpdate)
   return () => {

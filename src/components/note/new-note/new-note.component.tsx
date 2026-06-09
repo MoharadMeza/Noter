@@ -38,6 +38,7 @@ const NewNote = () => {
   const { isPending, mutate: createNote } = useMutateNote()
   const [isExpanded, setIsExpanded] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const colorPickerRef = useRef<HTMLDivElement | null>(null)
 
   const formMethods = useAppForm<NoteFormData>({
     schema: createNoteValidationSchema(t),
@@ -54,7 +55,7 @@ const NewNote = () => {
     reset()
   }
 
-  useClickOutside(containerRef, collapse)
+  useClickOutside(containerRef, collapse, [colorPickerRef])
 
   useEffect(() => {
     if (!isExpanded) return
@@ -144,8 +145,8 @@ const NewNote = () => {
               />
             </div>
 
-            <div className='flex items-center justify-between border-t border-slate-100 px-3 py-1.5 dark:border-slate-800'>
-              <ColorPicker name='color' compact />
+            <div className='flex items-center justify-between border-t border-slate-100 p-3 dark:border-slate-800'>
+              <ColorPicker name='color' compact portalContainerRef={colorPickerRef} />
 
               <div className='flex items-center gap-2'>
                 <Button

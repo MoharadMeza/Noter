@@ -1,11 +1,11 @@
-import { HTMLAttributes, ReactNode } from 'react'
+import { HTMLAttributes, ReactNode, RefObject } from 'react'
 
 export interface MenuDropdownItem {
   label: string
   icon?: ReactNode
   disabled?: boolean
   danger?: boolean
-  onClick: () => void
+  onClick: VoidFunction
 }
 
 export type MenuDropdownItemOrDivider = MenuDropdownItem | 'divider'
@@ -16,6 +16,8 @@ export interface MenuDropdownProps extends HTMLAttributes<HTMLDivElement> {
   triggerClassName?: string
   align?: 'start' | 'end'
   direction?: 'down' | 'up'
-  headerSlot?: ReactNode | ((close: () => void) => ReactNode)
-  onClose?: () => void
+  headerSlot?: ReactNode | ((close: VoidFunction) => ReactNode)
+  onClose?: VoidFunction
+  menuId?: string
+  portalContainerRef?: RefObject<HTMLDivElement | null>
 }

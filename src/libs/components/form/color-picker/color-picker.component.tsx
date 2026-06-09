@@ -20,7 +20,7 @@ const selectedRing = 'scale-110'
 const unselectedOpacity = 'opacity-40 hover:opacity-90'
 
 export default function ColorPicker(props: ColorPickerProps) {
-  const { name, label } = props
+  const { name, label, portalContainerRef } = props
   const { control } = useAppFormContext()
   const isDesktop = useIsDesktop()
   const { execute: executeBounce } = useSetTimeout(500)
@@ -56,7 +56,7 @@ export default function ColorPicker(props: ColorPickerProps) {
     </div>
   )
 
-  const renderDropdownColors = (close: () => void) => {
+  const renderDropdownColors = (close: VoidFunction) => {
     const colorButtons = map(allColorEntries, ([colorName, colorValue]) => {
       return (
         <button
@@ -109,12 +109,14 @@ export default function ColorPicker(props: ColorPickerProps) {
       </Show>
 
       <MenuDropdown
+        menuId='color-picker'
         items={[]}
         align='end'
         direction={isDesktop ? 'down' : 'up'}
         trigger={renderDropdownTrigger()}
         triggerClassName='p-0 rounded-full hover:bg-transparent dark:hover:bg-transparent'
         headerSlot={renderDropdownColors}
+        portalContainerRef={portalContainerRef}
       />
     </div>
   )
