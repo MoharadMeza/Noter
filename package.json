@@ -20,12 +20,12 @@
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "@tanstack/react-query": "5.90.20",
-    "axios": "1.15.0",
+    "axios": "1.17.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "jose": "6.2.2",
     "lodash-es": "^4.18.1",
-    "next": "16.2.4",
+    "next": "16.2.7",
     "next-intl": "4.9.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -46,7 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^8.58.2",
     "@typescript-eslint/parser": "^8.58.2",
     "eslint": "^10.2.1",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.7",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.2",
@@ -60,5 +60,5 @@
     "tailwindcss": "^4.2.2",
     "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916"
 }

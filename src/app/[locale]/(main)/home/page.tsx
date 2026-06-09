@@ -1,5 +1,5 @@
 import NewNote from '@components/note/new-note/new-note.component'
-import RecentNotes from '@components/note/recent-notes/recent-notes.component'
+import RecentNotes from '@components/note/notes/notes.component'
 
 export default async function Page() {
   return (
