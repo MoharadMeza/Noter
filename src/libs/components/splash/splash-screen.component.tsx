@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+import Image from 'next/image'
+
 import { useTranslations } from 'next-intl'
 
 import styles from '@libs/components/splash/splash-screen.module.css'
@@ -34,27 +36,11 @@ export function SplashScreen() {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-blue-500 transition-opacity duration-300',
+        'dark:bg-accent-foreground fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-blue-500 transition-opacity duration-300',
         showSplash ? 'opacity-100' : 'opacity-0'
       )}
     >
-      <svg
-        width='56'
-        height='56'
-        viewBox='0 0 32 32'
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <rect width='32' height='32' rx='7' fill='white' fillOpacity='0.15' />
-        <path
-          d='M10 6h9.5L24 10.5V24a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z'
-          fill='#FFFFFF'
-        />
-        <path d='M19.5 6v3.5a1 1 0 0 0 1 1H24L19.5 6Z' fill='white' fillOpacity='0.3' />
-        <rect x='11' y='14' width='10' height='1.75' rx='0.875' fill='#1D4ED8' />
-        <rect x='11' y='18' width='10' height='1.75' rx='0.875' fill='#1D4ED8' />
-        <rect x='11' y='22' width='6.5' height='1.75' rx='0.875' fill='#1D4ED8' />
-      </svg>
+      <Image src='/icons/app-icon.svg' alt='yadame' width={60} height={60} />
 
       <span className='text-xl font-bold tracking-tight text-white'>{t('APP_NAME')}</span>
 
